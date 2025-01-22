@@ -4,20 +4,18 @@
       <div>
         <!-- Logo/Home section -->
         <div>
-          <router-link to="/">
-            Trader Space
-          </router-link>
+          <router-link to="/"> Trader Space </router-link>
         </div>
 
         <!-- Navigation Links -->
         <div>
-          <template v-if="true">
-            <router-link to="/login">
-              Login
-            </router-link>
-            <router-link to="/register">
-              Register
-            </router-link>
+          <template v-if="!isAuthenticated">
+            <router-link :to="{ name: 'auth', query: { type: 'register' } }"
+              >Register</router-link
+            >
+            <router-link :to="{ name: 'auth', query: { type: 'login' } }"
+              >Login</router-link
+            >
           </template>
         </div>
       </div>
@@ -26,7 +24,15 @@
 </template>
 
 <script>
+import { useAuthStore } from "../stores/auth";
+
 export default {
   name: "HeaderComponent",
+  computed: {
+    isAuthenticated() {
+      const authStore = useAuthStore();
+      return authStore.isAuthenticated;
+    },
+  },
 };
 </script>
