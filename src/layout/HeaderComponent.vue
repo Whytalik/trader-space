@@ -2,20 +2,13 @@
   <header>
     <nav>
       <div>
-        <!-- Logo/Home section -->
         <div>
-          <router-link to="/"> Trader Space </router-link>
+          <router-link to="/">Trader Space</router-link>
         </div>
-
-        <!-- Navigation Links -->
         <div>
           <template v-if="!isAuthenticated">
-            <router-link :to="{ name: 'auth', query: { type: 'register' } }"
-              >Register</router-link
-            >
-            <router-link :to="{ name: 'auth', query: { type: 'login' } }"
-              >Login</router-link
-            >
+            <router-link :to="{ name: 'auth', query: { type: 'register' } }">Register</router-link>
+            <router-link :to="{ name: 'auth', query: { type: 'login' } }">Login</router-link>
           </template>
         </div>
       </div>
