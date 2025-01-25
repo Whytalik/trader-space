@@ -7,7 +7,7 @@
         </div>
         <div class="flex gap-4">
           <button @click="toggleTheme">
-            {{ currentTheme.name === 'dark' ? '🌙' : '☀️' }}
+            {{ theme === 'dark' ? '🌙' : '☀️' }}
           </button>
           <template v-if="!isAuthenticated">
             <router-link :to="{ name: 'auth', query: { type: 'register' } }">
@@ -22,6 +22,7 @@
     </nav>
   </header>
 </template>
+
 <script>
 import { useAuthStore } from "../stores/auth";
 import { useThemeStore } from "../stores/theme";
@@ -43,8 +44,8 @@ export default {
     isAuthenticated() {
       return this.authStore.isAuthenticated;
     },
-    currentTheme() {
-      return this.themeStore.currentTheme;
+    theme() {
+      return this.themeStore.theme;
     }
   },
   methods: {

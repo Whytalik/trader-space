@@ -44,7 +44,6 @@ export default {
   created() {
     this.authStore = useAuthStore();
     this.userStore = useUserStore();
-    console.log(this.userStore.users);
   },
   methods: {
     signInHandler(values) {
