@@ -3,6 +3,11 @@
   --background: #000000;
   --text: #f8fafc;
 
+  /* Animation */
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+
   /* Inputs */
   --input-bg: #1e293b;
   --input-text: #f8fafc;

@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="footer theme-transition">
     <div class="footer-content">
       <div class="footer-logo">
         <img src="../../public/icon.png" alt="Trader Space Logo" />
@@ -111,7 +111,7 @@ export default {
 }
 
 .footer-link {
-  @apply text-sm text-text hover:text-button-primary-bg transition-colors duration-200 cursor-not-allowed;
+  @apply text-sm text-text hover:text-button-primary-bg transition-colors duration-300 cursor-not-allowed;
 }
 
 .footer-social h3 {
@@ -123,7 +123,8 @@ export default {
 }
 
 .social-icon {
-  @apply text-text hover:text-button-primary-bg transition-colors duration-200 cursor-not-allowed;
+  @apply text-text hover:text-button-primary-bg 
+         transition-colors duration-fast cursor-not-allowed;
 }
 
 .footer-bottom {
