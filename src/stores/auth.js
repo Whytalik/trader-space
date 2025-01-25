@@ -8,8 +8,5 @@ export const useAuthStore = defineStore("auth", {
     setAuthenticationStatus(status) {
       this.isAuthenticated = status;
     },
-    toggleAuthenticationStatus() {
-      this.isAuthenticated = !this.isAuthenticated;
-    },
   },
 });

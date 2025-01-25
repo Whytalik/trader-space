@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import AuthLayout from "../views/auth/AuthLayout.vue";
+import AuthLayout from "../components/auth/AuthLayout.vue";
 import { useAuthStore } from "../stores/auth";
 
 const router = createRouter({

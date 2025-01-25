@@ -1,12 +1,23 @@
 import { defineStore } from "pinia";
+import users from "../data/users.json";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
-    userInfo: null,
+    users: users,
+    currentUser: null,
   }),
   actions: {
-    setUserInfo(info) {
-      this.userInfo = info;
+    setCurrentUser(user) {
+      this.currentUser = user;
+      localStorage.setItem("currentUser", JSON.stringify(user));
+    },
+    registerUser(userData) {
+      this.users.push(userData);
+    },
+    findUser(email, password) {
+      return this.users.find(
+        (user) => user.email === email && user.password === password
+      );
     },
   },
 });

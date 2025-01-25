@@ -2,15 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #000000;
-  color: #ffffff;
+@layer base {
+  body {
+    @apply bg-background text-text transition-colors duration-300;
+  }
 }
 
 @layer base {
-}
-
-@layer components {
 }
 
 @layer utilities {

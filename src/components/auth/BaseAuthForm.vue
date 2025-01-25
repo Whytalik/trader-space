@@ -22,6 +22,9 @@
           </Field>
           <ErrorMessage :name="field.name" class="text-red-500 text-sm" />
         </div>
+        <div v-if="errorMessage" class="text-red-500 text-sm">
+          {{ errorMessage }}
+        </div>
 
         <button type="submit">
           {{ submitText }}
@@ -52,6 +55,7 @@ export default {
     title: String,
     schema: Object,
     fields: Array,
+    errorMessage: String,
     submitText: String,
     switchMessage: String,
     switchText: String,
