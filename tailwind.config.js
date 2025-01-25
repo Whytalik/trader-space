@@ -32,6 +32,11 @@ export default {
           },
         },
       },
+      transitionDuration: {
+        fast: "var(--transition-fast)",
+        normal: "var(--transition-normal)",
+        slow: "var(--transition-slow)",
+      },
     },
   },
   plugins: [],

@@ -1,17 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 import AuthLayout from "../components/auth/AuthLayout.vue";
 import { useAuthStore } from "../stores/auth";
+import { navigationConfig } from "../config/navigation";
+
+const generateRoutes = () => {
+  const routes = [];
+
+  navigationConfig.forEach((group) => {
+    group.items.forEach((item) => {
+      routes.push({
+        path: item.path,
+        name: item.name.toLowerCase(),
+        component: () =>
+          import(`../views/${item.name.replace(/\s+/g, "")}View.vue`),
+        meta: { requiresAuth: true },
+      });
+    });
+  });
+
+  return routes;
+};
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    {
-      path: "/",
-      name: "home",
-      component: HomeView,
-      meta: { requiresAuth: true },
-    },
+    ...generateRoutes(),
     {
       path: "/auth",
       name: "auth",

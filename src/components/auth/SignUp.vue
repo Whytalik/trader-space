@@ -62,7 +62,6 @@ export default {
             password: values.password,
             password_confirmation: values.password_confirmation,
           });
-          this.authStore.setAuthenticationStatus(true);
           this.$router.push({ name: "auth", query: { view: "login" } });
         } catch (error) {
           this.errorMessage = error.message;
