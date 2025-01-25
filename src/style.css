@@ -82,3 +82,76 @@
            text-sm transition-colors duration-200;
   }
 }
+
+/* ------------------------------------------------------------------------ */
+/* Header Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .header-link {
+    @apply text-text hover:text-button-primary-bg 
+           transition-colors duration-200 
+           font-medium;
+  }
+
+  .header-container {
+    @apply bg-background border-b border-input-border
+           dark:border-input-focus;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Card Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .card-base {
+    @apply bg-background border border-input-border
+           rounded-lg p-4 shadow-sm
+           transition-colors duration-200;
+  }
+
+  .card-interactive {
+    @apply card-base hover:border-input-focus 
+           cursor-pointer;
+  }
+
+  .card-title {
+    @apply text-lg font-semibold mb-2;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Text Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .text-heading {
+    @apply text-2xl font-bold text-text;
+  }
+
+  .text-subheading {
+    @apply text-lg font-medium text-text 
+           opacity-90;
+  }
+
+  .text-caption {
+    @apply text-sm text-text opacity-75;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Badge Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .badge-base {
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge-base bg-button-primary-bg 
+           text-button-primary-text;
+  }
+
+  .badge-secondary {
+    @apply badge-base bg-button-secondary-bg 
+           text-button-secondary-text;
+  }
+}

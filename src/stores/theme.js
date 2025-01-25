@@ -1,6 +1,4 @@
 import { defineStore } from "pinia";
-import "../theme/dark.css";
-import "../theme/light.css";
 
 export const useThemeStore = defineStore("theme", {
   state: () => ({
