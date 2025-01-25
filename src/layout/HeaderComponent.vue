@@ -1,57 +1,59 @@
 <template>
   <header>
-    <nav>
-      <div class="flex justify-between items-center p-4">
-        <div>
-          <router-link to="/">Trader Space</router-link>
-        </div>
-        <div class="flex gap-4">
-          <button @click="toggleTheme">
-            {{ theme === 'dark' ? '🌙' : '☀️' }}
-          </button>
-          <template v-if="!isAuthenticated">
-            <router-link :to="{ name: 'auth', query: { type: 'register' } }">
-              Register
-            </router-link>
-            <router-link :to="{ name: 'auth', query: { type: 'login' } }">
-              Login
-            </router-link>
-          </template>
-        </div>
+    <div class="container">
+      <div class="meta-wrapper">
+        <img src="../../public/icon.png" alt="Trader Space Logo" class="icon" />
+        <router-link to="/">Trader Space</router-link>
       </div>
-    </nav>
+      <div class="user-container">
+        <UserComponent v-if="isAuthenticated" />
+        <ThemeToggle />
+      </div>
+    </div>
   </header>
 </template>
 
 <script>
 import { useAuthStore } from "../stores/auth";
-import { useThemeStore } from "../stores/theme";
+import ThemeToggle from "../components/icons/ThemeToggle.vue";
+import UserComponent from "../components/UserComponent.vue";
 
 export default {
   name: "HeaderComponent",
+  components: {
+    ThemeToggle,
+    UserComponent,
+  },
   data() {
     return {
       authStore: null,
-      themeStore: null
     };
   },
   created() {
     this.authStore = useAuthStore();
-    this.themeStore = useThemeStore();
-    this.themeStore.initTheme();
   },
   computed: {
     isAuthenticated() {
       return this.authStore.isAuthenticated;
     },
-    theme() {
-      return this.themeStore.theme;
-    }
   },
-  methods: {
-    toggleTheme() {
-      this.themeStore.toggleTheme();
-    }
-  }
 };
 </script>
+
+<style scoped>
+.container {
+  @apply flex justify-between items-center p-4;
+}
+
+.meta-wrapper {
+  @apply flex items-center gap-2;
+}
+
+.icon {
+  @apply w-8 h-8;
+}
+
+.user-container {
+  @apply flex gap-4 items-center;
+}
+</style>
