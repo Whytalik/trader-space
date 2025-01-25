@@ -2,90 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #4caf50;
-  --secondary-color: #ff9800;
-  --text-color: #333;
-  --background-color: #f9f9f9;
-
-  --font-family: "Roboto", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --font-size-base: 16px;
-  --line-height-base: 1.5;
-
-  --spacing-small: 8px;
-  --spacing-medium: 16px;
-  --spacing-large: 24px;
-
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+@layer base {
+  body {
+    @apply bg-background text-text transition-colors duration-300;
+  }
 }
 
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
 }
 
-body {
-  font-family: var(--font-family);
-  line-height: var(--line-height-base);
-  background-color: var(--background-color);
-  color: var(--text-color);
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  padding: 0;
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-input,
-textarea {
-  border: 1px solid #ccc;
-  padding: var(--spacing-small);
-  font-size: var(--font-size-base);
-  border-radius: 4px;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-medium);
+@layer utilities {
 }

@@ -1,0 +1,62 @@
+[
+  {
+    "username": "john_doe",
+    "email": "john.doe@example.com",
+    "password": "Password@123",
+    "password_confirmation": "Password@123"
+  },
+  {
+    "username": "jane_smith",
+    "email": "jane.smith@example.com",
+    "password": "SecurePass!45",
+    "password_confirmation": "SecurePass!45"
+  },
+  {
+    "username": "alice_wonder",
+    "email": "alice.wonder@example.com",
+    "password": "WonderLand@89",
+    "password_confirmation": "WonderLand@89"
+  },
+  {
+    "username": "bob_builder",
+    "email": "bob.builder@example.com",
+    "password": "Builder#2023",
+    "password_confirmation": "Builder#2023"
+  },
+  {
+    "username": "charlie_brown",
+    "email": "charlie.brown@example.com",
+    "password": "Charlie$Brown1",
+    "password_confirmation": "Charlie$Brown1"
+  },
+  {
+    "username": "diana_prince",
+    "email": "diana.prince@example.com",
+    "password": "WonderWoman@7",
+    "password_confirmation": "WonderWoman@7"
+  },
+  {
+    "username": "elvis_presley",
+    "email": "elvis.presley@example.com",
+    "password": "KingOfRock!56",
+    "password_confirmation": "KingOfRock!56"
+  },
+  {
+    "username": "freddie_mercury",
+    "email": "freddie.mercury@example.com",
+    "password": "BohemianRhapsody@9",
+    "password_confirmation": "BohemianRhapsody@9"
+  },
+  {
+    "username": "george_clooney",
+    "email": "george.clooney@example.com",
+    "password": "Hollywood#88",
+    "password_confirmation": "Hollywood#88"
+  },
+  {
+    "username": "hannah_montana",
+    "email": "hannah.montana@example.com",
+    "password": "BestOfBoth@22",
+    "password_confirmation": "BestOfBoth@22"
+  }
+]

@@ -1,22 +1,20 @@
 <template>
   <header>
     <nav>
-      <div>
-        <!-- Logo/Home section -->
+      <div class="flex justify-between items-center p-4">
         <div>
-          <router-link to="/">
-            Trader Space
-          </router-link>
+          <router-link to="/">Trader Space</router-link>
         </div>
-
-        <!-- Navigation Links -->
-        <div>
-          <template v-if="true">
-            <router-link to="/login">
-              Login
-            </router-link>
-            <router-link to="/register">
+        <div class="flex gap-4">
+          <button @click="toggleTheme">
+            {{ currentTheme.name === 'dark' ? '🌙' : '☀️' }}
+          </button>
+          <template v-if="!isAuthenticated">
+            <router-link :to="{ name: 'auth', query: { type: 'register' } }">
               Register
+            </router-link>
+            <router-link :to="{ name: 'auth', query: { type: 'login' } }">
+              Login
             </router-link>
           </template>
         </div>
@@ -24,9 +22,35 @@
     </nav>
   </header>
 </template>
-
 <script>
+import { useAuthStore } from "../stores/auth";
+import { useThemeStore } from "../stores/theme";
+
 export default {
   name: "HeaderComponent",
+  data() {
+    return {
+      authStore: null,
+      themeStore: null
+    };
+  },
+  created() {
+    this.authStore = useAuthStore();
+    this.themeStore = useThemeStore();
+    this.themeStore.initTheme();
+  },
+  computed: {
+    isAuthenticated() {
+      return this.authStore.isAuthenticated;
+    },
+    currentTheme() {
+      return this.themeStore.currentTheme;
+    }
+  },
+  methods: {
+    toggleTheme() {
+      this.themeStore.toggleTheme();
+    }
+  }
 };
 </script>
