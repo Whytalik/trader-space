@@ -1,0 +1,25 @@
+:root.light {
+  /* Base */
+  --background: #f8fafc;
+  --text: #0f172a;
+
+  /* Inputs */
+  --input-bg: #ffffff;
+  --input-text: #0f172a;
+  --input-border: #cbd5e1;
+  --input-focus: #3b82f6;
+  --input-error: #ef4444;
+
+  /* Buttons */
+  --button-primary-background: #2563eb;
+  --button-primary-text: #ffffff;
+  --button-primary-hover: #1d4ed8;
+
+  --button-secondary-background: #64748b;
+  --button-secondary-text: #ffffff;
+  --button-secondary-hover: #475569;
+
+  --button-danger-background: #dc2626;
+  --button-danger-text: #ffffff;
+  --button-danger-hover: #b91c1c;
+}

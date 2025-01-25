@@ -2,14 +2,156 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------------ */
+/* Base Styles */
+/* ------------------------------------------------------------------------ */
 @layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   body {
     @apply bg-background text-text transition-colors duration-300;
+    font-family: "Arial", sans-serif;
+    line-height: 1.6;
   }
 }
 
-@layer base {
+/* ------------------------------------------------------------------------ */
+/* Input Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .input-base {
+    @apply w-full px-4 py-2 rounded-md 
+           bg-input-bg text-input-text 
+           border border-input-border 
+           focus:border-input-focus focus:outline-none 
+           transition-colors duration-200;
+  }
+
+  .input-error {
+    @apply border-input-error;
+  }
 }
 
-@layer utilities {
+/* ------------------------------------------------------------------------ */
+/* Button Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .button-base {
+    @apply w-full py-2 px-4 rounded-md
+           transition-colors duration-200;
+  }
+
+  .button-primary {
+    @apply button-base
+           bg-button-primary-bg text-button-primary-text 
+           hover:bg-button-primary-hover;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Form Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .form-container {
+    @apply flex justify-center items-center min-h-screen;
+  }
+
+  .form-wrapper {
+    @apply w-full max-w-md p-8 rounded-lg;
+  }
+
+  .form-title {
+    @apply text-2xl font-bold mb-6 text-center;
+  }
+
+  .form-error {
+    @apply text-input-error text-sm;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Link Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .link-base {
+    @apply text-button-primary-bg hover:text-button-primary-hover 
+           text-sm transition-colors duration-200;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Header Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .header-link {
+    @apply text-text hover:text-button-primary-bg 
+           transition-colors duration-200 
+           font-medium;
+  }
+
+  .header-container {
+    @apply bg-background border-b border-input-border
+           dark:border-input-focus;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Card Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .card-base {
+    @apply bg-background border border-input-border
+           rounded-lg p-4 shadow-sm
+           transition-colors duration-200;
+  }
+
+  .card-interactive {
+    @apply card-base hover:border-input-focus 
+           cursor-pointer;
+  }
+
+  .card-title {
+    @apply text-lg font-semibold mb-2;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Text Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .text-heading {
+    @apply text-2xl font-bold text-text;
+  }
+
+  .text-subheading {
+    @apply text-lg font-medium text-text 
+           opacity-90;
+  }
+
+  .text-caption {
+    @apply text-sm text-text opacity-75;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Badge Components */
+/* ------------------------------------------------------------------------ */
+@layer components {
+  .badge-base {
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge-base bg-button-primary-bg 
+           text-button-primary-text;
+  }
+
+  .badge-secondary {
+    @apply badge-base bg-button-secondary-bg 
+           text-button-secondary-text;
+  }
 }

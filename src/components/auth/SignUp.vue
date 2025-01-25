@@ -50,26 +50,21 @@ export default {
   },
   methods: {
     signUpHandler(values) {
-      console.log("SignUpHandler called", values);
       const user = this.userStore.findUser(values.email, values.password);
 
       if (user) {
         this.errorMessage = "User already exists";
       } else {
         try {
-          console.log(this.userStore.users);
           this.userStore.registerUser({
             username: values.username,
             email: values.email,
             password: values.password,
             password_confirmation: values.password_confirmation,
           });
-          console.log("User registered");
-          console.log(this.userStore.users);
           this.authStore.setAuthenticationStatus(true);
           this.$router.push({ name: "auth", query: { view: "login" } });
         } catch (error) {
-          console.error("Registration error:", error);
           this.errorMessage = error.message;
         }
       }
