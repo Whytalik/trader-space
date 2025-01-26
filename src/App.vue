@@ -4,7 +4,7 @@
     <main class="main-content">
       <NavigationAsside v-if="isAuthenticated" />
       <div class="page-content">
-        <PageTitle v-if="isAuthenticated" :title="$route.meta.title?.split('|')[0].trim()" />
+        <PageTitle v-if="isAuthenticated && pageTitle" :title="pageTitle" />
         <router-view />
       </div>
     </main>
@@ -19,6 +19,7 @@ import NavigationAsside from "./components/layout/NavigationAsside.vue";
 import PageTitle from "./components/layout/PageTitle.vue";
 import { useAuthStore } from "./stores/auth";
 import { useUserStore } from "./stores/user";
+import { useThemeStore } from "./stores/theme";
 
 export default {
   components: {
@@ -30,6 +31,8 @@ export default {
   created() {
     this.authStore = useAuthStore();
     this.userStore = useUserStore();
+    const themeStore = useThemeStore();
+    themeStore.initTheme();
 
     const defaultUser = this.userStore.findUser('ipz224_tvs@student.ztu.edu.ua', 'ipz224_tvs@student.ztu.edu.ua');
     if (defaultUser) {
@@ -47,13 +50,16 @@ export default {
     isAuthenticated() {
       return this.authStore.isAuthenticated;
     },
+    pageTitle() {
+      return this.$route.meta.title?.split('|')[0].trim();
+    },
   },
 };
 </script>
 
 <style scoped>
 .app-wrapper {
-  @apply min-h-screen flex flex-col;
+  @apply min-h-screen flex flex-col bg-background text-text;
 }
 
 .main-content {

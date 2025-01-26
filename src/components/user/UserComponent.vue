@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { useUserStore } from "../stores/user";
+import { useUserStore } from "../../stores/user";
 
 export default {
     name: "UserComponent",
