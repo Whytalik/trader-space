@@ -1,20 +1,20 @@
-import { pairs } from "./tradesData/pairs.json";
-import { narratives } from "./routineData/narratives.json";
-import { executionTypes } from "./routineData/execution_types.json";
-import { outcomes } from "./routineData/outcomes.json";
-import { trades } from "./trades";
-import { mistakeTypes } from "./commonData/mistake_types.json";
-import { notes } from "./commonData/notes.json";
+import { ROUTINE_CONSTANTS as RC } from "./constants/routineConstants";
+import pairs from "./tradesData/pairs.json";
+import narratives from "./routineData/narratives.json";
+import execution from "./routineData/execution.json";
+import outcomes from "./routineData/outcomes.json";
+import mistakeTypes from "./commonData/mistake_types.json";
+import notes from "./commonData/notes.json";
 
 export const routines = [
   {
     id: 1,
     name: "Pre-trade analysis",
     date: "2024-03-01",
-    pair: pairs.BTC_USD,
-    narrative: narratives.BULLISH,
+    pair: RC.pairs.BtcUsd,
+    narrative: RC.narratives.Bullish,
     plan: true,
-    execution: executionTypes.WIN,
+    execution: RC.execution.Win,
     outcome: outcomes.BULLISH,
     mistakes: mistakeTypes.EARLY_ENTRY,
     notes:
@@ -22,7 +22,7 @@ export const routines = [
       ": Strong uptrend\n" +
       notes.ENTRY_REASON +
       ": Clean break of structure",
-    trades: [trades[0], trades[6]],
+    trade_ids: [1, 7],
     main_analysis: null,
     sub_analysis: [2, 3],
   },
@@ -33,7 +33,7 @@ export const routines = [
     pair: pairs.ETH_USD,
     narrative: narratives.BEARISH,
     plan: true,
-    execution: executionTypes.LOSS,
+    execution: execution.LOSS,
     outcome: outcomes.INVALID,
     mistakes: mistakeTypes.BREAKING_TRADING_PLAN,
     notes:
@@ -41,7 +41,7 @@ export const routines = [
       ": Ranging market\n" +
       notes.ENTRY_REASON +
       ": Supply test",
-    trades: [trades[1], trades[7]],
+    trade_ids: [2, 8],
     main_analysis: 1,
     sub_analysis: [],
   },
@@ -52,7 +52,7 @@ export const routines = [
     pair: pairs.SOL_USD,
     narrative: narratives.NEUTRAL,
     plan: false,
-    execution: executionTypes.NOT_EXECUTED,
+    execution: execution.NOT_EXECUTED,
     outcome: outcomes.NEUTRAL,
     mistakes: mistakeTypes.IGNORING_MARKET_STRUCTURE,
     notes:
@@ -60,7 +60,7 @@ export const routines = [
       ": Clear trend\n" +
       notes.ENTRY_REASON +
       ": Strong demand",
-    trades: [trades[2], trades[8]],
+    trade_ids: [3, 9],
     main_analysis: 1,
     sub_analysis: [],
   },
