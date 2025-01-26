@@ -1,6 +1,5 @@
 <template>
-    <div class="trader-info">
-        <h2 class="title">Trader Information</h2>
+    <BaseCard title="Trader Information">
         <div class="content">
             <div class="photo">
                 <div class="photo-container">
@@ -13,7 +12,7 @@
                 <button class="btn-primary">Change Photo</button>
             </div>
             <div class="info">
-                <div class="info-grid">
+                <BaseGrid columns="2">
                     <div class="info-item">
                         <span class="label">Username</span>
                         <span>{{ username }}</span>
@@ -23,52 +22,55 @@
                         <span>{{ email }}</span>
                     </div>
                     <div class="info-item">
-                        <span class="label">Join Date</span>
-                        <span>{{ joinDate }}</span>
+                        <span class="label">Trading Experience</span>
+                        <span>{{ experience }}</span>
                     </div>
-                </div>
+                    <div class="info-item">
+                        <span class="label">Account Type</span>
+                        <span>{{ accountType }}</span>
+                    </div>
+                </BaseGrid>
             </div>
         </div>
-    </div>
+    </BaseCard>
 </template>
 
 <script>
-import { useUserStore } from "../../stores/user";
+import { useUserStore } from '../../stores/user';
 
 export default {
     name: "TraderInfoComponent",
-    setup() {
-        const userStore = useUserStore();
-        return { userStore };
+    data() {
+        return {
+            userStore: null
+        }
+    },
+    created() {
+        this.userStore = useUserStore();
     },
     computed: {
-        userAvatar() {
-            return this.userStore.currentUser?.avatar || '';
-        },
         username() {
-            return this.userStore.currentUser?.username || 'Not specified';
+            return this.userStore.currentUser?.username || 'N/A';
         },
         email() {
-            return this.userStore.currentUser?.email || 'Not specified';
+            return this.userStore.currentUser?.email || 'N/A';
         },
-        joinDate() {
-            return this.userStore.currentUser?.joinDate || 'Not specified';
+        experience() {
+            return this.userStore.currentUser?.experience || 'N/A';
+        },
+        accountType() {
+            return this.userStore.currentUser?.accountType || 'Standard';
+        },
+        userAvatar() {
+            return this.userStore.currentUser?.avatar || null;
         }
     }
 }
 </script>
 
 <style scoped>
-.trader-info {
-    @apply space-y-4;
-}
-
-.title {
-    @apply text-lg font-medium text-text;
-}
-
 .content {
-    @apply bg-background p-4 rounded-lg border border-input-border grid grid-cols-1 md:grid-cols-3 gap-6;
+    @apply flex flex-col md:flex-row gap-6;
 }
 
 .photo {
@@ -89,11 +91,7 @@ export default {
 }
 
 .info {
-    @apply md:col-span-2;
-}
-
-.info-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+    @apply flex-1;
 }
 
 .info-item {
@@ -102,5 +100,9 @@ export default {
 
 .label {
     @apply text-sm text-gray-500 dark:text-gray-400;
+}
+
+.btn-primary {
+    @apply px-4 py-2 bg-button-primary-bg text-button-primary-text rounded-lg hover:bg-button-primary-hover transition-colors duration-fast;
 }
 </style>
