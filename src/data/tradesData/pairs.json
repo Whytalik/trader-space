@@ -1,10 +1,10 @@
-[
-  "BTC/USD",
-  "ETH/USD",
-  "BTC/USDT",
-  "ETH/USDT",
-  "XRP/USD",
-  "SOL/USD",
-  "BNB/USD",
-  "ADA/USD"
-] 
+{
+  "BTC_USDT": "BTC/USDT",
+  "ETH_USD": "ETH/USD",
+  "BTC_USD": "BTC/USD",
+  "ETH_USDT": "ETH/USDT",
+  "XRP_USD": "XRP/USD",
+  "SOL_USD": "SOL/USD",
+  "BNB_USD": "BNB/USD",
+  "ADA_USD": "ADA/USD"
+}

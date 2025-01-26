@@ -1,19 +1,19 @@
-[
-  "FVG",
-  "Supply",
-  "Demand",
-  "Liquidity",
-  "Order Block",
-  "Break of Structure",
-  "Fair Value Gap",
-  "Imbalance",
-  "Inefficiency",
-  "Swing High/Low",
-  "Previous High/Low",
-  "Equal High/Low",
-  "Breaker Block",
-  "Mitigation Block",
-  "Premium/Discount",
-  "Consolidation",
-  "Range"
-]
+{
+  "FVG": "FVG",
+  "SUPPLY": "Supply",
+  "DEMAND": "Demand",
+  "LIQUIDITY": "Liquidity",
+  "ORDER_BLOCK": "Order Block",
+  "BREAK_OF_STRUCTURE": "Break of Structure",
+  "FAIR_VALUE_GAP": "Fair Value Gap",
+  "IMBALANCE": "Imbalance",
+  "INEFFICIENCY": "Inefficiency",
+  "SWING_HIGH_LOW": "Swing High/Low",
+  "PREVIOUS_HIGH_LOW": "Previous High/Low",
+  "EQUAL_HIGH_LOW": "Equal High/Low",
+  "BREAKER_BLOCK": "Breaker Block",
+  "MITIGATION_BLOCK": "Mitigation Block",
+  "PREMIUM_DISCOUNT": "Premium/Discount",
+  "CONSOLIDATION": "Consolidation",
+  "RANGE": "Range"
+}

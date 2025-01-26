@@ -1,5 +1,5 @@
-[
-  "Swing",
-  "Intraday",
-  "Scalp"
-] 
+{
+  "SWING": "Swing",
+  "INTRADAY": "Intraday",
+  "SCALP": "Scalp"
+}

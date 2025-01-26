@@ -53,8 +53,6 @@ export default {
     },
     handleItemClick(item) {
       if (this.routePath) {
-        console.log('Navigating to:', `${this.routePath}/${item.id}`);
-        console.log('Item:', item);
         this.$router.push(`${this.routePath}/${item.id}`);
       }
     }

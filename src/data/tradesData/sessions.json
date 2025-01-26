@@ -1,6 +1,7 @@
-[
-  "London",
-  "New York",
-  "Tokyo",
-  "Sydney"
-] 
+{
+  "LONDON": "London",
+  "NEW_YORK": "New York",
+  "TOKYO": "Tokyo",
+  "SYDNEY": "Sydney"
+}
+

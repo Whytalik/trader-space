@@ -1,6 +1,6 @@
-[
-  "IDM",
-  "BMS",
-  "SMS",
-  "PB"
-] 
+{
+  "IDM": "IDM",
+  "BMS": "BMS",
+  "SMS": "SMS",
+  "PB": "PB"
+}

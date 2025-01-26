@@ -1,6 +1,6 @@
-[
-  "Bullish",
-  "Bearish",
-  "Neutral",
-  "Invalid"
-] 
+{
+  "BULLISH": "Bullish",
+  "BEARISH": "Bearish",
+  "NEUTRAL": "Neutral",
+  "INVALID": "Invalid"
+}

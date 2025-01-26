@@ -1,4 +1,4 @@
-import BaseButton from "../components/common/buttons/BaseButton.vue";
+import BaseButton from "../components/common/BaseButton.vue";
 import DataBaseWrapper from "../components/common/DataBase/DataBaseWrapper.vue";
 import BaseGrid from "../components/common/BaseGrid.vue";
 import BaseCard from "../components/common/BaseCard.vue";

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { routines } from "../../data/routine";
+import { routines } from "../../data/routines";
 import { useTradesStore } from "../../stores/trades";
 
 export default {
@@ -54,7 +54,7 @@ export default {
                 trade => this.routine.trade_ids.includes(trade.id)
             );
         } else {
-            console.error(`Routine with id ${routineId} not found`);
+            this.$router.push('/routines');
         }
     },
     methods: {

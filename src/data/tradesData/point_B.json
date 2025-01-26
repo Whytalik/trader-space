@@ -1,19 +1,10 @@
-[
-  "FVG",
-  "Supply",
-  "Demand",
-  "Liquidity",
-  "Order Block",
-  "Break of Structure",
-  "Fair Value Gap",
-  "Imbalance",
-  "Inefficiency",
-  "Swing High/Low",
-  "Previous High/Low",
-  "Equal High/Low",
-  "Breaker Block",
-  "Mitigation Block",
-  "Premium/Discount",
-  "Consolidation",
-  "Range"
-]
+{
+  "FVG": "FVG",
+  "SNR": "SNR",
+  "RB": "RB",
+  "FRACTAL": "Fractal",
+  "RSI": "RSI",
+  "MACD": "MACD",
+  "EMA": "EMA",
+  "SMA": "SMA"
+}
