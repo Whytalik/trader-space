@@ -13,6 +13,20 @@
                     </div>
                 </div>
             </div>
+            <div class="related-trades" v-if="relatedTrades.length">
+                <h3 class="section-title">Related Trades</h3>
+                <div class="trades-grid">
+                    <div v-for="trade in relatedTrades" 
+                         :key="trade.id" 
+                         class="trade-card"
+                         @click="$router.push(`/trades/${trade.id}`)">
+                        <div class="trade-card-content">
+                            <span class="trade-id">#{{ trade.id }}</span>
+                            <span class="trade-pair">{{ trade.pair }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div v-else class="routine-not-found">
             Routine not found
@@ -22,19 +36,26 @@
 
 <script>
 import { routines } from "../../data/routine";
+import { useTradesStore } from "../../stores/trades";
 
 export default {
     name: "RoutineDetails",
     data() {
         return {
-            routine: null
+            routine: null,
+            relatedTrades: []
         }
     },
     created() {
         const routineId = parseInt(this.$route.params.id);
         this.routine = routines.find(r => r.id === routineId);
 
-        if (!this.routine) {
+        if (this.routine) {
+            const tradesStore = useTradesStore();
+            this.relatedTrades = tradesStore.trades.filter(
+                trade => this.routine.trade_ids.includes(trade.id)
+            );
+        } else {
             console.error(`Routine with id ${routineId} not found`);
         }
     },
@@ -91,5 +112,30 @@ export default {
 
 .routine-not-found {
     @apply text-center py-12 text-gray-500;
+}
+
+.section-title {
+    @apply text-xl font-medium mt-8 mb-4;
+}
+
+.trades-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+.trade-card {
+    @apply bg-white dark:bg-gray-800 p-4 rounded-lg border border-input-border 
+           cursor-pointer hover:border-input-focus transition-all duration-200;
+}
+
+.trade-card-content {
+    @apply flex justify-between items-center;
+}
+
+.trade-id {
+    @apply text-sm font-medium;
+}
+
+.trade-pair {
+    @apply text-sm text-gray-500;
 }
 </style> 
