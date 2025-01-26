@@ -4,7 +4,7 @@ export const navigationConfig = [
     defaultOpen: true,
     items: [
       { name: "Home", path: "/" },
-      { name: "Routine", path: "/routine" },
+      { name: "Routines", path: "/routines" },
       { name: "Trades", path: "/trades" },
     ],
   },

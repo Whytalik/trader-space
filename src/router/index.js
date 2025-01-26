@@ -31,6 +31,30 @@ const generateRoutes = () => {
   });
 
   routes.push({
+    path: "/routines/:id",
+    name: "routine",
+    component: () => import("../components/routines/RoutineDetails.vue"),
+    meta: {
+      requiresAuth: true,
+      title: (route) => {
+        return `Routine #${route.params.id} | Trader Space`;
+      },
+    },
+  });
+
+  routes.push({
+    path: "/trades/:id",
+    name: "trade",
+    component: () => import("../components/trades/TradeDetails.vue"),
+    meta: {
+      requiresAuth: true,
+      title: (route) => {
+        return `Trade #${route.params.id} | Trader Space`;
+      },
+    },
+  });
+
+  routes.push({
     path: "/trades/add",
     name: "trades.add",
     //component: () => import("../views/trades/AddView.vue"),
@@ -61,14 +85,12 @@ const generateRoutes = () => {
   });
 
   routes.push({
-    path: "/trades/:id",
-    name: "trade",
-    component: () => import("../components/trades/TradeDetails.vue"),
+    path: "/routines",
+    name: "routines",
+    component: () => import("../views/RoutineView.vue"),
     meta: {
       requiresAuth: true,
-      title: (route) => {
-        return `Trade #${route.params.id} | Trader Space`;
-      },
+      title: "Routines | Trader Space",
     },
   });
 
