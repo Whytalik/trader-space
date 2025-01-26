@@ -4,26 +4,12 @@ export const navigationConfig = [
     defaultOpen: true,
     items: [
       { name: "Home", path: "/" },
-      { name: "Analytics", path: "/analytics" },
-      { name: "Reports", path: "/reports" },
+      { name: "Routine", path: "/routine" },
+      { name: "Trades", path: "/trades" },
     ],
   },
   {
-    title: "Trading",
-    defaultOpen: false,
-    items: [
-      { name: "Portfolio", path: "/portfolio" },
-      { name: "Watchlist", path: "/watchlist" },
-      { name: "Orders", path: "/orders" },
-    ],
-  },
-  {
-    title: "Account",
-    defaultOpen: false,
-    items: [
-      { name: "Profile", path: "/profile" },
-      { name: "Settings", path: "/settings" },
-      { name: "Help", path: "/help" },
-    ],
+    title: "User",
+    items: [{ name: "User Profile", path: "/user-profile" }],
   },
 ];
