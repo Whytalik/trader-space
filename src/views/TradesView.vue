@@ -1,5 +1,5 @@
 <template>
-    <DataBaseWrapper title="Trades" :data="trades" :columns="columns" />
+    <DataBaseWrapper title="Trades" :data="trades" :columns="columns" routePath="/trades" />
 </template>
 
 <script>

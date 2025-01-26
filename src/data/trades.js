@@ -73,12 +73,19 @@ export const trades = [
     entry_model: TC.entryModels.SMS,
     entry_tf: TC.timeframes.H1,
     stop_loss: TC.stopLossTypes.H4_ERL,
-    notes:
-      notes.MARKET_CONDITIONS +
-      ": Clear trend\n" +
-      notes.ENTRY_REASON +
-      ": Strong demand",
-    conclusion: "Perfect execution",
+    tda_image: null,
+    exit_model_image: null,
+    fta_image: null,
+    notes: {
+      market_conditions: "Clear trend",
+      entry_reason: "Strong demand",
+      additional_notes: "Price action was clean",
+    },
+    conclusion: {
+      summary: "Perfect execution",
+      lessons_learned: "Patience pays off",
+      improvements: "None needed",
+    },
     mistakes: TC.mistakeTypes.NONE,
     routine_id: 3,
   },
@@ -125,12 +132,19 @@ export const trades = [
     entry_model: TC.entryModels.BMS,
     entry_tf: TC.timeframes.H4,
     stop_loss: TC.stopLossTypes.H1_ERL,
-    notes:
-      notes.MARKET_CONDITIONS +
-      ": Breakout\n" +
-      notes.ENTRY_REASON +
-      ": Clean break",
-    conclusion: "Perfect setup and execution",
+    tda_image: null,
+    exit_model_image: null,
+    fta_image: null,
+    notes: {
+      market_conditions: "Breakout",
+      entry_reason: "Clean break",
+      additional_notes: "",
+    },
+    conclusion: {
+      summary: "Perfect setup and execution",
+      lessons_learned: "",
+      improvements: "",
+    },
     mistakes: TC.mistakeTypes.NONE,
     routine_id: 4,
   },

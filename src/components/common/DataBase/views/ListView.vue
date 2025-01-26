@@ -10,10 +10,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in data" 
-            :key="item.id" 
-            @click="$router.push(`/trades/${item.id}`)"
-            class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+        <tr v-for="item in data" :key="item.id" @click="handleItemClick(item)"
+          class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
           <td v-for="column in visibleColumns" :key="column.field">
             {{ item[column.field] }}
           </td>
@@ -37,6 +35,11 @@ export default {
     columns: {
       type: Array,
       required: true
+    },
+    routePath: {
+      type: String,
+      required: false,
+      default: null
     }
   },
   computed: {
@@ -47,6 +50,13 @@ export default {
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleDateString()
+    },
+    handleItemClick(item) {
+      if (this.routePath) {
+        console.log('Navigating to:', `${this.routePath}/${item.id}`);
+        console.log('Item:', item);
+        this.$router.push(`${this.routePath}/${item.id}`);
+      }
     }
   }
 }

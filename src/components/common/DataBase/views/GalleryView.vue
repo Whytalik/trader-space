@@ -1,8 +1,7 @@
 <template>
   <div class="gallery-view">
     <div class="gallery-grid">
-      <div v-for="item in data" :key="item.id" class="gallery-item cursor-pointer"
-        @click="$router.push(`/trades/${item.id}`)">
+      <div v-for="item in data" :key="item.id" class="gallery-item cursor-pointer" @click="handleItemClick(item)">
         <div class="item-image">
           <img :src="item.image" :alt="item.title" v-if="item.image" />
           <div class="no-image" v-else>
@@ -31,6 +30,20 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    routePath: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
+  methods: {
+    handleItemClick(item) {
+      if (this.routePath) {
+        console.log('Navigating to:', `${this.routePath}/${item.id}`);
+        console.log('Item:', item);
+        this.$router.push(`${this.routePath}/${item.id}`);
+      }
     }
   }
 }

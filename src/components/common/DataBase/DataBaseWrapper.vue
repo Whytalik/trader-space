@@ -50,12 +50,12 @@
             </div>
         </div>
         <div class="database-content">
-            <ListView v-if="currentView === 'list'" :data="data" :columns="columns">
+            <ListView v-if="currentView === 'list'" :data="data" :columns="columns" :routePath="routePath">
                 <template #item-actions="slotProps">
                     <slot name="item-actions" v-bind="slotProps"></slot>
                 </template>
             </ListView>
-            <GalleryView v-else :data="data">
+            <GalleryView v-else :data="data" :routePath="routePath">
                 <template #item-actions="slotProps">
                     <slot name="item-actions" v-bind="slotProps"></slot>
                 </template>
@@ -95,6 +95,11 @@ export default {
             type: String,
             default: 'list',
             validator: (value) => ['list', 'gallery'].includes(value)
+        },
+        routePath: {
+            type: String,
+            required: false,
+            default: null
         }
     },
     data() {

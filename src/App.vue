@@ -51,7 +51,10 @@ export default {
       return this.authStore.isAuthenticated;
     },
     pageTitle() {
-      return this.$route.meta.title?.split('|')[0].trim();
+      const title = typeof this.$route.meta.title === 'function'
+        ? this.$route.meta.title(this.$route)
+        : this.$route.meta.title;
+      return title?.split('|')[0].trim();
     },
   },
 };
