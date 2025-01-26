@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import ViewToggle from './ViewToggle.vue'
+import ViewToggle from './views/ViewToggle.vue'
 import ListView from './views/ListView.vue'
 import GalleryView from './views/GalleryView.vue'
 

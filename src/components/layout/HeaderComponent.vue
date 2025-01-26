@@ -16,7 +16,7 @@
 <script>
 import { useAuthStore } from "../../stores/auth";
 import ThemeToggle from "../theme/ThemeToggle.vue";
-import UserComponent from "../UserComponent.vue";
+import UserComponent from "../user/UserComponent.vue";
 
 export default {
   name: "HeaderComponent",
