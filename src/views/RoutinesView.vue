@@ -7,7 +7,7 @@ import { routines } from "../data/routine";
 import { generateColumns } from "../utils/columnGenerator";
 
 export default {
-    name: "RoutineView",
+    name: "RoutinesView",
     data() {
         return {
             routines: [],

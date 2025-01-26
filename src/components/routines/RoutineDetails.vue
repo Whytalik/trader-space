@@ -16,10 +16,8 @@
             <div class="related-trades" v-if="relatedTrades.length">
                 <h3 class="section-title">Related Trades</h3>
                 <div class="trades-grid">
-                    <div v-for="trade in relatedTrades" 
-                         :key="trade.id" 
-                         class="trade-card"
-                         @click="$router.push(`/trades/${trade.id}`)">
+                    <div v-for="trade in relatedTrades" :key="trade.id" class="trade-card"
+                        @click="$router.push(`/trades/${trade.id}`)">
                         <div class="trade-card-content">
                             <span class="trade-id">#{{ trade.id }}</span>
                             <span class="trade-pair">{{ trade.pair }}</span>
@@ -123,8 +121,7 @@ export default {
 }
 
 .trade-card {
-    @apply bg-white dark:bg-gray-800 p-4 rounded-lg border border-input-border 
-           cursor-pointer hover:border-input-focus transition-all duration-200;
+    @apply bg-white dark:bg-gray-800 p-4 rounded-lg border border-input-border cursor-pointer hover:border-input-focus transition-all duration-200;
 }
 
 .trade-card-content {
@@ -138,4 +135,4 @@ export default {
 .trade-pair {
     @apply text-sm text-gray-500;
 }
-</style> 
+</style>
