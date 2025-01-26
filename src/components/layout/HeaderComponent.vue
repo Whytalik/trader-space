@@ -2,11 +2,11 @@
   <header>
     <div class="container">
       <div class="meta-wrapper">
-        <img src="../../public/icon.png" alt="Trader Space Logo" class="icon" />
+        <img src="../../../public/icon.png" alt="Trader Space Logo" class="icon" />
         <router-link to="/">Trader Space</router-link>
       </div>
       <div class="user-container">
-        <UserComponent v-if="isAuthenticated" />
+        <UserComponent v-if="isAuthenticated" @click="navigateToUserProfile" />
         <ThemeToggle />
       </div>
     </div>
@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import { useAuthStore } from "../stores/auth";
-import ThemeToggle from "../components/icons/ThemeToggle.vue";
-import UserComponent from "../components/UserComponent.vue";
+import { useAuthStore } from "../../stores/auth";
+import ThemeToggle from "../theme/ThemeToggle.vue";
+import UserComponent from "../UserComponent.vue";
 
 export default {
   name: "HeaderComponent",
@@ -37,6 +37,11 @@ export default {
       return this.authStore.isAuthenticated;
     },
   },
+  methods: {
+    navigateToUserProfile() {
+      this.$router.push("/user-profile");
+    },
+  },
 };
 </script>
 
@@ -54,6 +59,6 @@ export default {
 }
 
 .user-container {
-  @apply flex gap-4 items-center;
+  @apply flex gap-4 items-center cursor-pointer;
 }
 </style>

@@ -24,7 +24,7 @@
 
 <script>
 import { useRoute } from 'vue-router';
-import { navigationConfig } from '../config/navigation';
+import { navigationConfig } from '../../config/navigation';
 
 export default {
   name: "NavigationAsside",

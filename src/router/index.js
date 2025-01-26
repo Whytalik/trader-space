@@ -6,12 +6,22 @@ import { navigationConfig } from "../config/navigation";
 const generateRoutes = () => {
   const routes = [];
 
+  const formatComponentName = (name) => {
+    return (
+      name
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join("") + "View"
+    );
+  };
+
   navigationConfig.forEach((group) => {
     group.items.forEach((item) => {
       routes.push({
         path: item.path,
-        name: item.name.toLowerCase(),
-        component: () => import(`../views/${item.name}View.vue`),
+        name: item.name.toLowerCase().replace(/\s+/g, "-"),
+        component: () =>
+          import(`../views/${formatComponentName(item.name)}.vue`),
         meta: {
           requiresAuth: true,
           title: `${item.name} | Trader Space`,
@@ -37,6 +47,16 @@ const generateRoutes = () => {
     meta: {
       requiresAuth: true,
       title: "Trade Analysis | Trader Space",
+    },
+  });
+
+  routes.push({
+    path: "/user-profile",
+    name: "user-profile",
+    component: () => import("../views/UserProfileView.vue"),
+    meta: {
+      requiresAuth: true,
+      title: "User Profile | Trader Space",
     },
   });
 

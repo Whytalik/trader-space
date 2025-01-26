@@ -5,7 +5,11 @@ export const navigationConfig = [
     items: [
       { name: "Home", path: "/" },
       { name: "Routine", path: "/routine" },
-      { name: "Trades", path: "/trades" }
+      { name: "Trades", path: "/trades" },
     ],
+  },
+  {
+    title: "User",
+    items: [{ name: "User Profile", path: "/user-profile" }],
   },
 ];
