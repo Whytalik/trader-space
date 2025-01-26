@@ -12,7 +12,7 @@
         @leave="endTransition">
         <ul v-show="group.isOpen" class="nav-items">
           <li v-for="item in group.items" :key="item.path">
-            <router-link :to="item.path" class="nav-link" :class="{ 'nav-link--active': isActiveRoute(item.path) }">
+            <router-link :to="item.path" class="nav-link" :class="{ 'nav-link--active': isActiveRoute(item) }">
               {{ item.name }}
             </router-link>
           </li>
@@ -61,8 +61,11 @@ export default {
       el.style.height = '0';
       el.style.opacity = '0';
     },
-    isActiveRoute(path) {
-      return this.route.path === path;
+    isActiveRoute(item) {
+      if (item.children) {
+        return this.route.path.startsWith(item.path);
+      }
+      return this.route.path === item.path;
     }
   }
 };
