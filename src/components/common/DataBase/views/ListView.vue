@@ -1,17 +1,26 @@
 <template>
   <div class="list-view">
-    <div v-for="item in data" :key="item.id" class="list-item">
-      <div class="item-content">
-        <div class="item-header">
-          <h3 class="item-title">{{ item.title }}</h3>
-          <span class="item-date">{{ formatDate(item.date) }}</span>
-        </div>
-        <p class="item-description">{{ item.description }}</p>
-      </div>
-      <div class="item-actions">
-        <slot name="item-actions" :item="item"></slot>
-      </div>
-    </div>
+    <table class="list-table">
+      <thead>
+        <tr>
+          <th v-for="column in visibleColumns" :key="column.field">
+            {{ column.header }}
+          </th>
+          <th v-if="$slots['item-actions']">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in data" :key="item.id" @click="handleItemClick(item)"
+          class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+          <td v-for="column in visibleColumns" :key="column.field">
+            {{ item[column.field] }}
+          </td>
+          <td v-if="$slots['item-actions']">
+            <slot name="item-actions" :item="item"></slot>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -22,11 +31,32 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    columns: {
+      type: Array,
+      required: true
+    },
+    routePath: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
+  computed: {
+    visibleColumns() {
+      return this.columns.filter(column => column.visible);
     }
   },
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleDateString()
+    },
+    handleItemClick(item) {
+      if (this.routePath) {
+        console.log('Navigating to:', `${this.routePath}/${item.id}`);
+        console.log('Item:', item);
+        this.$router.push(`${this.routePath}/${item.id}`);
+      }
     }
   }
 }
@@ -34,35 +64,26 @@ export default {
 
 <style scoped>
 .list-view {
-  @apply space-y-4;
+  @apply w-full overflow-x-auto;
 }
 
-.list-item {
-  @apply flex justify-between items-start p-4 bg-background 
-         border border-input-border rounded-lg hover:border-input-focus transition-all duration-fast;
+.list-table {
+  @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
 }
 
-.item-content {
-  @apply flex-1;
+.list-table th {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
 }
 
-.item-header {
-  @apply flex justify-between items-center mb-2;
+.list-table td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100;
 }
 
-.item-title {
-  @apply text-lg font-medium;
+.list-table tbody tr {
+  @apply bg-white dark:bg-gray-800;
 }
 
-.item-date {
-  @apply text-sm text-gray-500;
+.list-table tbody tr:nth-child(even) {
+  @apply bg-gray-50 dark:bg-gray-700;
 }
-
-.item-description {
-  @apply text-sm text-gray-600 dark:text-gray-400;
-}
-
-.item-actions {
-  @apply flex gap-2 ml-4;
-}
-</style> 
+</style>

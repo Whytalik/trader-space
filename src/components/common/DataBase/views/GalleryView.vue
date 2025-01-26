@@ -1,12 +1,13 @@
 <template>
   <div class="gallery-view">
     <div class="gallery-grid">
-      <div v-for="item in data" :key="item.id" class="gallery-item">
+      <div v-for="item in data" :key="item.id" class="gallery-item cursor-pointer" @click="handleItemClick(item)">
         <div class="item-image">
           <img :src="item.image" :alt="item.title" v-if="item.image" />
           <div class="no-image" v-else>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
             </svg>
           </div>
         </div>
@@ -29,6 +30,20 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    routePath: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
+  methods: {
+    handleItemClick(item) {
+      if (this.routePath) {
+        console.log('Navigating to:', `${this.routePath}/${item.id}`);
+        console.log('Item:', item);
+        this.$router.push(`${this.routePath}/${item.id}`);
+      }
     }
   }
 }
@@ -44,8 +59,7 @@ export default {
 }
 
 .gallery-item {
-  @apply flex flex-col bg-background border border-input-border 
-         rounded-lg overflow-hidden hover:border-input-focus transition-all duration-fast;
+  @apply flex flex-col bg-background border border-input-border rounded-lg overflow-hidden hover:border-input-focus transition-all duration-fast;
 }
 
 .item-image {
@@ -79,4 +93,4 @@ export default {
 .item-actions {
   @apply p-4 pt-0 flex gap-2;
 }
-</style> 
+</style>
