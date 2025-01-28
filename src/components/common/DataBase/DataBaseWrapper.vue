@@ -1,5 +1,5 @@
 <template>
-  <div class="database-wrapper">
+  <div class="database-wrapper vertical-scroll">
     <DatabaseHeader
       :title="title"
       :currentView="currentView"
@@ -8,14 +8,13 @@
       @toggle-view-menu="toggleViewMenu"
       @select-view="selectView"
     >
-      <template #actions>
-        <slot name="actions"></slot>
-      </template>
     </DatabaseHeader>
     <ColumnsMenu
       v-if="showColumnsMenu"
       :columns="columns"
+      :currentView="currentView"
       @update-columns="updateColumns"
+      @close-menu="closeColumnsMenu"
     />
     <div class="database-content">
       <ListView
@@ -100,6 +99,9 @@ export default {
     updateColumns(newColumns) {
       this.$emit("update:columns", [...newColumns]);
     },
+    closeColumnsMenu() {
+      this.showColumnsMenu = false;
+    },
   },
 };
 </script>
@@ -111,38 +113,5 @@ export default {
 
 .database-content {
   @apply flex-1 overflow-y-auto overflow-x-auto;
-}
-
-.database-content::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.database-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.database-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-.database-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-.database-content::-webkit-scrollbar-track:horizontal {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.database-content::-webkit-scrollbar-thumb:horizontal {
-  background: #888;
-  border-radius: 4px;
-}
-
-.database-content::-webkit-scrollbar-thumb:horizontal:hover {
-  background: #555;
 }
 </style>

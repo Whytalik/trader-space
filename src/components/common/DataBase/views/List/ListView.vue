@@ -3,7 +3,13 @@
     <table class="list-table">
       <ListHeader :columns="columns" />
       <tbody>
-        <ListItem v-for="item in data" :key="item.id" :item="item" :columns="visibleColumns" :route-path="routePath">
+        <ListItem
+          v-for="item in data"
+          :key="item.id"
+          :item="item"
+          :columns="visibleColumns"
+          :route-path="routePath"
+        >
           <template #item-actions="{ item }">
             <slot name="item-actions" :item="item"></slot>
           </template>
@@ -14,8 +20,8 @@
 </template>
 
 <script>
-import ListItem from './ListItem.vue';
-import ListHeader from './ListHeader.vue';
+import ListItem from "./ListItem.vue";
+import ListHeader from "./ListHeader.vue";
 
 export default {
   name: "ListView",
