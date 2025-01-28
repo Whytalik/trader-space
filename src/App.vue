@@ -4,7 +4,7 @@
     <main class="main-content">
       <NavigationAsside v-if="isAuthenticated" />
       <div class="page-content">
-        <PageTitle v-if="isAuthenticated && pageTitle" :title="pageTitle" />
+        <PageTitle v-if="isAuthenticated" :title="pageTitle" />
         <router-view />
       </div>
     </main>
@@ -34,7 +34,7 @@ export default {
     const themeStore = useThemeStore();
     themeStore.initTheme();
 
-    const defaultUser = this.userStore.findUser('ipz224_tvs@student.ztu.edu.ua', 'ipz224_tvs@student.ztu.edu.ua');
+    const defaultUser = this.getDefaultUser();
     if (defaultUser) {
       this.userStore.setCurrentUser(defaultUser);
       this.authStore.setAuthenticationStatus(true);
@@ -57,6 +57,11 @@ export default {
       return title?.split('|')[0].trim();
     },
   },
+  methods: {
+    getDefaultUser() {
+      return this.userStore.findUser('ipz224_tvs@student.ztu.edu.ua', 'ipz224_tvs@student.ztu.edu.ua');
+    },
+  }
 };
 </script>
 
