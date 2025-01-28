@@ -1,29 +1,46 @@
 <template>
-    <div class="trader-stats">
-        <h2 class="title">Trading Statistics</h2>
-        <div class="content">
-            <!-- Тут буде статистика трейдера -->
-        </div>
-    </div>
+    <BaseCard title="Trading Statistics">
+        <BaseGrid columns="3">
+            <CardItem>
+                <span class="stat-label">Total Trades</span>
+                <span class="stat-value">150</span>
+            </CardItem>
+            <CardItem>
+                <span class="stat-label">Win Rate</span>
+                <span class="stat-value">65%</span>
+            </CardItem>
+            <CardItem>
+                <span class="stat-label">Profit Factor</span>
+                <span class="stat-value">2.1</span>
+            </CardItem>
+            <CardItem>
+                <span class="stat-label">Average Win</span>
+                <span class="stat-value">$250</span>
+            </CardItem>
+            <CardItem>
+                <span class="stat-label">Average Loss</span>
+                <span class="stat-value">$100</span>
+            </CardItem>
+        </BaseGrid>
+    </BaseCard>
 </template>
 
 <script>
 export default {
-    name: "TraderStatsCard"
+    name: "TraderStatsCard",
 }
 </script>
 
 <style scoped>
-.trader-stats {
-    @apply space-y-4;
-
+.stat-item {
+    @apply flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg;
 }
 
-.title {
-    @apply text-lg font-medium text-text;
+.stat-label {
+    @apply text-sm text-gray-500 dark:text-gray-400 mb-2;
 }
 
-.content {
-    @apply bg-background p-4 rounded-lg border border-input-border;
+.stat-value {
+    @apply text-xl font-medium;
 }
 </style>

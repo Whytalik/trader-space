@@ -1,127 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
-import AuthLayout from "../components/auth/AuthLayout.vue";
-import { useAuthStore } from "../stores/auth";
-import { navigationConfig } from "../config/navigation";
-
-const generateRoutes = () => {
-  const routes = [];
-
-  const formatComponentName = (name) => {
-    return (
-      name
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join("") + "View"
-    );
-  };
-
-  navigationConfig.forEach((group) => {
-    group.items.forEach((item) => {
-      routes.push({
-        path: item.path,
-        name: item.name.toLowerCase().replace(/\s+/g, "-"),
-        component: () =>
-          import(`../views/${formatComponentName(item.name)}.vue`),
-        meta: {
-          requiresAuth: true,
-          title: `${item.name} | Trader Space`,
-        },
-      });
-    });
-  });
-
-  routes.push({
-    path: "/routines/:id",
-    name: "routine",
-    component: () => import("../components/routines/RoutineDetails.vue"),
-    meta: {
-      requiresAuth: true,
-      title: (route) => {
-        return `Routine #${route.params.id} | Trader Space`;
-      },
-    },
-  });
-
-  routes.push({
-    path: "/trades/:id",
-    name: "trade",
-    component: () => import("../components/trades/TradeDetails.vue"),
-    meta: {
-      requiresAuth: true,
-      title: (route) => {
-        return `Trade #${route.params.id} | Trader Space`;
-      },
-    },
-  });
-
-  routes.push({
-    path: "/trades/add",
-    name: "trades.add",
-    //component: () => import("../views/trades/AddView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: "Add Trade | Trader Space",
-    },
-  });
-
-  routes.push({
-    path: "/trades/analysis",
-    name: "trades.analysis",
-    //component: () => import("../views/trades/AnalysisView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: "Trade Analysis | Trader Space",
-    },
-  });
-
-  routes.push({
-    path: "/user-profile",
-    name: "user-profile",
-    component: () => import("../views/UserProfileView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: "User Profile | Trader Space",
-    },
-  });
-
-  routes.push({
-    path: "/routines",
-    name: "routines",
-    component: () => import("../views/RoutineView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: "Routines | Trader Space",
-    },
-  });
-
-  return routes;
-};
+import { routes } from "./routes";
+import { setDocumentTitle, authGuard } from "./middleware";
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [
-    ...generateRoutes(),
-    {
-      path: "/auth",
-      name: "auth",
-      component: AuthLayout,
-      meta: { requiresAuth: false },
-    },
-  ],
+  routes,
 });
 
-router.beforeEach((to, _from, next) => {
-  const authStore = useAuthStore();
-  document.title =
-    typeof to.meta.title === "function"
-      ? to.meta.title(to)
-      : to.meta.title || "Trader Space";
-
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next({ name: "auth", query: { type: "login" } });
-  } else {
-    next();
-  }
+router.beforeEach((to, from, next) => {
+  setDocumentTitle(to);
+  authGuard(to, from, next);
 });
 
 export default router;

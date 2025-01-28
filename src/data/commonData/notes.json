@@ -1,12 +1,13 @@
-[
-  "Market conditions",
-  "Entry reason",
-  "Stop loss placement",
-  "Take profit targets",
-  "Risk management",
-  "Trade management",
-  "Psychology state",
-  "Market structure analysis",
-  "Volume analysis",
-  "Time analysis"
-]
+{
+  "MARKET_CONDITIONS": "Market conditions",
+  "ENTRY_REASON": "Entry reason",
+  "STOP_LOSS": "Stop loss placement",
+  "TAKE_PROFIT": "Take profit targets",
+  "RISK_MANAGEMENT": "Risk management",
+  "TRADE_MANAGEMENT": "Trade management",
+  "PSYCHOLOGY": "Psychology state",
+  "MARKET_STRUCTURE": "Market structure analysis",
+  "VOLUME": "Volume analysis",
+  "TIME": "Time analysis",
+  "BREAKING_PLAN": "Breaking trading plan"
+}

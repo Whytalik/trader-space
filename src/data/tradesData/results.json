@@ -1,5 +1,6 @@
-[
-  "Win",
-  "Loss",
-  "Break Even"
-] 
+{
+  "WIN": "Win",
+  "LOSS": "Loss",
+  "BREAK_EVEN": "Break Even"
+}
+

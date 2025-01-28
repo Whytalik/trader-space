@@ -36,7 +36,7 @@ export default {
         this.trade = tradesStore.trades.find(t => t.id === tradeId);
 
         if (!this.trade) {
-            console.error(`Trade with id ${tradeId} not found`);
+            this.$router.push('/trades');
         }
     },
     methods: {

@@ -1,7 +1,6 @@
-[
-  "Bullish",
-  "Bearish",
-  "Neutral",
-  "Ranging",
-  "Consolidating"
-] 
+{
+  "WIN": "Win",
+  "LOSS": "Loss",
+  "BREAK_EVEN": "Break Even",
+  "NOT_EXECUTED": "Not Executed"
+}

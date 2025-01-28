@@ -1,8 +1,8 @@
-[
-  "FVG",
-  "Supply",
-  "Demand",
-  "Liquidity",
-  "Order Block",
-  "Break of Structure"
-] 
+{
+  "FVG": "FVG",
+  "SUPPLY": "Supply",
+  "DEMAND": "Demand",
+  "LIQUIDITY": "Liquidity",
+  "ORDER_BLOCK": "Order Block",
+  "BREAK_OF_STRUCTURE": "Break of Structure"
+}

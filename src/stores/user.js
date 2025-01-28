@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import users from "../data/users.json";
+import { useAuthStore } from "./auth";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -13,11 +14,27 @@ export const useUserStore = defineStore("user", {
     },
     registerUser(userData) {
       this.users.push(userData);
+      localStorage.setItem("users", JSON.stringify(this.users));
     },
     findUser(email, password) {
       return this.users.find(
         (user) => user.email === email && user.password === password
       );
+    },
+    signIn(email, password) {
+      const user = this.findUser(email, password);
+      if (user) {
+        this.setCurrentUser(user);
+        const authStore = useAuthStore();
+        authStore.setAuthenticationStatus(true);
+      }
+    },
+    signUp(userData) {
+      const existingUser = this.users.find(
+        (user) => user.email === userData.email
+      );
+
+      existingUser ? alert("User already exists") : this.registerUser(userData);
     },
   },
 });
