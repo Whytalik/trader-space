@@ -9,5 +9,6 @@ export function generateColumns(data) {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" "),
     visible: true,
+    sortBy: false,
   }));
 }

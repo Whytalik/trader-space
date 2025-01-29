@@ -4,7 +4,7 @@
       <ListHeader :columns="columns" />
       <tbody>
         <ListItem
-          v-for="item in data"
+          v-for="item in sortedData"
           :key="item.id"
           :item="item"
           :columns="visibleColumns"
@@ -22,12 +22,19 @@
 <script>
 import ListItem from "./ListItem.vue";
 import ListHeader from "./ListHeader.vue";
+import { useTradesStore } from "@/stores/trades";
 
 export default {
   name: "ListView",
   components: {
     ListItem,
     ListHeader,
+  },
+  data() {
+    return {
+      tradesStore: null,
+      sortColumn: null,
+    };
   },
   props: {
     data: {
@@ -48,6 +55,29 @@ export default {
     visibleColumns() {
       return this.columns.filter((column) => column.visible);
     },
+
+    sortedData() {
+      if (this.sortColumn) {
+        return this.tradesStore.getSortedTrades(this.sortColumn.field);
+      }
+      return this.data;
+    },
+  },
+  methods: {
+    setSortColumn() {
+      this.sortColumn = this.columns.find((column) => column.sortBy);
+      console.log(this.sortColumn);
+    },
+    updateSortColumn(field) {
+      this.sortColumn = this.columns.find((column) => column.field === field);
+    },
+  },
+  watch: {
+    columns: "setSortColumn",
+  },
+  created() {
+    this.tradesStore = useTradesStore();
+    this.setSortColumn();
   },
 };
 </script>

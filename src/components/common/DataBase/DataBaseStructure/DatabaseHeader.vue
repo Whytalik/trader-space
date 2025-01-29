@@ -4,6 +4,9 @@
     <div class="database-actions">
       <slot name="actions"></slot>
       <div class="view-controls">
+        <button class="control-btn" @click="toggleSortMenu">
+          <SortIcon />
+        </button>
         <button
           v-if="isListView()"
           class="control-btn"
@@ -31,6 +34,7 @@
 import MenuIcon from "@/assets/DataBase/MenuIcon.vue";
 import ListIcon from "@/assets/DataBase/ListIcon.vue";
 import GalleryIcon from "@/assets/DataBase/GalleryIcon.vue";
+import SortIcon from "@/assets/DataBase/SortIcon.vue";
 import ViewMenu from "./ViewMenu.vue";
 
 export default {
@@ -40,6 +44,7 @@ export default {
     ListIcon,
     GalleryIcon,
     ViewMenu,
+    SortIcon,
   },
   props: {
     title: {
@@ -55,7 +60,12 @@ export default {
       required: true,
     },
   },
-  emits: ["toggle-columns-menu", "toggle-view-menu", "select-view"],
+  emits: [
+    "toggle-columns-menu",
+    "toggle-view-menu",
+    "select-view",
+    "toggle-sort-menu",
+  ],
   methods: {
     toggleColumnsMenu() {
       this.$emit("toggle-columns-menu");
@@ -65,6 +75,9 @@ export default {
     },
     selectView(view) {
       this.$emit("select-view", view);
+    },
+    toggleSortMenu() {
+      this.$emit("toggle-sort-menu");
     },
     isListView() {
       return this.currentView === "list";

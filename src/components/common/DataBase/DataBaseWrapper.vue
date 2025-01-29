@@ -7,14 +7,19 @@
       @toggle-columns-menu="toggleColumnsMenu"
       @toggle-view-menu="toggleViewMenu"
       @select-view="selectView"
+      @toggle-sort-menu="toggleSortMenu"
     >
     </DatabaseHeader>
     <ColumnsMenu
       v-if="showColumnsMenu"
       :columns="columns"
       :currentView="currentView"
-      @update-columns="updateColumns"
       @close-menu="closeColumnsMenu"
+    />
+    <SortMenu
+      v-if="showSortMenu"
+      :sortOptions="columns"
+      @close-menu="closeSortMenu"
     />
     <div class="database-content">
       <ListView
@@ -41,6 +46,7 @@ import ListView from "./views/List/ListView.vue";
 import GalleryView from "./views/Gallery/GalleryView.vue";
 import DatabaseHeader from "./DataBaseStructure/DatabaseHeader.vue";
 import ColumnsMenu from "./DataBaseStructure/ColumnsMenu.vue";
+import SortMenu from "./DataBaseStructure/SortMenu.vue";
 
 export default {
   name: "DataBaseWrapper",
@@ -49,6 +55,7 @@ export default {
     GalleryView,
     DatabaseHeader,
     ColumnsMenu,
+    SortMenu,
   },
   props: {
     title: {
@@ -83,6 +90,7 @@ export default {
       currentView: this.defaultView,
       showColumnsMenu: false,
       showViewMenu: false,
+      showSortMenu: false,
     };
   },
   methods: {
@@ -96,11 +104,14 @@ export default {
       this.currentView = view;
       this.showViewMenu = false;
     },
-    updateColumns(newColumns) {
-      this.$emit("update:columns", [...newColumns]);
+    toggleSortMenu() {
+      this.showSortMenu = !this.showSortMenu;
     },
     closeColumnsMenu() {
       this.showColumnsMenu = false;
+    },
+    closeSortMenu() {
+      this.showSortMenu = false;
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="columns-menu">
+  <div class="sort-menu">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -14,11 +14,17 @@
       <path d="M15 6l-6 6 6 6" />
     </svg>
 
-    <div class="scrollable-columns vertical-scroll">
-      <div v-for="column in columns" :key="column.field" class="column-item">
-        <label class="checkbox-wrapper">
-          <input type="checkbox" v-model="column.visible" />
-          {{ column.header }}
+    <div class="scrollable-sort-options vertical-scroll">
+      <div v-for="option in sortOptions" :key="option.field" class="sort-item">
+        <label class="radio-wrapper">
+          <input
+            type="radio"
+            name="sort"
+            v-model="selectedSort"
+            :value="option.field"
+            @change="updateSort"
+          />
+          {{ option.header }}
         </label>
       </div>
     </div>
@@ -27,27 +33,42 @@
 
 <script>
 export default {
-  name: "ColumnsMenu",
+  name: "SortMenu",
   props: {
-    columns: {
+    sortOptions: {
       type: Array,
       required: true,
     },
+    currentSort: {
+      type: String,
+      default: "id",
+    },
   },
-  emits: ["close-menu"],
+  data() {
+    return {
+      selectedSort: this.currentSort,
+    };
+  },
+  emits: ["close-menu", "update-sort"],
   methods: {
     closeMenu() {
       this.$emit("close-menu");
     },
-    isListView() {
-      return this.currentView === "list";
+    updateSort() {
+      const updatedOptions = this.sortOptions.map((option) => ({
+        ...option,
+        sortBy: option.field === this.selectedSort,
+      }));
+
+      this.$emit("update-sort", updatedOptions);
+      this.$parent.updateSortColumn(this.selectedSort);
     },
   },
 };
 </script>
 
 <style scoped>
-.columns-menu {
+.sort-menu {
   @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-input-border z-50;
   max-height: 300px;
   display: flex;
@@ -55,24 +76,24 @@ export default {
   gap: 10px;
 }
 
-.scrollable-columns {
+.scrollable-sort-options {
   overflow-y: auto;
   flex-grow: 1;
 }
 
-.column-item {
+.sort-item {
   @apply py-1;
 }
 
-.checkbox-wrapper {
+.radio-wrapper {
   @apply flex items-center gap-2 cursor-pointer;
 }
 
-.checkbox-wrapper input {
+.radio-wrapper input {
   @apply w-4 h-4;
 }
 
-.close-icon {
+.icon {
   width: 24px;
   height: 24px;
   fill: currentColor;
@@ -80,7 +101,7 @@ export default {
   margin-bottom: 10px;
 }
 
-.close-icon:hover {
+.icon:hover {
   @apply opacity-75;
 }
 </style>

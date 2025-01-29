@@ -21,7 +21,7 @@ export default {
   },
   created() {
     const tradesStore = useTradesStore();
-    this.trades = tradesStore.trades;
+    this.trades = tradesStore.getSortedTrades();
     this.columns = tradesStore.tradeFilters;
     this.defaultView = tradesStore.currentView;
   },
