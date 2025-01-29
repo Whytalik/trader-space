@@ -32,18 +32,12 @@
           <slot name="item-actions" v-bind="slotProps"></slot>
         </template>
       </ListView>
-      <GalleryView v-else :data="data" :routePath="routePath">
-        <template #item-actions="slotProps">
-          <slot name="item-actions" v-bind="slotProps"></slot>
-        </template>
-      </GalleryView>
     </div>
   </div>
 </template>
 
 <script>
-import ListView from "./views/List/ListView.vue";
-import GalleryView from "./views/Gallery/GalleryView.vue";
+import ListView from "./List/ListView.vue";
 import DatabaseHeader from "./DataBaseStructure/DatabaseHeader.vue";
 import ColumnsMenu from "./DataBaseStructure/ColumnsMenu.vue";
 import SortMenu from "./DataBaseStructure/SortMenu.vue";
@@ -52,7 +46,6 @@ export default {
   name: "DataBaseWrapper",
   components: {
     ListView,
-    GalleryView,
     DatabaseHeader,
     ColumnsMenu,
     SortMenu,
@@ -69,15 +62,6 @@ export default {
     data: {
       type: Array,
       required: true,
-    },
-    enableViewToggle: {
-      type: Boolean,
-      default: true,
-    },
-    defaultView: {
-      type: String,
-      default: "list",
-      validator: (value) => ["list", "gallery"].includes(value),
     },
     routePath: {
       type: String,

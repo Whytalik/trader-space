@@ -39,9 +39,6 @@ export default {
     closeMenu() {
       this.$emit("close-menu");
     },
-    isListView() {
-      return this.currentView === "list";
-    },
   },
 };
 </script>

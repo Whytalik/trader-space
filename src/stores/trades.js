@@ -7,7 +7,6 @@ export const useTradesStore = defineStore("trades", {
   state: () => ({
     trades: trades,
     tradeFilters: generateColumns(trades),
-    currentView: "list",
   }),
   actions: {
     getSortedTrades(column) {

@@ -5,7 +5,7 @@ import { useAuthStore } from "./auth";
 export const useUserStore = defineStore("user", {
   state: () => ({
     users: users,
-    currentUser: null,
+    currentUser: JSON.parse(localStorage.getItem("currentUser")) || null,
   }),
   actions: {
     setCurrentUser(user) {
@@ -35,6 +35,12 @@ export const useUserStore = defineStore("user", {
       );
 
       existingUser ? alert("User already exists") : this.registerUser(userData);
+    },
+    updateAvatar(avatar) {
+      if (this.currentUser) {
+        this.currentUser.avatar = avatar;
+        localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+      }
     },
   },
 });

@@ -7,23 +7,8 @@
         <button class="control-btn" @click="toggleSortMenu">
           <SortIcon />
         </button>
-        <button
-          v-if="isListView()"
-          class="control-btn"
-          @click="toggleColumnsMenu"
-        >
-          <MenuIcon />
-        </button>
-        <div class="view-toggle-wrapper">
-          <button class="control-btn" @click="toggleViewMenu">
-            <ListIcon v-if="currentView === 'list'" />
-            <GalleryIcon v-else />
-          </button>
-          <ViewMenu
-            v-if="showViewMenu"
-            :currentView="currentView"
-            @select-view="selectView"
-          />
+        <div class="view-menu">
+          <ViewMenu v-if="showViewMenu" />
         </div>
       </div>
     </div>
@@ -31,27 +16,15 @@
 </template>
 
 <script>
-import MenuIcon from "@/assets/DataBase/MenuIcon.vue";
-import ListIcon from "@/assets/DataBase/ListIcon.vue";
-import GalleryIcon from "@/assets/DataBase/GalleryIcon.vue";
 import SortIcon from "@/assets/DataBase/SortIcon.vue";
-import ViewMenu from "./ViewMenu.vue";
 
 export default {
   name: "DatabaseHeader",
   components: {
-    MenuIcon,
-    ListIcon,
-    GalleryIcon,
-    ViewMenu,
     SortIcon,
   },
   props: {
     title: {
-      type: String,
-      required: true,
-    },
-    currentView: {
       type: String,
       required: true,
     },
@@ -60,27 +33,13 @@ export default {
       required: true,
     },
   },
-  emits: [
-    "toggle-columns-menu",
-    "toggle-view-menu",
-    "select-view",
-    "toggle-sort-menu",
-  ],
+  emits: ["toggle-columns-menu", "toggle-sort-menu"],
   methods: {
     toggleColumnsMenu() {
       this.$emit("toggle-columns-menu");
     },
-    toggleViewMenu() {
-      this.$emit("toggle-view-menu");
-    },
-    selectView(view) {
-      this.$emit("select-view", view);
-    },
     toggleSortMenu() {
       this.$emit("toggle-sort-menu");
-    },
-    isListView() {
-      return this.currentView === "list";
     },
   },
 };
