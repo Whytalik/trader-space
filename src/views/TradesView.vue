@@ -3,8 +3,8 @@
     title="Trades"
     :data="trades"
     :columns="columns"
-    :defaultView="defaultView"
     routePath="/trades"
+    storeId="trades"
   />
 </template>
 
@@ -22,8 +22,7 @@ export default {
   created() {
     const tradesStore = useTradesStore();
     this.trades = tradesStore.getSortedTrades();
-    this.columns = tradesStore.tradeFilters;
-    this.defaultView = tradesStore.currentView;
+    this.columns = tradesStore.tradeColumns;
   },
 };
 </script>

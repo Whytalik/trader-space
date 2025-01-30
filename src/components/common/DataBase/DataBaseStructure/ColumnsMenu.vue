@@ -1,19 +1,8 @@
 <template>
   <div class="columns-menu">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="icon"
-      @click="closeMenu"
-    >
-      <path d="M15 6l-6 6 6 6" />
-    </svg>
-
+    <div class="menu-header">
+      <BackIcon class="back-icon" @click="closeMenu" />
+    </div>
     <div class="scrollable-columns vertical-scroll">
       <div v-for="column in columns" :key="column.field" class="column-item">
         <label class="checkbox-wrapper">
@@ -26,8 +15,13 @@
 </template>
 
 <script>
+import BackIcon from "@/assets/DataBase/BackIcon.vue";
+
 export default {
   name: "ColumnsMenu",
+  components: {
+    BackIcon,
+  },
   props: {
     columns: {
       type: Array,
@@ -46,10 +40,23 @@ export default {
 <style scoped>
 .columns-menu {
   @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-input-border z-50;
-  max-height: 300px;
+  width: 320px;
+  max-height: 400px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.menu-header {
+  @apply mb-4;
+}
+
+.back-icon {
+  @apply w-6 h-6 cursor-pointer;
+}
+
+.back-icon:hover {
+  @apply opacity-75;
 }
 
 .scrollable-columns {
@@ -67,17 +74,5 @@ export default {
 
 .checkbox-wrapper input {
   @apply w-4 h-4;
-}
-
-.close-icon {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.close-icon:hover {
-  @apply opacity-75;
 }
 </style>

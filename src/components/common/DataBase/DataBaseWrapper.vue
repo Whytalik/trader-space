@@ -2,31 +2,41 @@
   <div class="database-wrapper vertical-scroll">
     <DatabaseHeader
       :title="title"
-      :currentView="currentView"
-      :showViewMenu="showViewMenu"
+      :showColumnsMenu="showColumnsMenu"
+      :showFilterMenu="showFilterMenu"
+      :showSortMenu="showSortMenu"
       @toggle-columns-menu="toggleColumnsMenu"
-      @toggle-view-menu="toggleViewMenu"
-      @select-view="selectView"
+      @toggle-filter-menu="toggleFilterMenu"
       @toggle-sort-menu="toggleSortMenu"
-    >
-    </DatabaseHeader>
+      @add-item="$emit('add-item')"
+    />
+
     <ColumnsMenu
       v-if="showColumnsMenu"
-      :columns="columns"
-      :currentView="currentView"
+      :columns="mainColumns"
       @close-menu="closeColumnsMenu"
+      @update:columns="updateVisibleColumns"
     />
+
+    <FilterMenu
+      v-if="showFilterMenu"
+      :storeId="storeId"
+      @close-menu="closeFilterMenu"
+    />
+
     <SortMenu
       v-if="showSortMenu"
-      :sortOptions="columns"
+      :storeId="storeId"
+      :sortOptions="mainColumns"
       @close-menu="closeSortMenu"
     />
+
     <div class="database-content">
       <ListView
-        v-if="currentView === 'list'"
-        :data="data"
-        :columns="columns"
-        :routePath="routePath"
+        :data="filteredAndSortedData"
+        :columns="mainColumns"
+        :visible-columns="visibleMainColumns"
+        :route-path="routePath"
       >
         <template #item-actions="slotProps">
           <slot name="item-actions" v-bind="slotProps"></slot>
@@ -37,9 +47,12 @@
 </template>
 
 <script>
+import { useDatabaseStore } from "@/stores/databaseState";
+import { sortArray } from "@/utils/sortUtils";
 import ListView from "./List/ListView.vue";
 import DatabaseHeader from "./DataBaseStructure/DatabaseHeader.vue";
 import ColumnsMenu from "./DataBaseStructure/ColumnsMenu.vue";
+import FilterMenu from "./DataBaseStructure/FilterMenu.vue";
 import SortMenu from "./DataBaseStructure/SortMenu.vue";
 
 export default {
@@ -48,6 +61,7 @@ export default {
     ListView,
     DatabaseHeader,
     ColumnsMenu,
+    FilterMenu,
     SortMenu,
   },
   props: {
@@ -68,34 +82,91 @@ export default {
       required: false,
       default: null,
     },
+    storeId: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      currentView: this.defaultView,
       showColumnsMenu: false,
-      showViewMenu: false,
+      showFilterMenu: false,
       showSortMenu: false,
     };
+  },
+  computed: {
+    mainColumns() {
+      return this.columns.filter((column) => !column.isInformational);
+    },
+    visibleMainColumns() {
+      return this.mainColumns.filter((column) => column.visible);
+    },
+    filteredAndSortedData() {
+      let result = [...this.data];
+
+      const filters = this.databaseStore.getFilters(this.storeId);
+      if (filters.text) {
+        result = result.filter((item) =>
+          Object.values(item).some((value) =>
+            String(value).toLowerCase().includes(filters.text.toLowerCase())
+          )
+        );
+      }
+
+      if (filters.date.start || filters.date.end) {
+        result = result.filter((item) => {
+          const itemDate = new Date(item.date);
+          const start = filters.date.start
+            ? new Date(filters.date.start)
+            : null;
+          const end = filters.date.end ? new Date(filters.date.end) : null;
+
+          return (!start || itemDate >= start) && (!end || itemDate <= end);
+        });
+      }
+
+      const sort = this.databaseStore.getSort(this.storeId);
+      if (sort.field) {
+        const column = this.columns.find((col) => col.field === sort.field);
+        if (column) {
+          result = sortArray(result, column);
+        }
+      }
+
+      return result;
+    },
+  },
+  created() {
+    const databaseStore = useDatabaseStore();
+    this.databaseStore = databaseStore;
   },
   methods: {
     toggleColumnsMenu() {
       this.showColumnsMenu = !this.showColumnsMenu;
+      this.showFilterMenu = false;
+      this.showSortMenu = false;
     },
-    toggleViewMenu() {
-      this.showViewMenu = !this.showViewMenu;
-    },
-    selectView(view) {
-      this.currentView = view;
-      this.showViewMenu = false;
+    toggleFilterMenu() {
+      this.showFilterMenu = !this.showFilterMenu;
+      this.showColumnsMenu = false;
+      this.showSortMenu = false;
     },
     toggleSortMenu() {
       this.showSortMenu = !this.showSortMenu;
+      this.showColumnsMenu = false;
+      this.showFilterMenu = false;
     },
     closeColumnsMenu() {
       this.showColumnsMenu = false;
     },
+    closeFilterMenu() {
+      this.showFilterMenu = false;
+    },
     closeSortMenu() {
       this.showSortMenu = false;
+    },
+    updateVisibleColumns(columns) {
+      this.databaseStore.setVisibleColumns(this.storeId, columns);
     },
   },
 };

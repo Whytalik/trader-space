@@ -4,7 +4,7 @@
       <ListHeader :columns="columns" />
       <tbody>
         <ListItem
-          v-for="item in sortedData"
+          v-for="item in data"
           :key="item.id"
           :item="item"
           :columns="visibleColumns"
@@ -30,12 +30,6 @@ export default {
     ListItem,
     ListHeader,
   },
-  data() {
-    return {
-      tradesStore: null,
-      sortColumn: null,
-    };
-  },
   props: {
     data: {
       type: Array,
@@ -45,39 +39,24 @@ export default {
       type: Array,
       required: true,
     },
+    visibleColumns: {
+      type: Array,
+      required: true,
+    },
     routePath: {
       type: String,
       required: false,
       default: null,
     },
   },
-  computed: {
-    visibleColumns() {
-      return this.columns.filter((column) => column.visible);
-    },
-
-    sortedData() {
-      if (this.sortColumn) {
-        return this.tradesStore.getSortedTrades(this.sortColumn.field);
-      }
-      return this.data;
-    },
-  },
-  methods: {
-    setSortColumn() {
-      this.sortColumn = this.columns.find((column) => column.sortBy);
-      console.log(this.sortColumn);
-    },
-    updateSortColumn(field) {
-      this.sortColumn = this.columns.find((column) => column.field === field);
-    },
-  },
-  watch: {
-    columns: "setSortColumn",
+  data() {
+    return {
+      tradesStore: null,
+      sortColumn: null,
+    };
   },
   created() {
     this.tradesStore = useTradesStore();
-    this.setSortColumn();
   },
 };
 </script>

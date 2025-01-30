@@ -1,28 +1,17 @@
 <template>
   <div class="sort-menu">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="icon"
-      @click="closeMenu"
-    >
-      <path d="M15 6l-6 6 6 6" />
-    </svg>
-
+    <div class="menu-header">
+      <BackIcon class="back-icon" @click="closeMenu" />
+    </div>
     <div class="scrollable-sort-options vertical-scroll">
       <div v-for="option in sortOptions" :key="option.field" class="sort-item">
         <label class="radio-wrapper">
           <input
             type="radio"
             name="sort"
-            v-model="selectedSort"
             :value="option.field"
-            @change="updateSort"
+            :checked="databaseStore.getSort(storeId).field === option.field"
+            @change="updateSort(option.field)"
           />
           {{ option.header }}
         </label>
@@ -32,36 +21,34 @@
 </template>
 
 <script>
+import { useDatabaseStore } from "@/stores/databaseState";
+import BackIcon from "@/assets/DataBase/BackIcon.vue";
+
 export default {
   name: "SortMenu",
+  components: {
+    BackIcon,
+  },
   props: {
+    storeId: {
+      type: String,
+      required: true,
+    },
     sortOptions: {
       type: Array,
       required: true,
     },
-    currentSort: {
-      type: String,
-      default: "id",
-    },
   },
-  data() {
-    return {
-      selectedSort: this.currentSort,
-    };
+  setup() {
+    const databaseStore = useDatabaseStore();
+    return { databaseStore };
   },
-  emits: ["close-menu", "update-sort"],
   methods: {
     closeMenu() {
       this.$emit("close-menu");
     },
-    updateSort() {
-      const updatedOptions = this.sortOptions.map((option) => ({
-        ...option,
-        sortBy: option.field === this.selectedSort,
-      }));
-
-      this.$emit("update-sort", updatedOptions);
-      this.$parent.updateSortColumn(this.selectedSort);
+    updateSort(field) {
+      this.databaseStore.setSort(this.storeId, field, "asc");
     },
   },
 };
@@ -70,10 +57,23 @@ export default {
 <style scoped>
 .sort-menu {
   @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-input-border z-50;
-  max-height: 300px;
+  width: 320px;
+  max-height: 400px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.menu-header {
+  @apply mb-4;
+}
+
+.back-icon {
+  @apply w-6 h-6 cursor-pointer;
+}
+
+.back-icon:hover {
+  @apply opacity-75;
 }
 
 .scrollable-sort-options {
@@ -91,17 +91,5 @@ export default {
 
 .radio-wrapper input {
   @apply w-4 h-4;
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
-  fill: currentColor;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.icon:hover {
-  @apply opacity-75;
 }
 </style>

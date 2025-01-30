@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
-import { routines } from "../data/routines";
-import { generateColumns } from "../utils/columnGenerator";
+import { routines, routineColumns } from "../data/routines";
 
 export const useRoutinesStore = defineStore("routines", {
   state: () => ({
     routines: routines,
-    routineFilters: generateColumns(routines),
+    routineColumns: routineColumns,
   }),
 });

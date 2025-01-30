@@ -45,10 +45,6 @@
             <span>{{ experience }}</span>
           </div>
           <div class="info-item">
-            <span class="label">Account Type</span>
-            <span>{{ accountType }}</span>
-          </div>
-          <div class="info-item">
             <span class="label">Bio</span>
             <span>{{ bio }}</span>
           </div>
@@ -90,9 +86,6 @@ export default {
     },
     experience() {
       return this.userStore.currentUser?.trading_experience || "N/A";
-    },
-    accountType() {
-      return this.userStore.currentUser?.accountType || "Standard";
     },
     bio() {
       return this.userStore.currentUser?.bio || "N/A";

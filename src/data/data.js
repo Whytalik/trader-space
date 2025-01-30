@@ -4,6 +4,7 @@ import positionTypes from "./tradesData/position_types.json";
 import results from "./tradesData/results.json";
 import pointTypes from "./tradesData/point_types.json";
 import entryModels from "./tradesData/entry_models.json";
+import entryTimeframes from "./tradesData/entry_timeframes.json";
 import timeframes from "./tradesData/timeframes.json";
 import stopLossTypes from "./tradesData/stop_loss_types.json";
 import notes from "./commonData/notes.json";
@@ -20,6 +21,7 @@ export const TRADE_CONSTANTS = {
   results,
   pointTypes,
   entryModels,
+  entryTimeframes,
   timeframes,
   stopLossTypes,
   notes,

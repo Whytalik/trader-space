@@ -1,0 +1,28 @@
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2.5"
+      d="M15 19l-7-7 7-7"
+    />
+  </svg>
+</template>
+
+<script>
+export default {
+  name: "BackIcon",
+};
+</script>
+
+<style scoped>
+.icon {
+  @apply w-6 h-6;
+}
+</style>
