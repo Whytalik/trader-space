@@ -7,20 +7,33 @@
         <div class="routine-content" v-if="routine">
             <div class="routine-info">
                 <div class="info-grid">
-                    <div class="info-item" v-for="(value, key) in routine" :key="key">
-                        <span class="label">{{ formatLabel(key) }}</span>
-                        <span class="value">{{ formatValue(value) }}</span>
+                    <div class="info-item" v-for="column in displayColumns" :key="column.field">
+                        <span class="label">{{ column.header }}</span>
+                        <span class="value">
+                            {{ formatFieldValue(column, routine[column.field]) }}
+                        </span>
                     </div>
                 </div>
             </div>
-            <div class="related-trades" v-if="relatedTrades.length">
-                <h3 class="section-title">Related Trades</h3>
-                <div class="trades-grid">
-                    <div v-for="trade in relatedTrades" :key="trade.id" class="trade-card"
-                        @click="$router.push(`/trades/${trade.id}`)">
-                        <div class="trade-card-content">
-                            <span class="trade-id">#{{ trade.id }}</span>
-                            <span class="trade-pair">{{ trade.pair }}</span>
+            <div class="related-data" v-if="hasRelatedData">
+                <h3 class="section-title">Related Data</h3>
+                <div class="related-cards">
+                    <div class="related-card" v-if="relatedTrades.length">
+                        <div class="card-header">
+                            <h4 class="card-title">Trades</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="trades-grid">
+                                <div v-for="trade in relatedTrades" 
+                                     :key="trade.id" 
+                                     class="trade-card"
+                                     @click="$router.push(`/trades/${trade.id}`)">
+                                    <div class="trade-card-content">
+                                        <span class="trade-id">#{{ trade.id }}</span>
+                                        <span class="trade-name">{{ trade.name }}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -33,24 +46,37 @@
 </template>
 
 <script>
-import { routines } from "../../data/routines";
-import { useTradesStore } from "../../stores/trades";
+import { useRoutinesStore } from "@/stores/routines";
+import { useTradesStore } from "@/stores/trades";
+import BaseButton from "@/components/common/BaseButton.vue";
 
 export default {
     name: "RoutineDetails",
+    components: {
+        BaseButton
+    },
     data() {
         return {
             routine: null,
-            relatedTrades: []
+            relatedTrades: [],
+            routinesStore: useRoutinesStore(),
+            tradesStore: useTradesStore()
+        }
+    },
+    computed: {
+        displayColumns() {
+            return this.routinesStore.routineColumns.filter(col => !col.isInformational);
+        },
+        hasRelatedData() {
+            return this.relatedTrades.length > 0;
         }
     },
     created() {
         const routineId = parseInt(this.$route.params.id);
-        this.routine = routines.find(r => r.id === routineId);
+        this.routine = this.routinesStore.routines.find(r => r.id === routineId);
 
         if (this.routine) {
-            const tradesStore = useTradesStore();
-            this.relatedTrades = tradesStore.trades.filter(
+            this.relatedTrades = this.tradesStore.trades.filter(
                 trade => this.routine.trade_ids.includes(trade.id)
             );
         } else {
@@ -58,17 +84,21 @@ export default {
         }
     },
     methods: {
-        formatLabel(key) {
-            return key.split(/(?=[A-Z])/).join(' ').charAt(0).toUpperCase() +
-                key.split(/(?=[A-Z])/).join(' ').slice(1);
-        },
-        formatValue(value) {
-            if (value instanceof Date) {
-                return value.toLocaleDateString();
+        formatFieldValue(column, value) {
+            if (value === undefined || value === null) return 'N/A';
+            
+            if (column.field === 'plan') {
+                return value ? '✅' : '❌';
             }
+            
+            if (column.options) {
+                return column.options[value] || value;
+            }
+            
             if (Array.isArray(value)) {
                 return value.join(', ');
             }
+            
             return value;
         }
     }
@@ -132,7 +162,7 @@ export default {
     @apply text-sm font-medium;
 }
 
-.trade-pair {
+.trade-name {
     @apply text-sm text-gray-500;
 }
 </style>

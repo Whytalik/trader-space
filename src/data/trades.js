@@ -94,17 +94,6 @@ export const tradeColumns = [
     options: TC.stopLossTypes,
   },
   {
-    field: "notes",
-    header: "Notes",
-    visible: false,
-  },
-  {
-    field: "mistakes",
-    header: "Mistakes",
-    visible: false,
-    options: TC.mistakes,
-  },
-  {
     field: "routine_id",
     header: "Routine ID",
     visible: false,
@@ -130,12 +119,6 @@ export const trades = [
     entry_model: TC.entryModels.IDM,
     entry_tf: TC.entryTimeframes.H4,
     stop_loss: TC.stopLossTypes.D1_ERL,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Strong uptrend\n" +
-      TC.notes.ENTRY_REASON +
-      ": Clean break of structure",
-    mistakes: TC.mistakes.EARLY_ENTRY,
     routine_id: 1,
   },
   {
@@ -155,12 +138,6 @@ export const trades = [
     entry_model: TC.entryModels.BMS,
     entry_tf: TC.entryTimeframes.M15,
     stop_loss: TC.stopLossTypes.STRUCTURE,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Ranging market\n" +
-      TC.notes.ENTRY_REASON +
-      ": Supply test",
-    mistakes: TC.mistakes.BREAKING_TRADING_PLAN,
     routine_id: 2,
   },
   {
@@ -183,12 +160,6 @@ export const trades = [
     tda_image: null,
     exit_model_image: null,
     fta_image: null,
-    notes: {
-      market_conditions: "Clear trend",
-      entry_reason: "Strong demand",
-      additional_notes: "Price action was clean",
-    },
-    mistakes: TC.mistakes.NONE,
     routine_id: 3,
   },
   {
@@ -208,12 +179,6 @@ export const trades = [
     entry_model: TC.entryModels.PB,
     entry_tf: TC.entryTimeframes.M30,
     stop_loss: TC.stopLossTypes.STRUCTURE,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Ranging\n" +
-      TC.notes.ENTRY_REASON +
-      ": Range bottom test",
-    mistakes: TC.mistakes.POOR_POSITION_SIZING,
     routine_id: 2,
   },
   {
@@ -236,12 +201,6 @@ export const trades = [
     tda_image: null,
     exit_model_image: null,
     fta_image: null,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Breakout\n" +
-      TC.notes.ENTRY_REASON +
-      ": Clean break",
-    mistakes: TC.mistakes.NONE,
     routine_id: 4,
   },
   {
@@ -261,12 +220,6 @@ export const trades = [
     entry_model: TC.entryModels.IDM,
     entry_tf: TC.entryTimeframes.D1,
     stop_loss: TC.stopLossTypes.PREVIOUS_HIGH_LOW,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Choppy\n" +
-      TC.notes.ENTRY_REASON +
-      ": Supply test",
-    mistakes: TC.mistakes.IGNORING_MARKET_STRUCTURE,
     routine_id: 5,
   },
   {
@@ -286,12 +239,6 @@ export const trades = [
     entry_model: TC.entryModels.SMS,
     entry_tf: TC.entryTimeframes.M5,
     stop_loss: TC.stopLossTypes.STRUCTURE,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Clear structure\n" +
-      TC.notes.ENTRY_REASON +
-      ": Quick scalp",
-    mistakes: TC.mistakes.LATE_ENTRY,
     routine_id: 1,
   },
   {
@@ -311,12 +258,6 @@ export const trades = [
     entry_model: TC.entryModels.BMS,
     entry_tf: TC.entryTimeframes.H1,
     stop_loss: TC.stopLossTypes.SWING_HIGH_LOW,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Strong trend\n" +
-      TC.notes.ENTRY_REASON +
-      ": Break and retest",
-    mistakes: TC.mistakes.NONE,
     routine_id: 2,
   },
   {
@@ -336,12 +277,6 @@ export const trades = [
     entry_model: TC.entryModels.PB,
     entry_tf: TC.entryTimeframes.M15,
     stop_loss: TC.stopLossTypes.STRUCTURE,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Volatile\n" +
-      TC.notes.ENTRY_REASON +
-      ": Quick reversal play",
-    mistakes: TC.mistakes.FOMO_TRADING,
     routine_id: 3,
   },
   {
@@ -361,12 +296,6 @@ export const trades = [
     entry_model: TC.entryModels.IDM,
     entry_tf: TC.entryTimeframes.H4,
     stop_loss: TC.stopLossTypes.D1_ERL,
-    notes:
-      TC.notes.MARKET_CONDITIONS +
-      ": Strong trend\n" +
-      TC.notes.ENTRY_REASON +
-      ": Clean structure",
-    mistakes: TC.mistakes.NONE,
     routine_id: 1,
   },
 ];

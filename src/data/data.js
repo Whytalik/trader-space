@@ -7,8 +7,6 @@ import entryModels from "./tradesData/entry_models.json";
 import entryTimeframes from "./tradesData/entry_timeframes.json";
 import timeframes from "./tradesData/timeframes.json";
 import stopLossTypes from "./tradesData/stop_loss_types.json";
-import notes from "./commonData/notes.json";
-import mistakes from "./commonData/mistakes.json";
 import sessions from "./tradesData/sessions.json";
 import narratives from "./routineData/narratives.json";
 import execution from "./routineData/execution.json";
@@ -24,8 +22,6 @@ export const TRADE_CONSTANTS = {
   entryTimeframes,
   timeframes,
   stopLossTypes,
-  notes,
-  mistakes,
   sessions,
 };
 
@@ -34,6 +30,4 @@ export const ROUTINE_CONSTANTS = {
   narratives,
   execution,
   outcomes,
-  notes,
-  mistakes,
 };

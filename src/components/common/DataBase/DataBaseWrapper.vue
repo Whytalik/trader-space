@@ -189,13 +189,11 @@ export default {
 <style scoped>
 .database-wrapper {
   @apply bg-gray-50 dark:bg-gray-900 border border-input-border rounded-lg p-4 relative flex flex-col;
-  min-height: 200px;
-  max-height: calc(100vh - 12rem);
+  height: calc(100vh - 8.5rem);
 }
 
 .database-wrapper.no-data {
   @apply h-auto;
-  min-height: auto;
 }
 
 .database-content {

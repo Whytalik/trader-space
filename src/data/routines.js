@@ -47,19 +47,6 @@ export const routineColumns = [
     options: RC.outcomes
   },
   {
-    field: "mistakes",
-    header: "Mistakes",
-    visible: false,
-    isInformational: true,
-    options: RC.mistakes
-  },
-  {
-    field: "notes",
-    header: "Notes",
-    visible: false,
-    isInformational: true
-  },
-  {
     field: "trade_ids",
     header: "Related Trades",
     visible: false,
@@ -89,12 +76,6 @@ export const routines = [
     plan: true,
     execution: RC.execution.WIN,
     outcome: RC.outcomes.BULLISH,
-    mistakes: RC.mistakes.EARLY_ENTRY,
-    notes:
-      RC.notes.EARLY_ENTRY +
-      ": Strong uptrend\n" +
-      RC.notes.ENTRY_REASON +
-      ": Clean break of structure",
     trade_ids: [1, 7],
     main_analysis: null,
     sub_analysis: [2, 3],
@@ -108,12 +89,6 @@ export const routines = [
     plan: true,
     execution: RC.execution.LOSS,
     outcome: RC.outcomes.INVALID,
-    mistakes: RC.mistakes.BREAKING_TRADING_PLAN,
-    notes:
-      RC.notes.BREAKING_TRADING_PLAN +
-      ": Ranging market\n" +
-      RC.notes.ENTRY_REASON +
-      ": Supply test",
     trade_ids: [2, 8],
     main_analysis: 1,
     sub_analysis: [],
@@ -127,8 +102,6 @@ export const routines = [
     plan: false,
     execution: RC.execution.NOT_EXECUTED,
     outcome: RC.outcomes.NEUTRAL,
-    mistakes: RC.mistakes.IGNORING_MARKET_STRUCTURE,
-    notes: RC.notes.ENTRY_REASON + ": Strong demand",
     trade_ids: [3, 9],
     main_analysis: 1,
     sub_analysis: [],

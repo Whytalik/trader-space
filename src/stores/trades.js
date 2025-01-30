@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { trades, tradeColumns } from "../data/trades";
+import { trades, tradeColumns } from "@/data/trades";
 import { sortArray } from "@/utils/sortUtils";
 
 export const useTradesStore = defineStore("trades", {
   state: () => ({
-    trades: trades,
+    trades,
     tradeColumns: tradeColumns,
   }),
   actions: {
