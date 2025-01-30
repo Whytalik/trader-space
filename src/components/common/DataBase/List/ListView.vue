@@ -3,7 +3,13 @@
     <table class="list-table">
       <ListHeader :columns="columns" />
       <tbody>
-        <ListItem v-for="item in data" :key="item.id" :item="item" :columns="visibleColumns" :route-path="routePath">
+        <ListItem
+          v-for="item in data"
+          :key="item.id"
+          :item="item"
+          :columns="visibleColumns"
+          :route-path="routePath"
+        >
           <template #item-actions="{ item }">
             <slot name="item-actions" :item="item"></slot>
           </template>
@@ -14,8 +20,9 @@
 </template>
 
 <script>
-import ListItem from './ListItem.vue';
-import ListHeader from './ListHeader.vue';
+import ListItem from "./ListItem.vue";
+import ListHeader from "./ListHeader.vue";
+import { useTradesStore } from "@/stores/trades";
 
 export default {
   name: "ListView",
@@ -32,16 +39,24 @@ export default {
       type: Array,
       required: true,
     },
+    visibleColumns: {
+      type: Array,
+      required: true,
+    },
     routePath: {
       type: String,
       required: false,
       default: null,
     },
   },
-  computed: {
-    visibleColumns() {
-      return this.columns.filter((column) => column.visible);
-    },
+  data() {
+    return {
+      tradesStore: null,
+      sortColumn: null,
+    };
+  },
+  created() {
+    this.tradesStore = useTradesStore();
   },
 };
 </script>

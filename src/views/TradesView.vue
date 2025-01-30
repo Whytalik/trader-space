@@ -1,23 +1,28 @@
 <template>
-    <DataBaseWrapper title="Trades" :data="trades" :columns="columns" routePath="/trades" />
+  <DataBaseWrapper
+    title="Trades"
+    :data="trades"
+    :columns="columns"
+    routePath="/trades"
+    storeId="trades"
+  />
 </template>
 
 <script>
 import { useTradesStore } from "../stores/trades";
-import { generateColumns } from "../utils/columnGenerator";
 
 export default {
-    name: "TradesView",
-    data() {
-        return {
-            trades: [],
-            columns: []
-        };
-    },
-    created() {
-        const tradesStore = useTradesStore();
-        this.trades = tradesStore.trades;
-        this.columns = generateColumns(this.trades);
-    }
+  name: "TradesView",
+  data() {
+    return {
+      trades: [],
+      columns: [],
+    };
+  },
+  created() {
+    const tradesStore = useTradesStore();
+    this.trades = tradesStore.getSortedTrades();
+    this.columns = tradesStore.tradeColumns;
+  },
 };
 </script>

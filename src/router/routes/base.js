@@ -1,4 +1,4 @@
-import { navigationConfig } from "../../config/navigation";
+import { navigationConfig } from "@/router/navigation";
 import { formatComponentName } from "../../utils/formatters";
 
 const formatRouteName = (name) => name.toLowerCase().replace(/\s+/g, "-");

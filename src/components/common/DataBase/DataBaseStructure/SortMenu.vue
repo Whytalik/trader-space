@@ -1,13 +1,19 @@
 <template>
-  <div class="columns-menu">
+  <div class="sort-menu">
     <div class="menu-header">
       <BackIcon class="back-icon" @click="closeMenu" />
     </div>
-    <div class="scrollable-columns vertical-scroll">
-      <div v-for="column in columns" :key="column.field" class="column-item">
-        <label class="checkbox-wrapper">
-          <input type="checkbox" v-model="column.visible" />
-          {{ column.header }}
+    <div class="scrollable-sort-options vertical-scroll">
+      <div v-for="option in sortOptions" :key="option.field" class="sort-item">
+        <label class="radio-wrapper">
+          <input
+            type="radio"
+            name="sort"
+            :value="option.field"
+            :checked="databaseStore.getSort(storeId).field === option.field"
+            @change="updateSort(option.field)"
+          />
+          {{ option.header }}
         </label>
       </div>
     </div>
@@ -15,30 +21,41 @@
 </template>
 
 <script>
+import { useDatabaseStore } from "@/stores/databaseState";
 import BackIcon from "@/assets/DataBase/BackIcon.vue";
 
 export default {
-  name: "ColumnsMenu",
+  name: "SortMenu",
   components: {
     BackIcon,
   },
   props: {
-    columns: {
+    storeId: {
+      type: String,
+      required: true,
+    },
+    sortOptions: {
       type: Array,
       required: true,
     },
   },
-  emits: ["close-menu"],
+  setup() {
+    const databaseStore = useDatabaseStore();
+    return { databaseStore };
+  },
   methods: {
     closeMenu() {
       this.$emit("close-menu");
+    },
+    updateSort(field) {
+      this.databaseStore.setSort(this.storeId, field, "asc");
     },
   },
 };
 </script>
 
 <style scoped>
-.columns-menu {
+.sort-menu {
   @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-input-border z-50;
   width: 320px;
   max-height: 400px;
@@ -59,20 +76,20 @@ export default {
   @apply opacity-75;
 }
 
-.scrollable-columns {
+.scrollable-sort-options {
   overflow-y: auto;
   flex-grow: 1;
 }
 
-.column-item {
+.sort-item {
   @apply py-1;
 }
 
-.checkbox-wrapper {
+.radio-wrapper {
   @apply flex items-center gap-2 cursor-pointer;
 }
 
-.checkbox-wrapper input {
+.radio-wrapper input {
   @apply w-4 h-4;
 }
 </style>
