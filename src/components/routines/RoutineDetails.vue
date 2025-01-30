@@ -2,7 +2,17 @@
     <div class="routine-view">
         <div class="routine-header">
             <h2 class="routine-title">Routine Details</h2>
-            <BaseButton @click="$router.push('/routines')">Back to Routines</BaseButton>
+            <div class="header-actions">
+                <BaseButton variant="secondary" @click="handleEdit">
+                    <EditIcon class="mr-2" />
+                    Edit
+                </BaseButton>
+                <BaseButton variant="danger" @click="handleDelete" class="ml-2">
+                    <DeleteIcon class="mr-2" />
+                    Delete
+                </BaseButton>
+                <BaseButton @click="$router.push('/routines')" class="ml-2">Back to Routines</BaseButton>
+            </div>
         </div>
         <div class="routine-content" v-if="routine">
             <div class="routine-info">
@@ -49,11 +59,15 @@
 import { useRoutinesStore } from "@/stores/routines";
 import { useTradesStore } from "@/stores/trades";
 import BaseButton from "@/components/common/BaseButton.vue";
+import EditIcon from "@/assets/icons/EditIcon.vue";
+import DeleteIcon from "@/assets/icons/DeleteIcon.vue";
 
 export default {
     name: "RoutineDetails",
     components: {
-        BaseButton
+        BaseButton,
+        EditIcon,
+        DeleteIcon
     },
     data() {
         return {
@@ -100,6 +114,16 @@ export default {
             }
             
             return value;
+        },
+        handleEdit() {
+            // TODO: Implement edit functionality
+            console.log('Edit routine:', this.routine.id);
+        },
+        handleDelete() {
+            if (confirm('Are you sure you want to delete this routine?')) {
+                this.routinesStore.deleteRoutine(this.routine.id);
+                this.$router.push('/routines');
+            }
         }
     }
 }
@@ -164,5 +188,13 @@ export default {
 
 .trade-name {
     @apply text-sm text-gray-500;
+}
+
+.header-actions {
+    @apply flex items-center;
+}
+
+.btn-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white;
 }
 </style>

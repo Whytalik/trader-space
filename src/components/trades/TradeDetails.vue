@@ -2,7 +2,17 @@
   <div class="trade-view">
     <div class="trade-header">
       <h2 class="trade-title">Trade Details</h2>
-      <BaseButton @click="$router.push('/trades')">Back to Trades</BaseButton>
+      <div class="header-actions">
+        <BaseButton variant="secondary" @click="handleEdit">
+          <EditIcon class="mr-2" />
+          Edit
+        </BaseButton>
+        <BaseButton variant="danger" @click="handleDelete" class="ml-2">
+          <DeleteIcon class="mr-2" />
+          Delete
+        </BaseButton>
+        <BaseButton @click="$router.push('/trades')" class="ml-2">Back to Trades</BaseButton>
+      </div>
     </div>
     <div class="trade-content" v-if="trade">
       <!-- Основні властивості -->
@@ -62,6 +72,8 @@ import CalendarIcon from "@/assets/icons/CalendarIcon.vue";
 import TagIcon from "@/assets/icons/TagIcon.vue";
 import ChartIcon from "@/assets/icons/ChartIcon.vue";
 import StatusIcon from "@/assets/icons/StatusIcon.vue";
+import EditIcon from "@/assets/icons/EditIcon.vue";
+import DeleteIcon from "@/assets/icons/DeleteIcon.vue";
 
 export default {
   name: "TradeDetails",
@@ -71,6 +83,8 @@ export default {
     TagIcon,
     ChartIcon,
     StatusIcon,
+    EditIcon,
+    DeleteIcon,
   },
   data() {
     return {
@@ -98,14 +112,9 @@ export default {
     this.trade = this.tradesStore.trades.find((t) => t.id === tradeId);
 
     if (this.trade) {
-      console.log('Trade:', this.trade);
-      console.log('Routine ID:', this.trade.routine_id);
-      console.log('All routines:', this.routinesStore.routines);
-      
       this.relatedRoutine = this.routinesStore.routines.find(
-        routine => routine.id === this.trade.routine_id
+        (routine) => routine.id === this.trade.routine_id
       );
-      console.log('Found routine:', this.relatedRoutine);
     }
 
     if (!this.trade) {
@@ -146,6 +155,16 @@ export default {
           return value;
       }
     },
+    handleEdit() {
+      // TODO: Implement edit functionality
+      console.log('Edit trade:', this.trade.id);
+    },
+    handleDelete() {
+      if (confirm('Are you sure you want to delete this trade?')) {
+        this.tradesStore.deleteTrade(this.trade.id);
+        this.$router.push('/trades');
+      }
+    }
   },
 };
 </script>
@@ -250,5 +269,13 @@ export default {
 
 .card-content {
   @apply p-6;
+}
+
+.header-actions {
+  @apply flex items-center;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-700 text-white;
 }
 </style>
