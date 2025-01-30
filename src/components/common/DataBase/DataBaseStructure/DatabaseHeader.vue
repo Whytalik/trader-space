@@ -3,27 +3,29 @@
     <h2 class="database-title">{{ title }}</h2>
     <div class="database-actions">
       <div class="view-controls">
-        <button
-          class="control-btn"
-          @click="toggleFilterMenu"
-          :class="{ active: showFilterMenu }"
-        >
-          <FilterIcon />
-        </button>
-        <button
-          class="control-btn"
-          @click="toggleSortMenu"
-          :class="{ active: showSortMenu }"
-        >
-          <SortIcon />
-        </button>
-        <button
-          class="control-btn"
-          @click="toggleColumnsMenu"
-          :class="{ active: showColumnsMenu }"
-        >
-          <ColumnsIcon />
-        </button>
+        <template v-if="!hideControls">
+          <button
+            class="control-btn"
+            @click="toggleFilterMenu"
+            :class="{ active: showFilterMenu }"
+          >
+            <FilterIcon />
+          </button>
+          <button
+            class="control-btn"
+            @click="toggleSortMenu"
+            :class="{ active: showSortMenu }"
+          >
+            <SortIcon />
+          </button>
+          <button
+            class="control-btn"
+            @click="toggleColumnsMenu"
+            :class="{ active: showColumnsMenu }"
+          >
+            <ColumnsIcon />
+          </button>
+        </template>
         <BaseButton
           variant="primary"
           size="sm"
@@ -71,6 +73,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hideControls: {
+      type: Boolean,
+      default: false
+    }
   },
   emits: [
     "toggle-columns-menu",

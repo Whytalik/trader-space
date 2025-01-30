@@ -33,15 +33,28 @@
         <span><strong>Year:</strong> {{ currentYear }}</span>
       </div>
     </div>
+
+    <div class="dashboard-grid">
+      <TodayTradesWrapper />
+      <TodayRoutinesWrapper />
+    </div>
   </div>
 </template>
 
 <script>
+import TodayTradesWrapper from "@/components/dashboard/TodayTradesWrapper.vue";
+import TodayRoutinesWrapper from "@/components/dashboard/TodayRoutinesWrapper.vue";
+import { useUserStore } from "@/stores/user";
+
 export default {
   name: "HomeView",
+  components: {
+    TodayTradesWrapper,
+    TodayRoutinesWrapper
+  },
   data() {
     return {
-      userName: "John Doe", // Replace with dynamic user name
+      userName: "",
     };
   },
   computed: {
@@ -75,7 +88,7 @@ export default {
     },
     currentQuarter() {
       const now = new Date();
-      const month = now.getMonth() + 1; // months are zero-based
+      const month = now.getMonth() + 1;
       return Math.ceil(month / 3);
     },
     currentYear() {
@@ -92,6 +105,10 @@ export default {
         return `Good Evening, ${this.userName}!`;
       }
     },
+  },
+  created() {
+    const userStore = useUserStore();
+    this.userName = userStore.currentUser.username;
   },
 };
 </script>
@@ -126,5 +143,9 @@ strong {
     grid-template-columns: 1fr;
     gap: 10px;
   }
+}
+
+.dashboard-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-6;
 }
 </style>

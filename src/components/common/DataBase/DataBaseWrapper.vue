@@ -1,10 +1,11 @@
 <template>
-  <div class="database-wrapper vertical-scroll">
+  <div class="database-wrapper vertical-scroll" :class="{ 'no-data': !data.length }">
     <DatabaseHeader
       :title="title"
       :showColumnsMenu="showColumnsMenu"
       :showFilterMenu="showFilterMenu"
       :showSortMenu="showSortMenu"
+      :hideControls="hideControls"
       @toggle-columns-menu="toggleColumnsMenu"
       @toggle-filter-menu="toggleFilterMenu"
       @toggle-sort-menu="toggleSortMenu"
@@ -32,16 +33,25 @@
     />
 
     <div class="database-content">
-      <ListView
-        :data="filteredAndSortedData"
-        :columns="mainColumns"
-        :visible-columns="visibleMainColumns"
-        :route-path="routePath"
-      >
-        <template #item-actions="slotProps">
-          <slot name="item-actions" v-bind="slotProps"></slot>
-        </template>
-      </ListView>
+      <template v-if="filteredAndSortedData.length">
+        <ListView
+          :data="filteredAndSortedData"
+          :columns="mainColumns"
+          :visible-columns="visibleMainColumns"
+          :route-path="routePath"
+        >
+          <template #item-actions="slotProps">
+            <slot name="item-actions" v-bind="slotProps"></slot>
+          </template>
+        </ListView>
+      </template>
+      <template v-else>
+        <div class="empty-state">
+          <slot name="empty-state">
+            <p>No data available</p>
+          </slot>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -86,6 +96,10 @@ export default {
       type: String,
       required: true,
     },
+    hideControls: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -174,10 +188,21 @@ export default {
 
 <style scoped>
 .database-wrapper {
-  @apply bg-gray-50 dark:bg-gray-900 border border-input-border rounded-lg p-4 relative h-[calc(100vh-12rem)] flex flex-col;
+  @apply bg-gray-50 dark:bg-gray-900 border border-input-border rounded-lg p-4 relative flex flex-col;
+  min-height: 200px;
+  max-height: calc(100vh - 12rem);
+}
+
+.database-wrapper.no-data {
+  @apply h-auto;
+  min-height: auto;
 }
 
 .database-content {
   @apply flex-1 overflow-y-auto overflow-x-auto;
+}
+
+.empty-state {
+  @apply py-8 text-center text-gray-500;
 }
 </style>
