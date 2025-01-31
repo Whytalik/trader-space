@@ -10,7 +10,7 @@ import {
   calculateAverageRisk,
   calculateMaxRisk,
   calculateMetricStats,
-} from "./tradeUtils";
+} from "@/utils/tradeStatsUtils";
 
 export function useTradeStats(trades) {
   const totalTrades = computed(() => trades.value.length);

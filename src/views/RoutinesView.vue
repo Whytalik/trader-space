@@ -1,7 +1,7 @@
 <template>
   <DataBaseWrapper
     title="Trading Routines"
-    :data="routines"
+    :data="routinesData"
     :columns="columns"
     routePath="/routines"
     storeId="routines"
@@ -9,20 +9,19 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
 import { useRoutinesStore } from "../stores/routines";
 
 export default {
   name: "RoutinesView",
-  data() {
-    return {
-      routines: [],
-      columns: [],
-    };
-  },
-  created() {
-    const routinesStore = useRoutinesStore();
-    this.routines = routinesStore.routines;
-    this.columns = routinesStore.routineColumns;
+  computed: {
+    ...mapState(useRoutinesStore, ["routines", "routineColumns"]),
+    columns() {
+      return this.routineColumns;
+    },
+    routinesData() {
+      return this.routines;
+    },
   },
 };
 </script>

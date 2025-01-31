@@ -3,17 +3,17 @@
 </template>
 
 <script>
-import RoutineForm from '@/components/routines/RoutineForm.vue';
+import RoutineForm from "@/components/routines/RoutineForm.vue";
 
 export default {
-  name: 'RoutineFormView',
+  name: "RoutineFormView",
   components: {
-    RoutineForm
+    RoutineForm,
   },
-  computed: {
+  methods: {
     routineId() {
       return this.$route.params.id ? Number(this.$route.params.id) : null;
-    }
-  }
-}
-</script> 
+    },
+  },
+};
+</script>

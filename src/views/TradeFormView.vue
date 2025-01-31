@@ -3,17 +3,17 @@
 </template>
 
 <script>
-import TradeForm from '@/components/trades/TradeForm.vue';
+import TradeForm from "@/components/trades/TradeForm.vue";
 
 export default {
-  name: 'TradeFormView',
+  name: "TradeFormView",
   components: {
-    TradeForm
+    TradeForm,
   },
   computed: {
     tradeId() {
       return this.$route.params.id ? Number(this.$route.params.id) : null;
-    }
-  }
-}
-</script> 
+    },
+  },
+};
+</script>
