@@ -1,6 +1,10 @@
 <!-- components/ThemeToggle.vue -->
 <template>
-  <button @click="toggleTheme" class="theme-toggle" :class="{ 'theme-toggle--active': theme === 'dark' }">
+  <button
+    @click="toggleTheme"
+    class="theme-toggle"
+    :class="{ 'theme-toggle--active': theme === 'dark' }"
+  >
     <div class="theme-toggle__icons">
       <SunIcon />
       <MoonIcon />
@@ -10,9 +14,9 @@
 </template>
 
 <script>
-import { useThemeStore } from "../../stores/theme";
+import { useThemeStore } from "@/stores/theme";
 import SunIcon from "@/assets/theme/SunIcon.vue";
-import MoonIcon from "../../assets/ThemeIcons/MoonIcon.vue";
+import MoonIcon from "@/assets/theme/MoonIcon.vue";
 
 export default {
   name: "ThemeToggle",

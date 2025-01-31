@@ -5,65 +5,65 @@ export const routineColumns = [
     field: "id",
     header: "ID",
     visible: false,
-    isInformational: true
+    isInformational: true,
   },
   {
     field: "name",
     header: "Name",
-    visible: true
+    visible: true,
   },
   {
     field: "date",
     header: "Date",
-    visible: true
+    visible: true,
   },
   {
     field: "pair",
     header: "Pair",
     visible: true,
-    options: RC.pairs
+    options: RC.pairs,
   },
   {
     field: "narrative",
     header: "Narrative",
     visible: true,
-    options: RC.narratives
+    options: RC.narratives,
   },
   {
     field: "plan",
     header: "Plan",
-    visible: true
+    visible: true,
   },
   {
     field: "execution",
     header: "Execution",
     visible: true,
-    options: RC.execution
+    options: RC.execution,
   },
   {
     field: "outcome",
     header: "Outcome",
     visible: true,
-    options: RC.outcomes
+    options: RC.outcomes,
   },
   {
     field: "trade_ids",
     header: "Related Trades",
     visible: false,
-    isInformational: true
+    isInformational: true,
   },
   {
     field: "main_analysis",
     header: "Main Analysis",
     visible: false,
-    isInformational: true
+    isInformational: true,
   },
   {
     field: "sub_analysis",
     header: "Sub Analysis",
     visible: false,
-    isInformational: true
-  }
+    isInformational: true,
+  },
 ];
 
 export const routines = [

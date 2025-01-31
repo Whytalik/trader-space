@@ -171,7 +171,7 @@ export const trades = [
     direction: TC.directions.LONG,
     position_type: TC.positionTypes.SCALP,
     risk: "0.75",
-    result: TC.results.BREAK_EVEN,
+    result: TC.results.NOT_EXECUTED,
     profit: "0",
     point_A: TC.pointTypes.RANGE,
     point_B: TC.pointTypes.CONSOLIDATION,

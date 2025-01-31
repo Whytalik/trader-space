@@ -11,7 +11,9 @@
           <DeleteIcon class="mr-2" />
           Delete
         </BaseButton>
-        <BaseButton @click="$router.push('/trades')" class="ml-2">Back to Trades</BaseButton>
+        <BaseButton @click="$router.push('/trades')" class="ml-2"
+          >Back to Trades</BaseButton
+        >
       </div>
     </div>
     <div class="trade-content" v-if="trade">
@@ -68,12 +70,12 @@
 import { useTradesStore } from "@/stores/trades";
 import { useRoutinesStore } from "@/stores/routines";
 import BaseButton from "@/components/common/BaseButton.vue";
-import CalendarIcon from "@/assets/icons/CalendarIcon.vue";
-import TagIcon from "@/assets/icons/TagIcon.vue";
-import ChartIcon from "@/assets/icons/ChartIcon.vue";
-import StatusIcon from "@/assets/icons/StatusIcon.vue";
-import EditIcon from "@/assets/icons/EditIcon.vue";
-import DeleteIcon from "@/assets/icons/DeleteIcon.vue";
+import CalendarIcon from "@/assets/CalendarIcon.vue";
+import TagIcon from "@/assets/TagIcon.vue";
+import ChartIcon from "@/assets/ChartIcon.vue";
+import StatusIcon from "@/assets/StatusIcon.vue";
+import EditIcon from "@/assets/EditIcon.vue";
+import DeleteIcon from "@/assets/DeleteIcon.vue";
 
 export default {
   name: "TradeDetails",
@@ -159,11 +161,11 @@ export default {
       this.$router.push(`/trades/form/${this.trade.id}`);
     },
     handleDelete() {
-      if (confirm('Are you sure you want to delete this trade?')) {
+      if (confirm("Are you sure you want to delete this trade?")) {
         this.tradesStore.deleteTrade(this.trade.id);
-        this.$router.push('/trades');
+        this.$router.push("/trades");
       }
-    }
+    },
   },
 };
 </script>

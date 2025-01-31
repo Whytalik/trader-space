@@ -19,7 +19,7 @@
 
 <script>
 import { useRoutinesStore } from "@/stores/routines";
-import DataBaseWrapper from "@/components/common/DataBaseWrapper.vue";
+import DataBaseWrapper from "@/components/common/DataBase/DataBaseWrapper.vue";
 
 export default {
   name: "TodayRoutinesWrapper",

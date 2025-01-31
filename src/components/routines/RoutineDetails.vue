@@ -59,8 +59,8 @@
 import { useRoutinesStore } from "@/stores/routines";
 import { useTradesStore } from "@/stores/trades";
 import BaseButton from "@/components/common/BaseButton.vue";
-import EditIcon from "@/assets/icons/EditIcon.vue";
-import DeleteIcon from "@/assets/icons/DeleteIcon.vue";
+import EditIcon from "@/assets/EditIcon.vue";
+import DeleteIcon from "@/assets/DeleteIcon.vue";
 
 export default {
     name: "RoutineDetails",

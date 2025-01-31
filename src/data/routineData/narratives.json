@@ -1,7 +1,6 @@
 {
   "BULLISH": "Bullish",
   "BEARISH": "Bearish",
-  "BREAK_EVEN": "Break Even",
   "NOT_EXECUTED": "Not Executed",
   "NEUTRAL": "Neutral"
 }

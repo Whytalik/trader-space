@@ -19,7 +19,7 @@
 
 <script>
 import { useTradesStore } from "@/stores/trades";
-import DataBaseWrapper from "@/components/common/DataBaseWrapper.vue";
+import DataBaseWrapper from "@/components/common/DataBase/DataBaseWrapper.vue";
 
 export default {
   name: "TodayTradesWrapper",
