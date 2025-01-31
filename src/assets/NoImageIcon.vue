@@ -19,47 +19,25 @@
   </BaseCard>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
 import { useUserStore } from "@/stores/user";
 import NoImageIcon from "@/assets/NoImageIcon.vue";
-import { mapState } from "pinia";
 
-export default {
-  name: "TraderInfoComponent",
-  computed: {
-    ...mapState(useUserStore, ["currentUser"]),
-    
-    userInfo() {
-      return {
-        Username: this.currentUser.username || "N/A",
-        Email: this.currentUser.email || "N/A",
-        "Full Name": this.currentUser.full_name || "N/A",
-        Location: this.currentUser.location || "N/A",
-        "Trading Experience": this.currentUser.trading_experience || "N/A",
-        Bio: this.currentUser.bio || "N/A",
-      };
-    },
+const userStore = useUserStore();
 
-    userAvatarComponent() {
-      return this.userStore.currentUser?.avatar ? "img" : NoImageIcon;
-    },
-  },
-  /*methods: {
-    userAvatarComponent() {
-      return this.userStore.currentUser?.avatar
-        ? {
-            render: (h) =>
-              h("img", {
-                attrs: {
-                  src: this.userStore.currentUser.avatar,
-                  alt: this.userStore.currentUser.username,
-                },
-              }),
-          }
-        : NoImageIcon;
-    },
-  },*/
-};
+const userInfo = computed(() => ({
+  Username: userStore.currentUser.username || "N/A",
+  Email: userStore.currentUser.email || "N/A",
+  "Full Name": userStore.currentUser.full_name || "N/A",
+  Location: userStore.currentUser.location || "N/A",
+  "Trading Experience": userStore.currentUser.trading_experience || "N/A",
+  Bio: userStore.currentUser.bio || "N/A",
+}));
+
+const userAvatarComponent = computed(() => {
+  return userStore.currentUser?.avatar ? "img" : NoImageIcon;
+});
 </script>
 
 <style scoped></style>

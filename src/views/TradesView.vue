@@ -8,20 +8,11 @@
   />
 </template>
 
-<script>
-import { mapState } from "pinia";
+<script setup>
 import { useTradesStore } from "../stores/trades";
+import DataBaseWrapper from "@/components/common/DataBase/DatabaseWrapper.vue";
 
-export default {
-  name: "TradesView",
-  computed: {
-    ...mapState(useTradesStore, ["trades", "tradeColumns"]),
-    columns() {
-      return this.tradeColumns;
-    },
-    tradesData() {
-      return this.trades;
-    },
-  },
-};
+const tradesStore = useTradesStore();
+const tradesData = tradesStore.trades;
+const columns = tradesStore.tradeColumns;
 </script>

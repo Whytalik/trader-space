@@ -12,11 +12,3 @@
     <rect x="14" y="8" width="3" height="12" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "ChartBarIcon",
-};
-</script>
-
-<style scoped></style>

@@ -14,11 +14,3 @@
     />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "BackIcon",
-};
-</script>
-
-<style scoped></style>

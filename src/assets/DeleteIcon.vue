@@ -16,11 +16,3 @@
     <line x1="14" y1="11" x2="14" y2="17" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "DeleteIcon",
-};
-</script>
-
-<style scoped></style>

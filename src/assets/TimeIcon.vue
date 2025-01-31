@@ -10,12 +10,3 @@
     <path d="M12 6v6l4 2" />
   </svg>
 </template>
-
-
-<script>
-export default {
-  name: "TimeIcon",
-};
-</script>
-
-<style scoped></style>

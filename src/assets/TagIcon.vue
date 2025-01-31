@@ -14,11 +14,3 @@
     <line x1="7" y1="7" x2="7.01" y2="7" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "TagIcon",
-};
-</script>
-
-<style scoped></style>

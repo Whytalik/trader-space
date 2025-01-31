@@ -2,18 +2,16 @@
   <RoutineForm :routineId="routineId" />
 </template>
 
-<script>
+<script setup>
+import { useRoute } from "vue-router";
+import { computed } from "vue";
 import RoutineForm from "@/components/routines/RoutineForm.vue";
 
-export default {
-  name: "RoutineFormView",
-  components: {
-    RoutineForm,
-  },
-  methods: {
-    routineId() {
-      return this.$route.params.id ? Number(this.$route.params.id) : null;
-    },
-  },
-};
+const route = useRoute();
+
+const routineId = computed(() => {
+  return route.params.id ? Number(route.params.id) : null;
+});
 </script>
+
+<style scoped></style>

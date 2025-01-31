@@ -12,11 +12,3 @@
     <polyline points="22 4 12 14.01 9 11.01" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "StatusIcon",
-};
-</script>
-
-<style scoped></style>

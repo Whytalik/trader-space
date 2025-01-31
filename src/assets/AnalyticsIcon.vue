@@ -10,9 +10,3 @@
     <path d="M7 12l4-4 4 4 4-4" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "AnalyticsIcon",
-};
-</script>

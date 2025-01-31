@@ -8,20 +8,11 @@
   />
 </template>
 
-<script>
-import { mapState } from "pinia";
+<script setup>
 import { useRoutinesStore } from "../stores/routines";
+import DataBaseWrapper from "@/components/common/DataBase/DatabaseWrapper.vue";
 
-export default {
-  name: "RoutinesView",
-  computed: {
-    ...mapState(useRoutinesStore, ["routines", "routineColumns"]),
-    columns() {
-      return this.routineColumns;
-    },
-    routinesData() {
-      return this.routines;
-    },
-  },
-};
+const routinesStore = useRoutinesStore();
+const routinesData = routinesStore.routines;
+const columns = routinesStore.routineColumns;
 </script>

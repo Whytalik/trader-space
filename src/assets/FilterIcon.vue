@@ -13,11 +13,3 @@
     />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "FilterIcon",
-};
-</script>
-
-<style scoped></style>

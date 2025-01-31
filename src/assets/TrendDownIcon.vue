@@ -10,9 +10,3 @@
     <path d="M17 7v10H7" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "TrendDownIcon",
-};
-</script>

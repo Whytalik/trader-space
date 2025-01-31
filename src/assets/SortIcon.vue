@@ -11,11 +11,3 @@
     />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "SortIcon",
-};
-</script>
-
-<style scoped></style>

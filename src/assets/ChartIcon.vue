@@ -13,11 +13,3 @@
     <line x1="6" y1="20" x2="6" y2="16" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "ChartIcon",
-};
-</script>
-
-<style scoped></style>
