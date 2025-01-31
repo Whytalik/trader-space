@@ -1,20 +1,37 @@
 import { defineStore } from "pinia";
-import { routines } from "@/data/routines";
-import { routineColumns } from "@/data/routines";
+import { routines, routineColumns } from "@/data/routines";
+import { sortArray } from "@/utils/sortUtils";
 
 export const useRoutinesStore = defineStore("routines", {
   state: () => ({
     routines: routines,
-    nextId: 1,
     routineColumns: routineColumns,
+    nextId: Math.max(...routines.map((r) => r.id), 0) + 1,
+    tradeIdCache: {},
   }),
 
   getters: {
+    getSortedRoutines: (state) => (column) => {
+      if (state.sortedRoutinesCache[column]) {
+        return state.sortedRoutinesCache[column];
+      }
+
+      const sortedRoutines = sortArray([...state.routines], column);
+      state.sortedRoutinesCache[column] = sortedRoutines;
+      return sortedRoutines;
+    },
     getRoutinesByTradeId: (state) => {
       return (tradeId) => {
-        return state.routines.filter(
+        if (state.tradeIdCache[tradeId]) {
+          return state.tradeIdCache[tradeId];
+        }
+
+        const routinesForTrade = state.routines.filter(
           (routine) => routine.trade_ids && routine.trade_ids.includes(tradeId)
         );
+
+        state.tradeIdCache[tradeId] = routinesForTrade;
+        return routinesForTrade;
       };
     },
   },
@@ -48,6 +65,11 @@ export const useRoutinesStore = defineStore("routines", {
       const index = this.routines.findIndex((r) => r.id === id);
       if (index !== -1) {
         this.routines.splice(index, 1);
+        Object.keys(this.tradeIdCache).forEach((key) => {
+          this.tradeIdCache[key] = this.tradeIdCache[key].filter(
+            (r) => r.id !== id
+          );
+        });
       }
     },
   },
