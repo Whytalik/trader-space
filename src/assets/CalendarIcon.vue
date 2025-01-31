@@ -1,12 +1,12 @@
 <template>
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    class="icon" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    stroke-width="2" 
-    stroke-linecap="round" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
     stroke-linejoin="round"
   >
     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -18,12 +18,8 @@
 
 <script>
 export default {
-  name: "CalendarIcon"
+  name: "CalendarIcon",
 };
 </script>
 
-<style scoped>
-.icon {
-  @apply w-5 h-5;
-}
-</style> 
+<style scoped></style>

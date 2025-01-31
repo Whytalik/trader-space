@@ -5,3 +5,11 @@
     <line x1="12" y1="13" x2="12" y2="16" />
   </svg>
 </template> 
+
+<script>
+export default {
+  name: "CandlestickIcon"
+};
+</script>
+
+<style scoped></style>

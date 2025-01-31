@@ -22,7 +22,7 @@
 
 <script>
 import { useDatabaseStore } from "@/stores/databaseState";
-import BackIcon from "@/assets/DataBase/BackIcon.vue";
+import BackIcon from "@/assets/BackIcon.vue";
 
 export default {
   name: "SortMenu",

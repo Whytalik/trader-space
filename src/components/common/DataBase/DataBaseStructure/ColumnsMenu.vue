@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import BackIcon from "@/assets/DataBase/BackIcon.vue";
+import BackIcon from "@/assets/BackIcon.vue";
 
 export default {
   name: "ColumnsMenu",

@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import SortIcon from "@/assets/DataBase/SortIcon.vue";
-import ColumnsIcon from "@/assets/DataBase/ColumnsIcon.vue";
-import FilterIcon from "@/assets/DataBase/FilterIcon.vue";
-import PlusIcon from "@/assets/DataBase/PlusIcon.vue";
+import SortIcon from "@/assets/SortIcon.vue";
+import ColumnsIcon from "@/assets/ColumnsIcon.vue";
+import FilterIcon from "@/assets/FilterIcon.vue";
+import PlusIcon from "@/assets/PlusIcon.vue";
 
 export default {
   name: "DatabaseHeader",

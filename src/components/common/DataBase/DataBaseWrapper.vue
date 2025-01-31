@@ -69,7 +69,7 @@ import FilterMenu from "./DataBaseStructure/FilterMenu.vue";
 import SortMenu from "./DataBaseStructure/SortMenu.vue";
 
 export default {
-  name: "DataBaseWrapper",
+  name: "DatabaseWrapper",
   components: {
     ListView,
     DatabaseHeader,

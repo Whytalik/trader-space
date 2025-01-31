@@ -11,7 +11,7 @@
 
 <script>
 import { useThemeStore } from "../../stores/theme";
-import SunIcon from "../../assets/ThemeIcons/SunIcon.vue";
+import SunIcon from "@/assets/theme/SunIcon.vue";
 import MoonIcon from "../../assets/ThemeIcons/MoonIcon.vue";
 
 export default {
