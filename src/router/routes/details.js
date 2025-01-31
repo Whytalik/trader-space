@@ -1,41 +1,5 @@
 export const generateDetailRoutes = () => [
   {
-    path: "/routines/add",
-    name: "add-routine",
-    //component: () => import("../../views/AddRoutineView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: "Add Routine | Trader Space",
-    },
-  },
-  {
-    path: "/trades/add",
-    name: "add-trade",
-    //component: () => import("../../views/AddTradeView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: "Add Trade | Trader Space",
-    },
-  },
-  {
-    path: "/routines/:id/edit",
-    name: "edit-routine",
-    //component: () => import("../../views/EditRoutineView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: (route) => `Edit Routine #${route.params.id} | Trader Space`,
-    },
-  },
-  {
-    path: "/trades/:id/edit",
-    name: "edit-trade",
-    //component: () => import("../../views/EditTradeView.vue"),
-    meta: {
-      requiresAuth: true,
-      title: (route) => `Edit Trade #${route.params.id} | Trader Space`,
-    },
-  },
-  {
     path: "/routines/:id",
     name: "routine",
     component: () => import("../../components/routines/RoutineDetails.vue"),
@@ -51,6 +15,30 @@ export const generateDetailRoutes = () => [
     meta: {
       requiresAuth: true,
       title: (route) => `Trade #${route.params.id} | Trader Space`,
+    },
+  },
+  {
+    path: "/trades/form/:id?",
+    name: "TradeForm",
+    component: () => import("../../views/TradeFormView.vue"),
+    meta: {
+      requiresAuth: true,
+      title: (route) =>
+        route.params.id
+          ? `Edit Trade #${route.params.id} | Trader Space`
+          : "Add Trade | Trader Space",
+    },
+  },
+  {
+    path: "/routines/form/:id?",
+    name: "RoutineForm",
+    component: () => import("../../views/RoutineFormView.vue"),
+    meta: {
+      requiresAuth: true,
+      title: (route) =>
+        route.params.id
+          ? `Edit Routine #${route.params.id} | Trader Space`
+          : "Add Routine | Trader Space",
     },
   },
 ];

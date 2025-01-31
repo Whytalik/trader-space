@@ -12,4 +12,16 @@ router.beforeEach((to, from, next) => {
   authGuard(to, from, next);
 });
 
+router.addRoute({
+  path: '/trades/form/:id?',
+  name: 'TradeForm',
+  component: () => import('@/views/TradeFormView.vue')
+});
+
+router.addRoute({
+  path: '/routines/form/:id?',
+  name: 'RoutineForm',
+  component: () => import('@/views/RoutineFormView.vue')
+});
+
 export default router;

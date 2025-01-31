@@ -156,8 +156,7 @@ export default {
       }
     },
     handleEdit() {
-      // TODO: Implement edit functionality
-      console.log('Edit trade:', this.trade.id);
+      this.$router.push(`/trades/form/${this.trade.id}`);
     },
     handleDelete() {
       if (confirm('Are you sure you want to delete this trade?')) {

@@ -116,8 +116,7 @@ export default {
             return value;
         },
         handleEdit() {
-            // TODO: Implement edit functionality
-            console.log('Edit routine:', this.routine.id);
+            this.$router.push(`/routines/form/${this.routine.id}`);
         },
         handleDelete() {
             if (confirm('Are you sure you want to delete this routine?')) {

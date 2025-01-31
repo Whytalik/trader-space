@@ -1,5 +1,8 @@
 <template>
-  <div class="database-wrapper vertical-scroll" :class="{ 'no-data': !data.length }">
+  <div
+    class="database-wrapper vertical-scroll"
+    :class="{ 'no-data': !data.length }"
+  >
     <DatabaseHeader
       :title="title"
       :showColumnsMenu="showColumnsMenu"
@@ -9,7 +12,7 @@
       @toggle-columns-menu="toggleColumnsMenu"
       @toggle-filter-menu="toggleFilterMenu"
       @toggle-sort-menu="toggleSortMenu"
-      @add-item="$emit('add-item')"
+      @add-item="handleAddItem"
     />
 
     <ColumnsMenu
@@ -98,8 +101,8 @@ export default {
     },
     hideControls: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -181,6 +184,9 @@ export default {
     },
     updateVisibleColumns(columns) {
       this.databaseStore.setVisibleColumns(this.storeId, columns);
+    },
+    handleAddItem() {
+      this.$router.push(`${this.routePath}/form`);
     },
   },
 };
