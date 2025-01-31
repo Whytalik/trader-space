@@ -1,13 +1,13 @@
 <template>
   <div class="card">
-    <h2 class="card-title">{{ isEdit ? "Edit Routine" : "Add Routine" }}</h2>
+    <h2 class="card-title">{{ isEdit ? "Edit" : "Add" }} Routine</h2>
     <form @submit.prevent="handleSubmit" class="routine-form">
       <div class="form-grid">
         <!-- Basic Info -->
         <div class="form-section">
-          <h3 class="section-title">Basic Information</h3>
+          <h3 class="section-title">Basic Info</h3>
           <div class="form-group">
-            <label class="form-label">Routine Name</label>
+            <label class="form-label">Name</label>
             <input
               v-model="form.name"
               type="text"
@@ -26,36 +26,21 @@
           </div>
         </div>
 
-        <!-- Market Analysis -->
+        <!-- Details -->
         <div class="form-section">
-          <h3 class="section-title">Market Analysis</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Type</label>
-              <select v-model="form.type" class="form-select" required>
-                <option value="">Select Type</option>
-                <option
-                  v-for="option in formatOptions(RC.types)"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.label }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Pair</label>
-              <select v-model="form.pair" class="form-select" required>
-                <option value="">Select Pair</option>
-                <option
-                  v-for="option in formatOptions(RC.pairs)"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.label }}
-                </option>
-              </select>
-            </div>
+          <h3 class="section-title">Details</h3>
+          <div class="form-group">
+            <label class="form-label">Pair</label>
+            <select v-model="form.pair" class="form-select" required>
+              <option value="">Select Pair</option>
+              <option
+                v-for="option in formatOptions(RC.pairs)"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
             <label class="form-label">Narrative</label>
@@ -70,31 +55,11 @@
               </option>
             </select>
           </div>
-        </div>
-
-        <!-- Execution -->
-        <div class="form-section">
-          <h3 class="section-title">Execution</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Plan</label>
-              <select v-model="form.plan" class="form-select" required>
-                <option :value="true">Yes</option>
-                <option :value="false">No</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Execution Status</label>
-              <select v-model="form.execution" class="form-select" required>
-                <option value="">Select Status</option>
-                <option
-                  v-for="option in formatOptions(RC.execution)"
-                  :key="option.value"
-                  :value="option.value"
-                >
-                  {{ option.label }}
-                </option>
-              </select>
+          <div class="form-group">
+            <label class="form-label">Plan</label>
+            <div class="toggle-wrapper">
+              <input type="checkbox" v-model="form.plan" class="toggle-input" />
+              <span class="toggle-label">{{ form.plan ? 'Yes' : 'No' }}</span>
             </div>
           </div>
         </div>
@@ -102,6 +67,19 @@
         <!-- Results -->
         <div class="form-section">
           <h3 class="section-title">Results</h3>
+          <div class="form-group">
+            <label class="form-label">Execution</label>
+            <select v-model="form.execution" class="form-select" required>
+              <option value="">Select Execution</option>
+              <option
+                v-for="option in formatOptions(RC.execution)"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
           <div class="form-group">
             <label class="form-label">Outcome</label>
             <select v-model="form.outcome" class="form-select" required>
@@ -117,11 +95,11 @@
           </div>
         </div>
 
-        <!-- Related Trades -->
+        <!-- Related Data -->
         <div class="form-section">
-          <h3 class="section-title">Related Trades</h3>
+          <h3 class="section-title">Related Data</h3>
           <div class="form-group">
-            <label class="form-label">Select Trades</label>
+            <label class="form-label">Related Trades</label>
             <select v-model="form.trade_ids" class="form-select" multiple>
               <option
                 v-for="trade in tradesStore.trades"
@@ -131,9 +109,26 @@
                 #{{ trade.id }} - {{ trade.name }}
               </option>
             </select>
-            <span class="form-help"
-              >Hold Ctrl/Cmd to select multiple trades</span
-            >
+            <span class="form-help">Hold Ctrl/Cmd to select multiple trades</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Main Analysis</label>
+            <input 
+              type="number" 
+              v-model.number="form.main_analysis" 
+              class="form-input"
+              min="0"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sub Analysis</label>
+            <input 
+              type="text" 
+              v-model="form.sub_analysis" 
+              class="form-input"
+              placeholder="Enter comma-separated IDs"
+              @input="handleSubAnalysisInput"
+            />
           </div>
         </div>
       </div>
@@ -205,7 +200,7 @@ export default {
         outcome: "",
         trade_ids: [],
         main_analysis: null,
-        sub_analysis: [],
+        sub_analysis: []
       };
     },
     formatOptions(options) {
@@ -235,6 +230,14 @@ export default {
         console.error("Error saving routine:", error);
       }
     },
+    handleSubAnalysisInput(event) {
+      // Convert comma-separated string to array of numbers
+      const value = event.target.value;
+      this.form.sub_analysis = value
+        .split(',')
+        .map(id => parseInt(id.trim()))
+        .filter(id => !isNaN(id));
+    }
   },
 };
 </script>
@@ -281,10 +284,6 @@ export default {
     disabled:bg-gray-100 disabled:cursor-not-allowed;
 }
 
-.form-row {
-  @apply grid grid-cols-2 gap-4 mb-4;
-}
-
 .form-actions {
   @apply flex justify-end space-x-4 mt-6;
 }
@@ -309,17 +308,5 @@ export default {
 /* Стилі для множинного select */
 select[multiple] {
   @apply h-32;
-}
-
-.timeframes-grid {
-  @apply grid gap-6 md:grid-cols-2;
-}
-
-.timeframe-item {
-  @apply space-y-2;
-}
-
-.timeframe-title {
-  @apply text-base font-medium text-gray-700 dark:text-gray-300;
 }
 </style>

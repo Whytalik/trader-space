@@ -1,10 +1,42 @@
 {
-  "1M": "1M",
-  "1W": "1W",
-  "1D": "1D",
-  "4H": "4H",
-  "1H": "1H",
-  "30M": "30M",
-  "15M": "15M",
-  "5M": "5M"
+  "1M": {
+    "label": "1M",
+    "image": "",
+    "description": ""
+  },
+  "1W": {
+    "label": "1W",
+    "image": "",
+    "description": ""
+  },
+  "1D": {
+    "label": "1D",
+    "image": "",
+    "description": ""
+  },
+  "4H": {
+    "label": "4H",
+    "image": "",
+    "description": ""
+  },
+  "1H": {
+    "label": "1H",
+    "image": "",
+    "description": ""
+  },
+  "30M": {
+    "label": "30M",
+    "image": "",
+    "description": ""
+  },
+  "15M": {
+    "label": "15M",
+    "image": "",
+    "description": ""
+  },
+  "5M": {
+    "label": "5M",
+    "image": "",
+    "description": ""
+  }
 }
