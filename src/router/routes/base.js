@@ -1,5 +1,5 @@
 import { navigationConfig } from "@/router/navigation";
-import { formatComponentName } from "../../utils/formatters";
+import { formatComponentName } from "@/utils/formatters";
 
 const formatRouteName = (name) => name.toLowerCase().replace(/\s+/g, "-");
 
@@ -22,7 +22,7 @@ export const generateBaseRoutes = () => {
         createRoute(
           item.path,
           formatRouteName(item.name),
-          `../../views/${formatComponentName(item.name)}.vue`,
+          `@/views/${formatComponentName(item.name)}.vue`,
           `${item.name} | Trader Space`
         )
       );
@@ -33,7 +33,7 @@ export const generateBaseRoutes = () => {
     createRoute(
       "/trades/form/:id?",
       "TradeForm",
-      "../../views/TradeFormView.vue",
+      "@/views/TradeFormView.vue",
       (route) =>
         route.params.id
           ? `Edit Trade #${route.params.id} | Trader Space`
@@ -42,7 +42,7 @@ export const generateBaseRoutes = () => {
     createRoute(
       "/routines/form/:id?",
       "RoutineForm",
-      "../../views/RoutineFormView.vue",
+      "@/views/RoutineFormView.vue",
       (route) =>
         route.params.id
           ? `Edit Routine #${route.params.id} | Trader Space`

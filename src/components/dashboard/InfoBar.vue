@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import {
   getCurrentTime,
   getCurrentDay,
@@ -39,35 +39,14 @@ import {
   getCurrentYear,
 } from "@/utils/dateUtils";
 
-export default {
-  name: "InfoBar",
-  computed: {
-    currentTime() {
-      return getCurrentTime();
-    },
-    currentDay() {
-      return getCurrentDay();
-    },
-    weekday() {
-      return getWeekday();
-    },
-    weekNumber() {
-      return getWeekNumber();
-    },
-    currentMonth() {
-      return getCurrentMonth();
-    },
-    monthNumber() {
-      return getMonthNumber();
-    },
-    currentQuarter() {
-      return getCurrentQuarter();
-    },
-    currentYear() {
-      return getCurrentYear();
-    },
-  },
-};
+const currentTime = getCurrentTime();
+const currentDay = getCurrentDay();
+const weekday = getWeekday();
+const weekNumber = getWeekNumber();
+const currentMonth = getCurrentMonth();
+const monthNumber = getMonthNumber();
+const currentQuarter = getCurrentQuarter();
+const currentYear = getCurrentYear();
 </script>
 
 <style scoped>

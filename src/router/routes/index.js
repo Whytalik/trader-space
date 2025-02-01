@@ -1,6 +1,6 @@
 import { generateBaseRoutes } from "./base";
 import { generateDetailRoutes } from "./details";
-import AuthLayout from "../../components/auth/AuthLayout.vue";
+import AuthLayout from "@/components/auth/AuthLayout.vue";
 
 export const routes = [
   ...generateBaseRoutes(),

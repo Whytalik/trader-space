@@ -3,7 +3,6 @@
     <h2 class="card-title">{{ isEdit ? "Edit" : "Add" }} Routine</h2>
     <form @submit.prevent="handleSubmit" class="routine-form">
       <div class="form-grid">
-        <!-- Basic Info -->
         <div class="form-section">
           <h3 class="section-title">Basic Info</h3>
           <div class="form-group">
@@ -26,7 +25,6 @@
           </div>
         </div>
 
-        <!-- Details -->
         <div class="form-section">
           <h3 class="section-title">Details</h3>
           <div class="form-group">
@@ -59,12 +57,11 @@
             <label class="form-label">Plan</label>
             <div class="toggle-wrapper">
               <input type="checkbox" v-model="form.plan" class="toggle-input" />
-              <span class="toggle-label">{{ form.plan ? 'Yes' : 'No' }}</span>
+              <span class="toggle-label">{{ form.plan ? "Yes" : "No" }}</span>
             </div>
           </div>
         </div>
 
-        <!-- Results -->
         <div class="form-section">
           <h3 class="section-title">Results</h3>
           <div class="form-group">
@@ -95,7 +92,6 @@
           </div>
         </div>
 
-        <!-- Related Data -->
         <div class="form-section">
           <h3 class="section-title">Related Data</h3>
           <div class="form-group">
@@ -109,22 +105,24 @@
                 #{{ trade.id }} - {{ trade.name }}
               </option>
             </select>
-            <span class="form-help">Hold Ctrl/Cmd to select multiple trades</span>
+            <span class="form-help"
+              >Hold Ctrl/Cmd to select multiple trades</span
+            >
           </div>
           <div class="form-group">
             <label class="form-label">Main Analysis</label>
-            <input 
-              type="number" 
-              v-model.number="form.main_analysis" 
+            <input
+              type="number"
+              v-model.number="form.main_analysis"
               class="form-input"
               min="0"
             />
           </div>
           <div class="form-group">
             <label class="form-label">Sub Analysis</label>
-            <input 
-              type="text" 
-              v-model="form.sub_analysis" 
+            <input
+              type="text"
+              v-model="form.sub_analysis"
               class="form-input"
               placeholder="Enter comma-separated IDs"
               @input="handleSubAnalysisInput"
@@ -145,101 +143,92 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, onMounted } from "vue";
 import { ROUTINE_CONSTANTS as RC } from "@/data/data";
 import { useRoutinesStore } from "@/stores/routines";
 import { useTradesStore } from "@/stores/trades";
+import { useRouter } from "vue-router";
 
-export default {
-  name: "RoutineForm",
-  props: {
-    routineId: {
-      type: Number,
-      default: null,
-    },
+const { routineId } = defineProps({
+  routineId: {
+    type: Number,
+    default: null,
   },
-  data() {
-    return {
-      RC,
-      form: this.getInitialForm(),
-      routinesStore: useRoutinesStore(),
-      tradesStore: useTradesStore(),
-    };
-  },
-  computed: {
-    isEdit() {
-      return !!this.routineId;
-    },
-  },
-  created() {
-    if (this.isEdit) {
-      const routine = this.routinesStore.routines.find(
-        (r) => r.id === this.routineId
-      );
-      if (routine) {
-        Object.keys(this.form).forEach((key) => {
-          if (routine[key] !== undefined) {
-            this.form[key] = routine[key];
-          }
-        });
-      } else {
-        this.$router.push("/routines");
-      }
-    }
-  },
-  methods: {
-    getInitialForm() {
-      return {
-        name: "",
-        date: new Date().toISOString().split("T")[0],
-        pair: "",
-        type: "",
-        narrative: "",
-        plan: true,
-        execution: "",
-        outcome: "",
-        trade_ids: [],
-        main_analysis: null,
-        sub_analysis: []
-      };
-    },
-    formatOptions(options) {
-      if (!options) {
-        return [];
-      }
+});
 
-      return Object.keys(options).map((key) => ({
-        value: options[key],
-        label: key
-          .split("_")
-          .map(
-            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-          )
-          .join(" "),
-      }));
-    },
-    async handleSubmit() {
-      try {
-        if (this.isEdit) {
-          await this.routinesStore.updateRoutine(this.routineId, this.form);
-        } else {
-          await this.routinesStore.addRoutine(this.form);
+const form = ref(getInitialForm());
+const routinesStore = useRoutinesStore();
+const tradesStore = useTradesStore();
+const router = useRouter();
+
+const isEdit = computed(() => !!routineId);
+
+onMounted(() => {
+  if (isEdit.value) {
+    const routine = routinesStore.routines.find(
+      (r) => r.id === routineId
+    );
+    if (routine) {
+      Object.keys(form.value).forEach((key) => {
+        if (routine[key] !== undefined) {
+          form.value[key] = routine[key];
         }
-        this.$router.push("/routines");
-      } catch (error) {
-        console.error("Error saving routine:", error);
-      }
-    },
-    handleSubAnalysisInput(event) {
-      // Convert comma-separated string to array of numbers
-      const value = event.target.value;
-      this.form.sub_analysis = value
-        .split(',')
-        .map(id => parseInt(id.trim()))
-        .filter(id => !isNaN(id));
+      });
+    } else {
+      router.push("/routines");
     }
-  },
-};
+  }
+});
+
+function getInitialForm() {
+  return {
+    name: "",
+    date: new Date().toISOString().split("T")[0],
+    pair: "",
+    narrative: "",
+    plan: true,
+    execution: "",
+    outcome: "",
+    trade_ids: [],
+    main_analysis: null,
+    sub_analysis: [],
+  };
+}
+
+function formatOptions(options) {
+  if (!options) {
+    return [];
+  }
+  return Object.keys(options).map((key) => ({
+    value: options[key],
+    label: key
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" "),
+  }));
+}
+
+async function handleSubmit() {
+  try {
+    if (isEdit.value) {
+      await routinesStore.updateRoutine(routineId, form.value);
+    } else {
+      await routinesStore.addRoutine(form.value);
+    }
+    router.push("/routines");
+  } catch (error) {
+    console.error("Error saving routine:", error);
+  }
+}
+
+function handleSubAnalysisInput(event) {
+  const value = event.target.value;
+  form.value.sub_analysis = value
+    .split(",")
+    .map((id) => parseInt(id.trim()))
+    .filter((id) => !isNaN(id));
+}
 </script>
 
 <style scoped>
@@ -305,7 +294,6 @@ export default {
   @apply text-xs text-gray-500 dark:text-gray-400 mt-1;
 }
 
-/* Стилі для множинного select */
 select[multiple] {
   @apply h-32;
 }

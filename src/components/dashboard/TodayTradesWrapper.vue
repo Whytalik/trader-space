@@ -17,33 +17,20 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useTradesStore } from "@/stores/trades";
 import DataBaseWrapper from "@/components/common/DataBase/DataBaseWrapper.vue";
+import { computed } from "vue";
 
-export default {
-  name: "TodayTradesWrapper",
-  components: {
-    DataBaseWrapper,
-  },
-  data() {
-    return {
-      trades: [],
-      columns: [],
-    };
-  },
-  computed: {
-    todayTrades() {
-      const today = new Date().toISOString().split("T")[0];
-      return this.trades.filter((trade) => trade.date === today);
-    },
-  },
-  created() {
-    const tradesStore = useTradesStore();
-    this.trades = tradesStore.getSortedTrades();
-    this.columns = tradesStore.tradeColumns;
-  },
-};
+const tradesStore = useTradesStore();
+
+const trades = tradesStore.getSortedTrades();
+const columns = tradesStore.tradeColumns;
+
+const todayTrades = computed(() => {
+  const today = new Date().toISOString().split("T")[0];
+  return trades.filter((trade) => trade.date === today);
+});
 </script>
 
 <style scoped>

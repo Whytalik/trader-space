@@ -42,60 +42,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { defineProps, defineEmits } from "vue";
 import SortIcon from "@/assets/SortIcon.vue";
 import ColumnsIcon from "@/assets/ColumnsIcon.vue";
 import FilterIcon from "@/assets/FilterIcon.vue";
 import PlusIcon from "@/assets/PlusIcon.vue";
 
-export default {
-  name: "DatabaseHeader",
-  components: {
-    SortIcon,
-    ColumnsIcon,
-    FilterIcon,
-    PlusIcon,
-  },
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    showColumnsMenu: {
-      type: Boolean,
-      default: false,
-    },
-    showFilterMenu: {
-      type: Boolean,
-      default: false,
-    },
-    showSortMenu: {
-      type: Boolean,
-      default: false,
-    },
-    hideControls: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: [
-    "toggle-columns-menu",
-    "toggle-filter-menu",
-    "toggle-sort-menu",
-    "add-item",
-  ],
-  methods: {
-    toggleColumnsMenu() {
-      this.$emit("toggle-columns-menu");
-    },
-    toggleFilterMenu() {
-      this.$emit("toggle-filter-menu");
-    },
-    toggleSortMenu() {
-      this.$emit("toggle-sort-menu");
-    },
-  },
-};
+defineProps({
+  title: String,
+  showColumnsMenu: Boolean,
+  showFilterMenu: Boolean,
+  showSortMenu: Boolean,
+  hideControls: Boolean,
+});
+
+const emit = defineEmits([
+  "toggle-columns-menu",
+  "toggle-filter-menu",
+  "toggle-sort-menu",
+  "add-item",
+]);
+
+const toggleColumnsMenu = () => emit("toggle-columns-menu");
+const toggleFilterMenu = () => emit("toggle-filter-menu");
+const toggleSortMenu = () => emit("toggle-sort-menu");
 </script>
 
 <style scoped>

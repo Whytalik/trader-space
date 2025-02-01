@@ -12,36 +12,26 @@
   />
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import BaseAuthForm from "./UniversalForm/BaseAuthForm.vue";
-import { useAuthStore } from "../../stores/auth";
-import { loginSchema } from "../../schemas/auth";
-import { useUserStore } from "../../stores/user";
-import { signInFields } from "../../constants/signInFields";
+import { useUserStore } from "@/stores/user";
+import { loginSchema } from "@/schemas/auth";
+import { signInFields } from "@/constants/signInFields";
+import { useRouter } from "vue-router";
 
-export default {
-  name: "LoginView",
-  components: { BaseAuthForm },
-  data() {
-    return {
-      schema: loginSchema,
-      fields: signInFields,
-      errorMessage: "",
-    };
-  },
-  created() {
-    this.authStore = useAuthStore();
-    this.userStore = useUserStore();
-  },
-  methods: {
-    async signInHandler(values) {
-      try {
-        await this.userStore.signIn(values.email, values.password);
-        this.$router.push({ name: "home" });
-      } catch (error) {
-        this.errorMessage = error.message;
-      }
-    },
-  },
+const schema = loginSchema;
+const fields = signInFields;
+const errorMessage = ref("");
+const userStore = useUserStore();
+const router = useRouter();
+
+const signInHandler = async (values) => {
+  try {
+    await userStore.signIn(values.email, values.password);
+    router.push({ name: "home" });
+  } catch (error) {
+    errorMessage.value = error.message;
+  }
 };
 </script>

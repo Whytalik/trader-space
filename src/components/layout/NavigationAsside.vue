@@ -1,18 +1,41 @@
 <template>
   <nav class="nav-aside">
     <div class="nav-group" v-for="(group, index) in menuGroups" :key="index">
-      <div class="nav-group-header" :class="{ 'nav-group-header--active': group.isOpen }" @click="toggleGroup(index)">
+      <div
+        class="nav-group-header"
+        :class="{ 'nav-group-header--active': group.isOpen }"
+        @click="toggleGroup(index)"
+      >
         <span class="nav-group-title">{{ group.title }}</span>
-        <svg class="nav-group-icon" :class="{ 'rotate-180': group.isOpen }" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        <svg
+          class="nav-group-icon"
+          :class="{ 'rotate-180': group.isOpen }"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </div>
-      <transition name="slide" @enter="startTransition" @after-enter="afterTransition" @before-leave="beforeTransition"
-        @leave="endTransition">
+      <transition
+        name="slide"
+        @enter="startTransition"
+        @after-enter="afterTransition"
+        @before-leave="beforeTransition"
+        @leave="endTransition"
+      >
         <ul v-show="group.isOpen" class="nav-items">
           <li v-for="item in group.items" :key="item.path">
-            <router-link :to="item.path" class="nav-link" :class="{ 'nav-link--active': isActiveRoute(item) }">
+            <router-link
+              :to="item.path"
+              class="nav-link"
+              :class="{ 'nav-link--active': isActiveRoute(item) }"
+            >
               {{ item.name }}
             </router-link>
           </li>
@@ -22,52 +45,49 @@
   </nav>
 </template>
 
-<script>
-import { useRoute } from 'vue-router';
-import { navigationConfig } from '@/router/navigation';
+<script setup>
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+import { navigationConfig } from "@/router/navigation";
 
-export default {
-  name: "NavigationAsside",
-  data() {
-    return {
-      menuGroups: navigationConfig.map(group => ({
-        ...group,
-        isOpen: group.defaultOpen
-      }))
-    };
-  },
-  setup() {
-    const route = useRoute();
-    return { route };
-  },
-  methods: {
-    toggleGroup(index) {
-      this.menuGroups[index].isOpen = !this.menuGroups[index].isOpen;
-    },
-    startTransition(el) {
-      el.style.height = '0';
-      el.style.opacity = '0';
-      void el.offsetHeight;
-      el.style.height = el.scrollHeight + 'px';
-      el.style.opacity = '1';
-    },
-    afterTransition(el) {
-      el.style.height = 'auto';
-    },
-    beforeTransition(el) {
-      el.style.height = el.scrollHeight + 'px';
-    },
-    endTransition(el) {
-      el.style.height = '0';
-      el.style.opacity = '0';
-    },
-    isActiveRoute(item) {
-      if (item.children) {
-        return this.route.path.startsWith(item.path);
-      }
-      return this.route.path === item.path;
-    }
+const route = useRoute();
+const menuGroups = ref(
+  navigationConfig.map((group) => ({
+    ...group,
+    isOpen: group.defaultOpen,
+  }))
+);
+
+const toggleGroup = (index) => {
+  menuGroups.value[index].isOpen = !menuGroups.value[index].isOpen;
+};
+
+const startTransition = (el) => {
+  el.style.height = "0";
+  el.style.opacity = "0";
+  void el.offsetHeight;
+  el.style.height = el.scrollHeight + "px";
+  el.style.opacity = "1";
+};
+
+const afterTransition = (el) => {
+  el.style.height = "auto";
+};
+
+const beforeTransition = (el) => {
+  el.style.height = el.scrollHeight + "px";
+};
+
+const endTransition = (el) => {
+  el.style.height = "0";
+  el.style.opacity = "0";
+};
+
+const isActiveRoute = (item) => {
+  if (item.children) {
+    return route.path.startsWith(item.path);
   }
+  return route.path === item.path;
 };
 </script>
 

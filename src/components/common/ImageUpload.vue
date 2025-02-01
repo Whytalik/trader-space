@@ -1,19 +1,28 @@
 <template>
   <div class="image-upload">
-    <div 
+    <div
       class="image-preview"
       @click="triggerFileInput"
       :class="{ 'has-image': imageUrl }"
     >
-      <img 
-        v-if="imageUrl" 
-        :src="imageUrl" 
+      <img
+        v-if="imageUrl"
+        :src="imageUrl"
         alt="Preview"
         class="preview-image"
       />
       <div v-else class="placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+            clip-rule="evenodd"
+          />
         </svg>
         <span>Click to upload image</span>
       </div>
@@ -34,40 +43,42 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ImageUpload',
-  props: {
-    value: {
-      type: Object,
-      default: () => ({ image: null, description: '' })
-    }
+<script setup>
+import { ref, watch, defineProps, defineEmits } from "vue";
+
+const { value } = defineProps({
+  value: {
+    type: Object,
+    default: () => ({ image: null, description: "" }),
   },
-  data() {
-    return {
-      imageUrl: null,
-      description: this.value.description || ''
-    }
-  },
-  methods: {
-    triggerFileInput() {
-      this.$refs.fileInput.click()
-    },
-    handleFileChange(event) {
-      const file = event.target.files[0]
-      if (file) {
-        this.imageUrl = URL.createObjectURL(file)
-        this.emitUpdate()
-      }
-    },
-    emitUpdate() {
-      this.$emit('input', {
-        image: this.imageUrl,
-        description: this.description
-      })
-    }
+});
+
+const emit = defineEmits(["input"]);
+
+const imageUrl = ref(value.image);
+const description = ref(value.description || "");
+
+const triggerFileInput = () => {
+  const fileInput = document.querySelector('input[type="file"]');
+  fileInput.click();
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    imageUrl.value = URL.createObjectURL(file);
+    emitUpdate();
   }
-}
+};
+
+const emitUpdate = () => {
+  emit("input", {
+    image: imageUrl.value,
+    description: description.value,
+  });
+};
+
+watch([imageUrl, description], emitUpdate);
 </script>
 
 <style scoped>
@@ -104,4 +115,4 @@ export default {
     resize-y;
   min-height: 60px;
 }
-</style> 
+</style>

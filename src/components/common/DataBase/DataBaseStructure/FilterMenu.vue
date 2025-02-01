@@ -4,7 +4,6 @@
       <BackIcon class="back-icon" @click="closeMenu" />
     </div>
     <div class="scrollable-filters vertical-scroll">
-      <!-- Текстовий пошук -->
       <div class="filter-item">
         <div class="filter-header">Search Text</div>
         <div class="filter-controls">
@@ -18,7 +17,6 @@
         </div>
       </div>
 
-      <!-- Фільтр по даті -->
       <div class="filter-item">
         <div class="filter-header">Date Range</div>
         <div class="filter-controls date-range">
@@ -52,44 +50,34 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useDatabaseStore } from "@/stores/databaseState";
 import BackIcon from "@/assets/BackIcon.vue";
+import { defineProps, ref, watch } from "vue";
 
-export default {
-  name: "FilterMenu",
-  components: {
-    BackIcon,
+const { storeId } = defineProps({
+  storeId: {
+    type: String,
+    required: true,
   },
-  props: {
-    storeId: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
-    const databaseStore = useDatabaseStore();
-    return { databaseStore };
-  },
-  data() {
-    const databaseStore = useDatabaseStore();
-    return {
-      filters: { ...databaseStore.getFilters(this.storeId) },
-    };
-  },
-  methods: {
-    closeMenu() {
-      this.$emit("close-menu");
-    },
-    clearFilters() {
-      this.databaseStore.clearFilters(this.storeId);
-      this.filters = { ...this.databaseStore.getFilters(this.storeId) };
-    },
-    updateFilters() {
-      this.databaseStore.setFilters(this.storeId, this.filters);
-    },
-  },
+});
+
+const databaseStore = useDatabaseStore();
+const filters = ref({ ...databaseStore.getFilters(storeId) });
+
+const emit = defineEmits(["close-menu"]);
+const closeMenu = () => emit("close-menu");
+
+const clearFilters = () => {
+  databaseStore.clearFilters(storeId);
+  filters.value = { ...databaseStore.getFilters(storeId) };
 };
+
+const updateFilters = () => {
+  databaseStore.setFilters(storeId, filters.value);
+};
+
+watch(filters, updateFilters, { deep: true });
 </script>
 
 <style scoped>

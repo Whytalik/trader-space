@@ -10,9 +10,9 @@
           </CardItem>
           <CardItem>
             <span class="stat-label">Total Profit</span>
-            <span class="stat-value" :class="getProfitClass(totalProfit)"
-              >${{ totalProfit }}</span
-            >
+            <span class="stat-value" :class="getProfitClass(totalProfit)">
+              ${{ totalProfit }}
+            </span>
           </CardItem>
         </div>
       </div>
@@ -47,30 +47,31 @@
   </BaseCard>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
 import { useTradesStore } from "@/stores/trades";
 import { useTradeStats } from "@/composables/useTradeStats";
-import { computed } from "vue";
 
-export default {
-  name: "TraderStatsCard",
-  setup() {
-    const tradesStore = useTradesStore();
-    const trades = computed(() => tradesStore.trades);
-    const stats = useTradeStats(trades);
+const tradesStore = useTradesStore();
+const trades = computed(() => tradesStore.trades);
+const stats = useTradeStats(trades);
 
-    return {
-      ...stats,
-      getProfitClass(profit) {
-        return {
-          win: profit > 0,
-          lose: profit < 0,
-          neutral: profit === 0,
-        };
-      },
-    };
-  },
-};
+const getProfitClass = (profit) => ({
+  win: profit > 0,
+  lose: profit < 0,
+  neutral: profit === 0,
+});
+
+const {
+  totalTrades,
+  totalProfit,
+  avgWin,
+  largestWin,
+  avgLoss,
+  largestLoss,
+  avgRisk,
+  maxRisk,
+} = stats;
 </script>
 
 <style scoped>

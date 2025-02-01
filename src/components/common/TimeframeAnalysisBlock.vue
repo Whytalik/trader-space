@@ -23,28 +23,28 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'TimeframeAnalysisBlock',
-  props: {
-    modelValue: {
-      type: Object,
-      required: true,
-      default: () => ({
-        image_url: '',
-        description: ''
-      })
-    }
+<script setup>
+import { defineProps, defineEmits } from "vue";
+
+const { modelValue } = defineProps({
+  modelValue: {
+    type: Object,
+    required: true,
+    default: () => ({
+      image_url: "",
+      description: "",
+    }),
   },
-  methods: {
-    updateValue(key, value) {
-      this.$emit('update:modelValue', {
-        ...this.modelValue,
-        [key]: value
-      });
-    }
-  }
-}
+});
+
+const emit = defineEmits(["update:modelValue"]);
+
+const updateValue = (key, value) => {
+  emit("update:modelValue", {
+    ...modelValue,
+    [key]: value,
+  });
+};
 </script>
 
 <style scoped>
@@ -75,4 +75,4 @@ export default {
     resize-y;
   min-height: 80px;
 }
-</style> 
+</style>

@@ -1,9 +1,8 @@
 <template>
   <div class="card">
-    <h2 class="card-title">{{ isEdit ? 'Edit Trade' : 'Add Trade' }}</h2>
+    <h2 class="card-title">{{ isEdit ? "Edit Trade" : "Add Trade" }}</h2>
     <form @submit.prevent="handleSubmit" class="trade-form">
       <div class="form-grid">
-        <!-- Basic Info -->
         <div class="form-section">
           <h3 class="section-title">Basic Information</h3>
           <div class="form-group">
@@ -25,21 +24,16 @@
             />
           </div>
         </div>
-
-        <!-- Trade Setup -->
         <div class="form-section">
           <h3 class="section-title">Trade Setup</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Pair</label>
-              <select
-                v-model="form.pair"
-                class="form-select"
-                required
-              >
+              <select v-model="form.pair" class="form-select" required>
                 <option value="">Select Pair</option>
-                <option v-for="option in formatOptions(TC.pairs)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.pairs)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -48,14 +42,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">Session</label>
-              <select
-                v-model="form.session"
-                class="form-select"
-                required
-              >
+              <select v-model="form.session" class="form-select" required>
                 <option value="">Select Session</option>
-                <option v-for="option in formatOptions(TC.sessions)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.sessions)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -66,14 +57,11 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Direction</label>
-              <select
-                v-model="form.direction"
-                class="form-select"
-                required
-              >
+              <select v-model="form.direction" class="form-select" required>
                 <option value="">Select Direction</option>
-                <option v-for="option in formatOptions(TC.directions)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.directions)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -82,14 +70,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">Position Type</label>
-              <select
-                v-model="form.position_type"
-                class="form-select"
-                required
-              >
+              <select v-model="form.position_type" class="form-select" required>
                 <option value="">Select Position Type</option>
-                <option v-for="option in formatOptions(TC.positionTypes)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.positionTypes)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -98,21 +83,16 @@
             </div>
           </div>
         </div>
-
-        <!-- Trade Points -->
         <div class="form-section">
           <h3 class="section-title">Trade Points</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Point A</label>
-              <select
-                v-model="form.point_A"
-                class="form-select"
-                required
-              >
+              <select v-model="form.point_A" class="form-select" required>
                 <option value="">Select Point A</option>
-                <option v-for="option in formatOptions(TC.pointTypes)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.pointTypes)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -121,14 +101,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">Point B</label>
-              <select
-                v-model="form.point_B"
-                class="form-select"
-                required
-              >
+              <select v-model="form.point_B" class="form-select" required>
                 <option value="">Select Point B</option>
-                <option v-for="option in formatOptions(TC.pointTypes)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.pointTypes)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -138,14 +115,11 @@
           </div>
           <div class="form-group">
             <label class="form-label">FTA</label>
-            <select
-              v-model="form.fta"
-              class="form-select"
-              required
-            >
+            <select v-model="form.fta" class="form-select" required>
               <option value="">Select FTA</option>
-              <option v-for="option in formatOptions(TC.pointTypes)" 
-                :key="option.value" 
+              <option
+                v-for="option in formatOptions(TC.pointTypes)"
+                :key="option.value"
                 :value="option.value"
               >
                 {{ option.label }}
@@ -153,21 +127,16 @@
             </select>
           </div>
         </div>
-
-        <!-- Entry & Risk -->
         <div class="form-section">
           <h3 class="section-title">Entry & Risk</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Entry Model</label>
-              <select
-                v-model="form.entry_model"
-                class="form-select"
-                required
-              >
+              <select v-model="form.entry_model" class="form-select" required>
                 <option value="">Select Entry Model</option>
-                <option v-for="option in formatOptions(TC.entryModels)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.entryModels)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -176,14 +145,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">Entry Timeframe</label>
-              <select
-                v-model="form.entry_tf"
-                class="form-select"
-                required
-              >
+              <select v-model="form.entry_tf" class="form-select" required>
                 <option value="">Select Timeframe</option>
-                <option v-for="option in formatOptions(TC.entryTimeframes)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.entryTimeframes)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -204,14 +170,11 @@
             </div>
             <div class="form-group">
               <label class="form-label">Stop Loss</label>
-              <select
-                v-model="form.stop_loss"
-                class="form-select"
-                required
-              >
+              <select v-model="form.stop_loss" class="form-select" required>
                 <option value="">Select Stop Loss</option>
-                <option v-for="option in formatOptions(TC.stopLossTypes)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.stopLossTypes)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -220,21 +183,16 @@
             </div>
           </div>
         </div>
-
-        <!-- Results -->
         <div class="form-section">
           <h3 class="section-title">Results</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Result</label>
-              <select
-                v-model="form.result"
-                class="form-select"
-                required
-              >
+              <select v-model="form.result" class="form-select" required>
                 <option value="">Select Result</option>
-                <option v-for="option in formatOptions(TC.results)" 
-                  :key="option.value" 
+                <option
+                  v-for="option in formatOptions(TC.results)"
+                  :key="option.value"
                   :value="option.value"
                 >
                   {{ option.label }}
@@ -253,105 +211,85 @@
           </div>
         </div>
       </div>
-
       <div class="form-actions">
         <button type="button" class="btn btn-secondary" @click="$router.back()">
           Cancel
         </button>
         <button type="submit" class="btn btn-primary">
-          {{ isEdit ? 'Update' : 'Add' }} Trade
+          {{ isEdit ? "Update" : "Add" }} Trade
         </button>
       </div>
     </form>
   </div>
 </template>
 
-<script>
+<script setup>
 import { TRADE_CONSTANTS as TC } from "@/data/data";
 import { useTradesStore } from "@/stores/trades";
-import { useRoutinesStore } from "@/stores/routines";
+import { useRouter } from "vue-router";
+import { ref, computed, onMounted } from "vue";
 
-export default {
-  name: "TradeForm",
-  props: {
-    tradeId: {
-      type: Number,
-      default: null
-    }
-  },
-  data() {
-    return {
-      TC,
-      form: this.getInitialForm(),
-      tradesStore: useTradesStore(),
-      routinesStore: useRoutinesStore()
-    };
-  },
-  computed: {
-    isEdit() {
-      return !!this.tradeId;
-    }
-  },
-  created() {
-    if (this.isEdit) {
-      console.log('Trade ID:', this.tradeId);
-      const trade = this.tradesStore.trades.find(t => t.id === this.tradeId);
-      console.log('Found trade:', trade);
-      
-      if (trade) {
-        console.log('Current form:', this.form);
-        Object.keys(this.form).forEach(key => {
-          console.log(`Setting ${key}:`, trade[key]);
-          if (trade[key] !== undefined) {
-            this.form[key] = trade[key];
-          }
-        });
-        console.log('Updated form:', this.form);
-      } else {
-        console.log('Trade not found');
-        this.$router.push('/trades');
+const tradeId = defineProps({
+  type: Number,
+  default: null,
+});
+
+const router = useRouter();
+const tradesStore = useTradesStore();
+
+const form = ref({
+  name: "",
+  date: new Date().toISOString().split("T")[0],
+  pair: "",
+  session: "",
+  direction: "",
+  position_type: "",
+  risk: "",
+  result: "",
+  profit: "",
+  point_A: "",
+  point_B: "",
+  fta: "",
+  entry_model: "",
+  entry_tf: "",
+  stop_loss: "",
+  routine_id: null,
+});
+
+const isEdit = computed(() => !!tradeId);
+
+const formatOptions = (options) =>
+  Object.entries(options).map(([value, label]) => ({ value, label }));
+
+const getTrade = (id) => {
+  const trade = tradesStore.trades.find((t) => t.id === id);
+  if (trade) {
+    Object.keys(form.value).forEach((key) => {
+      if (trade[key] !== undefined) {
+        form.value[key] = trade[key];
       }
+    });
+  } else {
+    router.push("/trades");
+  }
+};
+
+onMounted(() => {
+  if (isEdit.value) {
+    getTrade(tradeId);
+  }
+});
+
+const handleSubmit = async () => {
+  try {
+    if (isEdit.value) {
+      await tradesStore.updateTrade(tradeId, form.value);
+    } else {
+      await tradesStore.addTrade(form.value);
     }
-  },
-  methods: {
-    getInitialForm() {
-      return {
-        name: "",
-        date: new Date().toISOString().split('T')[0],
-        pair: "",
-        session: "",
-        direction: "",
-        position_type: "",
-        risk: "",
-        result: "",
-        profit: "",
-        point_A: "",
-        point_B: "",
-        fta: "",
-        entry_model: "",
-        entry_tf: "",
-        stop_loss: "",
-        routine_id: null
-      };
-    },
-    formatOptions(options) {
-      return Object.entries(options).map(([value, label]) => ({
-        value,
-        label
-      }));
-    },
-    async handleSubmit() {
-      try {
-        if (this.isEdit) {
-          await this.tradesStore.updateTrade(this.tradeId, this.form);
-        } else {
-          await this.tradesStore.addTrade(this.form);
-        }
-        this.$router.push('/trades');
-      } catch (error) {
-        console.error('Error saving trade:', error);
-      }
-    }
+    router.push("/trades");
+  } catch (error) {
+    console.error("Error saving trade:", error);
   }
 };
 </script>
@@ -389,7 +327,8 @@ export default {
   @apply text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
 }
 
-.form-input, .form-select {
+.form-input,
+.form-select {
   @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
     bg-white dark:bg-gray-800 
     text-gray-900 dark:text-gray-100
@@ -417,4 +356,4 @@ export default {
   @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 
     text-gray-700 dark:text-gray-200 focus:ring-gray-500;
 }
-</style> 
+</style>

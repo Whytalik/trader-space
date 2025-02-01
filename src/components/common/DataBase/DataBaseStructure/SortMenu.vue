@@ -20,37 +20,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useDatabaseStore } from "@/stores/databaseState";
 import BackIcon from "@/assets/BackIcon.vue";
+import { defineProps, defineEmits } from "vue";
 
-export default {
-  name: "SortMenu",
-  components: {
-    BackIcon,
-  },
-  props: {
-    storeId: {
-      type: String,
-      required: true,
-    },
-    sortOptions: {
-      type: Array,
-      required: true,
-    },
-  },
-  setup() {
-    const databaseStore = useDatabaseStore();
-    return { databaseStore };
-  },
-  methods: {
-    closeMenu() {
-      this.$emit("close-menu");
-    },
-    updateSort(field) {
-      this.databaseStore.setSort(this.storeId, field, "asc");
-    },
-  },
+const { storeId, sortOptions } = defineProps({
+  storeId: String,
+  sortOptions: Array,
+});
+
+const databaseStore = useDatabaseStore();
+
+const emit = defineEmits(["close-menu"]);
+
+const closeMenu = () => {
+  emit("close-menu");
+};
+
+const updateSort = (field) => {
+  databaseStore.setSort(storeId, field, "asc");
 };
 </script>
 

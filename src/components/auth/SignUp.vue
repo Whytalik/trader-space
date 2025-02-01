@@ -12,40 +12,31 @@
   />
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import BaseAuthForm from "./UniversalForm/BaseAuthForm.vue";
-import { useAuthStore } from "../../stores/auth";
-import { useUserStore } from "../../stores/user";
-import { registerSchema } from "../../schemas/auth";
-import { signUpFields } from "../../constants/signUpFields";
-export default {
-  name: "SignUpView",
-  components: { BaseAuthForm },
-  data() {
-    return {
-      schema: registerSchema,
-      fields: signUpFields,
-      errorMessage: "",
-    };
-  },
-  created() {
-    this.authStore = useAuthStore();
-    this.userStore = useUserStore();
-  },
-  methods: {
-    async signUpHandler(values) {
-      try {
-        await this.userStore.signUp({
-          username: values.username,
-          email: values.email,
-          password: values.password,
-          password_confirmation: values.password_confirmation,
-        });
-        this.$router.push({ name: "auth", query: { view: "login" } });
-      } catch (error) {
-        this.errorMessage = error.message;
-      }
-    },
-  },
+import { useUserStore } from "@/stores/user";
+import { registerSchema } from "@/schemas/auth";
+import { signUpFields } from "@/constants/signUpFields";
+
+const schema = registerSchema;
+const fields = signUpFields;
+const errorMessage = ref("");
+const userStore = useUserStore();
+const router = useRouter();
+
+const signUpHandler = async (values) => {
+  try {
+    await userStore.signUp({
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      password_confirmation: values.password_confirmation,
+    });
+    router.push({ name: "auth", query: { view: "login" } });
+  } catch (error) {
+    errorMessage.value = error.message;
+  }
 };
 </script>

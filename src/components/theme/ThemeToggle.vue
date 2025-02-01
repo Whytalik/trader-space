@@ -1,4 +1,3 @@
-<!-- components/ThemeToggle.vue -->
 <template>
   <button
     @click="toggleTheme"
@@ -13,35 +12,17 @@
   </button>
 </template>
 
-<script>
+<script setup>
 import { useThemeStore } from "@/stores/theme";
 import SunIcon from "@/assets/theme/SunIcon.vue";
 import MoonIcon from "@/assets/theme/MoonIcon.vue";
+import { computed } from "vue";
 
-export default {
-  name: "ThemeToggle",
-  components: {
-    SunIcon,
-    MoonIcon,
-  },
-  data() {
-    return {
-      themeStore: null,
-    };
-  },
-  created() {
-    this.themeStore = useThemeStore();
-  },
-  computed: {
-    theme() {
-      return this.themeStore.theme;
-    },
-  },
-  methods: {
-    toggleTheme() {
-      this.themeStore.toggleTheme();
-    },
-  },
+const themeStore = useThemeStore();
+const theme = computed(() => themeStore.theme);
+
+const toggleTheme = () => {
+  themeStore.toggleTheme();
 };
 </script>
 

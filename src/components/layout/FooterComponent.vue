@@ -2,7 +2,7 @@
   <footer class="footer theme-transition">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="../../public/icon.png" alt="Trader Space Logo" />
+        <img src="@/public/icon.png" alt="Trader Space Logo" />
         <span class="footer-logo-text">Trader Space</span>
       </div>
 
@@ -69,15 +69,10 @@
   </footer>
 </template>
 
-<script>
-export default {
-  name: "FooterComponent",
-  computed: {
-    currentYear() {
-      return new Date().getFullYear();
-    },
-  },
-};
+<script setup>
+import { computed } from "vue";
+
+const currentYear = computed(() => new Date().getFullYear());
 </script>
 
 <style scoped>

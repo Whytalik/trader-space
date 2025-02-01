@@ -1,7 +1,7 @@
 <template>
   <div class="columns-menu">
     <div class="menu-header">
-      <BackIcon class="back-icon" @click="closeMenu" />
+      <BackIcon class="back-icon" @click="$emit('close-menu')" />
     </div>
     <div class="scrollable-columns vertical-scroll">
       <div v-for="column in columns" :key="column.field" class="column-item">
@@ -14,27 +14,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import BackIcon from "@/assets/BackIcon.vue";
 
-export default {
-  name: "ColumnsMenu",
-  components: {
-    BackIcon,
-  },
-  props: {
-    columns: {
-      type: Array,
-      required: true,
-    },
-  },
-  emits: ["close-menu"],
-  methods: {
-    closeMenu() {
-      this.$emit("close-menu");
-    },
-  },
-};
+defineProps({
+  columns: Array,
+});
+
+defineEmits(["close-menu"]);
 </script>
 
 <style scoped>

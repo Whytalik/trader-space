@@ -5,25 +5,23 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "GreetingComponent",
-  props: {
-    userName: String,
-  },
-  computed: {
-    greetingMessage() {
-      const hours = new Date().getHours();
-      if (hours < 12) {
-        return `Good Morning, ${this.userName}!`;
-      } else if (hours < 18) {
-        return `Good Afternoon, ${this.userName}!`;
-      } else {
-        return `Good Evening, ${this.userName}!`;
-      }
-    },
-  },
-};
+<script setup>
+import { computed } from "vue";
+
+const { userName } = defineProps({
+  userName: String,
+});
+
+const greetingMessage = computed(() => {
+  const hours = new Date().getHours();
+  if (hours < 12) {
+    return `Good Morning, ${userName}!`;
+  } else if (hours < 18) {
+    return `Good Afternoon, ${userName}!`;
+  } else {
+    return `Good Evening, ${userName}!`;
+  }
+});
 </script>
 
 <style scoped>

@@ -11,13 +11,12 @@
           <DeleteIcon class="mr-2" />
           Delete
         </BaseButton>
-        <BaseButton @click="$router.push('/trades')" class="ml-2"
-          >Back to Trades</BaseButton
-        >
+        <BaseButton @click="$router.push('/trades')" class="ml-2">
+          Back to Trades
+        </BaseButton>
       </div>
     </div>
     <div class="trade-content" v-if="trade">
-      <!-- Основні властивості -->
       <div class="trade-info">
         <div class="info-grid">
           <div
@@ -36,11 +35,9 @@
         </div>
       </div>
 
-      <!-- Пов'язані дані -->
       <div class="related-data" v-if="hasRelatedData">
         <h3 class="section-title">Related Data</h3>
         <div class="related-cards">
-          <!-- Пов'язана рутина -->
           <div class="related-card" v-if="relatedRoutine">
             <div class="card-header">
               <h4 class="card-title">Routine</h4>
@@ -66,107 +63,67 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useTradesStore } from "@/stores/trades";
 import { useRoutinesStore } from "@/stores/routines";
 import BaseButton from "@/components/common/BaseButton.vue";
-import CalendarIcon from "@/assets/CalendarIcon.vue";
-import TagIcon from "@/assets/TagIcon.vue";
-import ChartIcon from "@/assets/ChartIcon.vue";
-import StatusIcon from "@/assets/StatusIcon.vue";
 import EditIcon from "@/assets/EditIcon.vue";
 import DeleteIcon from "@/assets/DeleteIcon.vue";
+import { computed, ref, onBeforeMount } from "vue";
 
-export default {
-  name: "TradeDetails",
-  components: {
-    BaseButton,
-    CalendarIcon,
-    TagIcon,
-    ChartIcon,
-    StatusIcon,
-    EditIcon,
-    DeleteIcon,
-  },
-  data() {
-    return {
-      trade: null,
-      relatedRoutine: null,
-      tradesStore: useTradesStore(),
-      routinesStore: useRoutinesStore(),
-    };
-  },
-  computed: {
-    displayColumns() {
-      return this.tradesStore.tradeColumns.filter(
-        (col) => !col.isInformational
-      );
-    },
-    informationalColumns() {
-      return this.tradesStore.tradeColumns.filter((col) => col.isInformational);
-    },
-    hasRelatedData() {
-      return this.relatedRoutine !== null;
-    },
-  },
-  created() {
-    const tradeId = parseInt(this.$route.params.id);
-    this.trade = this.tradesStore.trades.find((t) => t.id === tradeId);
+const tradesStore = useTradesStore();
+const routinesStore = useRoutinesStore();
+const trade = ref(null);
+const relatedRoutine = ref(null);
 
-    if (this.trade) {
-      this.relatedRoutine = this.routinesStore.routines.find(
-        (routine) => routine.id === this.trade.routine_id
-      );
-    }
+const displayColumns = computed(() => {
+  return tradesStore.tradeColumns.filter((col) => !col.isInformational);
+});
 
-    if (!this.trade) {
-      this.$router.push("/trades");
-    }
-  },
-  methods: {
-    formatFieldValue(column, value) {
-      if (!value) return "N/A";
-      if (column.options) {
-        return column.options[value] || value;
-      }
-      if (column.field === "risk") return `${value}%`;
-      if (column.field === "profit") return `$${value}`;
-      return value;
-    },
-    getValueClass(field, value) {
-      if (field === "direction") return value?.toLowerCase();
-      if (field === "result") return value?.toLowerCase();
-      return "";
-    },
-    getInformationalLink(field, value) {
-      switch (field) {
-        case "routine_id":
-          return `/routines/${value}`;
-        default:
-          return "#";
-      }
-    },
-    getInformationalText(field, value) {
-      switch (field) {
-        case "routine_id":
-          const routine = this.routinesStore.routines.find(
-            (r) => r.id === value
-          );
-          return routine ? `#${value} - ${routine.name}` : `#${value}`;
-        default:
-          return value;
-      }
-    },
-    handleEdit() {
-      this.$router.push(`/trades/form/${this.trade.id}`);
-    },
-    handleDelete() {
-      if (confirm("Are you sure you want to delete this trade?")) {
-        this.tradesStore.deleteTrade(this.trade.id);
-        this.$router.push("/trades");
-      }
-    },
-  },
+const informationalColumns = computed(() => {
+  return tradesStore.tradeColumns.filter((col) => col.isInformational);
+});
+
+const hasRelatedData = computed(() => relatedRoutine.value !== null);
+
+onBeforeMount(() => {
+  const tradeId = parseInt(window.location.pathname.split("/").pop());
+  trade.value = tradesStore.trades.find((t) => t.id === tradeId);
+
+  if (trade.value) {
+    relatedRoutine.value = routinesStore.routines.find(
+      (routine) => routine.id === trade.value.routine_id
+    );
+  } else {
+    window.location.href = "/trades";
+  }
+});
+
+const formatFieldValue = (column, value) => {
+  if (!value) return "N/A";
+  if (column.options) {
+    return column.options[value] || value;
+  }
+  if (column.field === "risk") return `${value}%`;
+  if (column.field === "profit") return `$${value}`;
+  return value;
+};
+
+const getValueClass = (field, value) => {
+  if (field === "direction") return value?.toLowerCase();
+  if (field === "result") return value?.toLowerCase();
+  return "";
+};
+
+const handleEdit = () => {
+  window.location.href = `/trades/form/${trade.value.id}`;
+};
+
+const handleDelete = () => {
+  if (confirm("Are you sure you want to delete this trade?")) {
+    tradesStore.deleteTrade(trade.value.id);
+    window.location.href = "/trades";
+  }
 };
 </script>
 
@@ -229,23 +186,6 @@ export default {
 
 .trade-not-found {
   @apply text-center py-12 text-gray-500;
-}
-
-/* Стилі для статусів */
-.long {
-  @apply text-green-600 dark:text-green-400;
-}
-
-.short {
-  @apply text-red-600 dark:text-red-400;
-}
-
-.win {
-  @apply text-green-600 dark:text-green-400;
-}
-
-.lose {
-  @apply text-red-600 dark:text-red-400;
 }
 
 .related-data {

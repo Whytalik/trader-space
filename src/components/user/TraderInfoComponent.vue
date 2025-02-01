@@ -58,71 +58,49 @@
   </BaseCard>
 </template>
 
-<script>
-import { useUserStore } from "../../stores/user";
+<script setup>
+import { ref, computed } from "vue";
+import { useUserStore } from "@/stores/user";
 
-export default {
-  name: "TraderInfoComponent",
-  data() {
-    return {
-      userStore: null,
+const userStore = useUserStore();
+
+const username = computed(() => userStore.currentUser?.username || "N/A");
+const email = computed(() => userStore.currentUser?.email || "N/A");
+const fullName = computed(() => userStore.currentUser?.full_name || "N/A");
+const location = computed(() => userStore.currentUser?.location || "N/A");
+const experience = computed(
+  () => userStore.currentUser?.trading_experience || "N/A"
+);
+const bio = computed(() => userStore.currentUser?.bio || "N/A");
+const joinDate = computed(() => userStore.currentUser?.join_date || "N/A");
+const userAvatar = computed(() => userStore.currentUser?.avatar || null);
+
+const fileInput = ref(null);
+
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file && isValidImage(file)) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      uploadAvatar(reader.result);
     };
-  },
-  created() {
-    this.userStore = useUserStore();
-  },
-  computed: {
-    username() {
-      return this.userStore.currentUser?.username || "N/A";
-    },
-    email() {
-      return this.userStore.currentUser?.email || "N/A";
-    },
-    fullName() {
-      return this.userStore.currentUser?.full_name || "N/A";
-    },
-    location() {
-      return this.userStore.currentUser?.location || "N/A";
-    },
-    experience() {
-      return this.userStore.currentUser?.trading_experience || "N/A";
-    },
-    bio() {
-      return this.userStore.currentUser?.bio || "N/A";
-    },
-    joinDate() {
-      return this.userStore.currentUser?.join_date || "N/A";
-    },
-    userAvatar() {
-      return this.userStore.currentUser?.avatar || null;
-    },
-  },
-  methods: {
-    triggerFileInput() {
-      this.$refs.fileInput.click();
-    },
-    async handleFileChange(event) {
-      const file = event.target.files[0];
-      if (file && this.isValidImage(file)) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          this.uploadAvatar(reader.result);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("Please select a valid image file (.png, .jpg, .jpeg)");
-      }
-    },
+    reader.readAsDataURL(file);
+  } else {
+    alert("Please select a valid image file (.png, .jpg, .jpeg)");
+  }
+};
 
-    isValidImage(file) {
-      const validTypes = ["image/png", "image/jpeg", "image/jpg"];
-      return validTypes.includes(file.type);
-    },
+const isValidImage = (file) => {
+  const validTypes = ["image/png", "image/jpeg", "image/jpg"];
+  return validTypes.includes(file.type);
+};
 
-    async uploadAvatar(fileData) {
-      this.userStore.updateAvatar(fileData);
-    },
-  },
+const uploadAvatar = (fileData) => {
+  userStore.updateAvatar(fileData);
 };
 </script>
 

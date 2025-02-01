@@ -1,15 +1,9 @@
 <template>
-    <div class="card-item">
-        <slot></slot>
-    </div>
+  <div>
+    <slot></slot>
+  </div>
 </template>
 
-<script>
-export default {
-    name: "CardItem",
-}
-</script>
+<script setup></script>
 
-<style scoped>
-.card-item {}
-</style>
+<style scoped></style>

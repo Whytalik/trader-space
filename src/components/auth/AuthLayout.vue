@@ -2,37 +2,21 @@
   <component :is="currentComponent" />
 </template>
 
-<script>
-import { markRaw } from "vue";
-import SignUp from "./SignUp.vue";
-import SignIn from "./SignIn.vue";
+<script setup>
+import { ref, watch, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
-export default {
-  name: "AuthLayout",
-  components: {
-    SignUp: markRaw(SignUp),
-    SignIn: markRaw(SignIn),
-  },
-  data() {
-    return {
-      currentComponent: null,
-    };
-  },
-  created() {
-    this.setComponent();
-  },
-  watch: {
-    $route: "setComponent",
-  },
-  methods: {
-    setComponent() {
-      const type = this.$route.query.type;
-      if (type === "register") {
-        this.currentComponent = SignUp;
-      } else {
-        this.currentComponent = SignIn;
-      }
-    },
-  },
+import SignIn from "./SignIn.vue";
+import SignUp from "./SignUp.vue";
+
+const currentComponent = ref(null);
+const route = useRoute();
+
+const setComponent = () => {
+  const type = route.query.type;
+  currentComponent.value = type === "register" ? SignUp : SignIn;
 };
+
+onMounted(setComponent);
+watch(() => route.query.type, setComponent);
 </script>

@@ -9,21 +9,14 @@
   </thead>
 </template>
 
-<script>
-export default {
-  name: "ListHeader",
-  props: {
-    columns: {
-      type: Array,
-      required: true,
-    },
-  },
-  computed: {
-    visibleColumns() {
-      return this.columns.filter((column) => column.visible);
-    },
-  },
-};
-</script>
+<script setup>
+import { computed } from "vue";
 
-<style scoped></style>
+const { columns } = defineProps({
+  columns: Array,
+});
+
+const visibleColumns = computed(() => {
+  return columns.filter((column) => column.visible);
+});
+</script>
