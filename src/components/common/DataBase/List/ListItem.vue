@@ -4,10 +4,13 @@
     class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
   >
     <td v-for="column in visibleColumns" :key="column.field">
-      {{ item[column.field] }}
-    </td>
-    <td v-if="$slots['item-actions']">
-      <slot name="item-actions" :item="item"></slot>
+      {{
+        item[column.field] === true
+          ? "✅"
+          : item[column.field] === false
+            ? "❌"
+            : item[column.field]
+      }}
     </td>
   </tr>
 </template>

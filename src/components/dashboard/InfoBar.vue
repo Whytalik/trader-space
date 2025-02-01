@@ -28,6 +28,7 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import {
   getCurrentTime,
   getCurrentDay,
@@ -39,14 +40,26 @@ import {
   getCurrentYear,
 } from "@/utils/dateUtils";
 
-const currentTime = getCurrentTime();
-const currentDay = getCurrentDay();
-const weekday = getWeekday();
-const weekNumber = getWeekNumber();
-const currentMonth = getCurrentMonth();
-const monthNumber = getMonthNumber();
-const currentQuarter = getCurrentQuarter();
-const currentYear = getCurrentYear();
+const currentTime = ref(getCurrentTime());
+const currentDay = ref(getCurrentDay());
+const weekday = ref(getWeekday());
+const weekNumber = ref(getWeekNumber());
+const currentMonth = ref(getCurrentMonth());
+const monthNumber = ref(getMonthNumber());
+const currentQuarter = ref(getCurrentQuarter());
+const currentYear = ref(getCurrentYear());
+
+const updateTime = () => {
+  currentTime.value = getCurrentTime();
+};
+
+onMounted(() => {
+  const intervalId = setInterval(updateTime, 1000);
+
+  onBeforeUnmount(() => {
+    clearInterval(intervalId);
+  });
+});
 </script>
 
 <style scoped>

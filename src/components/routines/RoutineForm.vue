@@ -1,35 +1,46 @@
 <template>
   <div class="card">
     <h2 class="card-title">{{ isEdit ? "Edit" : "Add" }} Routine</h2>
-    <form @submit.prevent="handleSubmit" class="routine-form">
+    <Form
+      @submit="handleSubmit"
+      :initial-values="initialValues"
+      :validation-schema="routineSchema"
+      class="routine-form"
+    >
       <div class="form-grid">
+        <!-- Basic Info -->
         <div class="form-section">
           <h3 class="section-title">Basic Info</h3>
           <div class="form-group">
-            <label class="form-label">Name</label>
-            <input
-              v-model="form.name"
+            <label class="form-label" for="name">Name</label>
+            <Field
+              name="name"
+              as="input"
               type="text"
               class="form-input"
-              required
+              id="name"
             />
+            <ErrorMessage name="name" class="error" />
           </div>
           <div class="form-group">
-            <label class="form-label">Date</label>
-            <input
-              v-model="form.date"
+            <label class="form-label" for="date">Date</label>
+            <Field
+              name="date"
+              as="input"
               type="date"
               class="form-input"
-              required
+              id="date"
             />
+            <ErrorMessage name="date" class="error" />
           </div>
         </div>
 
+        <!-- Details -->
         <div class="form-section">
           <h3 class="section-title">Details</h3>
           <div class="form-group">
-            <label class="form-label">Pair</label>
-            <select v-model="form.pair" class="form-select" required>
+            <label class="form-label" for="pair">Pair</label>
+            <Field name="pair" as="select" class="form-select" id="pair">
               <option value="">Select Pair</option>
               <option
                 v-for="option in formatOptions(RC.pairs)"
@@ -38,11 +49,17 @@
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="pair" class="error" />
           </div>
           <div class="form-group">
-            <label class="form-label">Narrative</label>
-            <select v-model="form.narrative" class="form-select" required>
+            <label class="form-label" for="narrative">Narrative</label>
+            <Field
+              name="narrative"
+              as="select"
+              class="form-select"
+              id="narrative"
+            >
               <option value="">Select Narrative</option>
               <option
                 v-for="option in formatOptions(RC.narratives)"
@@ -51,22 +68,36 @@
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="narrative" class="error" />
           </div>
           <div class="form-group">
-            <label class="form-label">Plan</label>
-            <div class="toggle-wrapper">
-              <input type="checkbox" v-model="form.plan" class="toggle-input" />
-              <span class="toggle-label">{{ form.plan ? "Yes" : "No" }}</span>
-            </div>
+            <label class="form-label" for="plan">Plan</label>
+            <Field name="plan" v-slot="{ field }">
+              <div class="toggle-wrapper">
+                <input
+                  type="checkbox"
+                  v-bind="field"
+                  class="toggle-input"
+                  id="plan"
+                />
+              </div>
+            </Field>
+            <ErrorMessage name="plan" class="error" />
           </div>
         </div>
 
+        <!-- Results -->
         <div class="form-section">
           <h3 class="section-title">Results</h3>
           <div class="form-group">
-            <label class="form-label">Execution</label>
-            <select v-model="form.execution" class="form-select" required>
+            <label class="form-label" for="execution">Execution</label>
+            <Field
+              name="execution"
+              as="select"
+              class="form-select"
+              id="execution"
+            >
               <option value="">Select Execution</option>
               <option
                 v-for="option in formatOptions(RC.execution)"
@@ -75,11 +106,12 @@
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="execution" class="error" />
           </div>
           <div class="form-group">
-            <label class="form-label">Outcome</label>
-            <select v-model="form.outcome" class="form-select" required>
+            <label class="form-label" for="outcome">Outcome</label>
+            <Field name="outcome" as="select" class="form-select" id="outcome">
               <option value="">Select Outcome</option>
               <option
                 v-for="option in formatOptions(RC.outcomes)"
@@ -88,67 +120,63 @@
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="outcome" class="error" />
           </div>
         </div>
 
+        <!-- Related Data -->
         <div class="form-section">
           <h3 class="section-title">Related Data</h3>
           <div class="form-group">
-            <label class="form-label">Related Trades</label>
-            <select v-model="form.trade_ids" class="form-select" multiple>
+            <label class="form-label" for="trade_ids">Related Trades</label>
+            <Field
+              name="trade_ids"
+              as="select"
+              class="form-select"
+              id="trade_ids"
+              multiple
+            >
               <option
                 v-for="trade in tradesStore.trades"
                 :key="trade.id"
                 :value="trade.id"
               >
-                #{{ trade.id }} - {{ trade.name }}
+                #{{ trade.id }} - {{ trade.name }} - {{ trade.pair }} -
+                {{ trade.result }} - {{ trade.date }}
               </option>
-            </select>
-            <span class="form-help"
-              >Hold Ctrl/Cmd to select multiple trades</span
-            >
-          </div>
-          <div class="form-group">
-            <label class="form-label">Main Analysis</label>
-            <input
-              type="number"
-              v-model.number="form.main_analysis"
-              class="form-input"
-              min="0"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Sub Analysis</label>
-            <input
-              type="text"
-              v-model="form.sub_analysis"
-              class="form-input"
-              placeholder="Enter comma-separated IDs"
-              @input="handleSubAnalysisInput"
-            />
+            </Field>
+            <ErrorMessage name="trade_ids" class="error" />
+            <span class="form-help">
+              Hold Ctrl/Cmd to select multiple trades
+            </span>
           </div>
         </div>
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            @click="router.back()"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            {{ isEdit ? "Update" : "Add" }} Routine
+          </button>
+        </div>
       </div>
-
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" @click="$router.back()">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary">
-          {{ isEdit ? "Update" : "Add" }} Routine
-        </button>
-      </div>
-    </form>
+    </Form>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import { routineSchema } from "@/schemas/routine";
 import { ROUTINE_CONSTANTS as RC } from "@/data/data";
 import { useRoutinesStore } from "@/stores/routines";
 import { useTradesStore } from "@/stores/trades";
-import { useRouter } from "vue-router";
 
 const { routineId } = defineProps({
   routineId: {
@@ -157,77 +185,47 @@ const { routineId } = defineProps({
   },
 });
 
-const form = ref(getInitialForm());
+const router = useRouter();
 const routinesStore = useRoutinesStore();
 const tradesStore = useTradesStore();
-const router = useRouter();
+
+const initialValues = {
+  name: "",
+  date: new Date().toISOString().split("T")[0],
+  pair: "",
+  narrative: "",
+  plan: false,
+  execution: "",
+  outcome: "",
+  trade_ids: [],
+};
 
 const isEdit = computed(() => !!routineId);
 
-onMounted(() => {
-  if (isEdit.value) {
-    const routine = routinesStore.routines.find(
-      (r) => r.id === routineId
-    );
-    if (routine) {
-      Object.keys(form.value).forEach((key) => {
-        if (routine[key] !== undefined) {
-          form.value[key] = routine[key];
-        }
-      });
-    } else {
-      router.push("/routines");
-    }
+if (isEdit.value) {
+  const routine = routinesStore.routines.find((r) => r.id === routineId);
+  if (routine) {
+    Object.assign(initialValues, routine);
+  } else {
+    router.push("/routines");
   }
-});
+}
 
-function getInitialForm() {
-  return {
-    name: "",
-    date: new Date().toISOString().split("T")[0],
-    pair: "",
-    narrative: "",
-    plan: true,
-    execution: "",
-    outcome: "",
-    trade_ids: [],
-    main_analysis: null,
-    sub_analysis: [],
-  };
+async function handleSubmit(values) {
+  if (isEdit.value) {
+    await routinesStore.updateRoutine(routineId, values);
+  } else {
+    await routinesStore.addRoutine(values);
+  }
+  router.push("/routines");
 }
 
 function formatOptions(options) {
-  if (!options) {
-    return [];
-  }
-  return Object.keys(options).map((key) => ({
-    value: options[key],
-    label: key
-      .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" "),
+  if (!options) return [];
+  return Object.entries(options).map(([key, value]) => ({
+    value: key,
+    label: value,
   }));
-}
-
-async function handleSubmit() {
-  try {
-    if (isEdit.value) {
-      await routinesStore.updateRoutine(routineId, form.value);
-    } else {
-      await routinesStore.addRoutine(form.value);
-    }
-    router.push("/routines");
-  } catch (error) {
-    console.error("Error saving routine:", error);
-  }
-}
-
-function handleSubAnalysisInput(event) {
-  const value = event.target.value;
-  form.value.sub_analysis = value
-    .split(",")
-    .map((id) => parseInt(id.trim()))
-    .filter((id) => !isNaN(id));
 }
 </script>
 
@@ -294,7 +292,19 @@ function handleSubAnalysisInput(event) {
   @apply text-xs text-gray-500 dark:text-gray-400 mt-1;
 }
 
+.error {
+  @apply text-xs text-red-600 mt-1;
+}
+
 select[multiple] {
   @apply h-32;
+}
+
+.toggle-wrapper {
+  @apply flex items-center space-x-2;
+}
+
+.toggle-label {
+  @apply text-sm;
 }
 </style>

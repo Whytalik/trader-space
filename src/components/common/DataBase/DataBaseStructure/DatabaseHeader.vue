@@ -29,7 +29,7 @@
         <BaseButton
           variant="primary"
           size="sm"
-          @click="$emit('add-item')"
+          @click="emit('add-item')"
           class="ml-2"
         >
           <template #icon-left>

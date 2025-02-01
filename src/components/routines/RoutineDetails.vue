@@ -11,7 +11,7 @@
           <DeleteIcon class="mr-2" />
           Delete
         </BaseButton>
-        <BaseButton @click="$router.push('/routines')" class="ml-2"
+        <BaseButton @click="router.push('/routines')" class="ml-2"
           >Back to Routines</BaseButton
         >
       </div>
@@ -44,7 +44,7 @@
                   v-for="trade in relatedTrades"
                   :key="trade.id"
                   class="trade-card"
-                  @click="$router.push(`/trades/${trade.id}`)"
+                  @click="router.push(`/trades/${trade.id}`)"
                 >
                   <div class="trade-card-content">
                     <span class="trade-id">#{{ trade.id }}</span>
@@ -64,21 +64,16 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
 import { useRoutinesStore } from "@/stores/routines";
-import { useTradesStore } from "@/stores/trades";
-import BaseButton from "@/components/common/BaseButton.vue";
 import EditIcon from "@/assets/EditIcon.vue";
 import DeleteIcon from "@/assets/DeleteIcon.vue";
 
 const router = useRouter();
 const route = useRoute();
 const routinesStore = useRoutinesStore();
-const tradesStore = useTradesStore();
 
 const routineId = parseInt(route.params.id);
 const routine = routinesStore.routines.find((r) => r.id === routineId);
-const relatedTrades = routine
-  ? tradesStore.trades.filter((trade) => routine.trade_ids.includes(trade.id))
-  : [];
+const relatedTrades = routinesStore.getTrades;
 
 const displayColumns = routinesStore.routineColumns.filter(
   (col) => !col.isInformational

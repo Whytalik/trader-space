@@ -7,7 +7,7 @@
       { 'opacity-50 cursor-not-allowed': disabled },
     ]"
     :disabled="disabled"
-    @click="$emit('click')"
+    @click="emit('click')"
   >
     <slot name="icon-left"></slot>
     <slot></slot>
@@ -35,6 +35,8 @@ defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(["click"]);
 </script>
 
 <style scoped>

@@ -212,7 +212,7 @@
         </div>
       </div>
       <div class="form-actions">
-        <button type="button" class="btn btn-secondary" @click="$router.back()">
+        <button type="button" class="btn btn-secondary" @click="router.back()">
           Cancel
         </button>
         <button type="submit" class="btn btn-primary">
@@ -224,14 +224,13 @@
 </template>
 
 <script setup>
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import { TRADE_CONSTANTS as TC } from "@/data/data";
 import { useTradesStore } from "@/stores/trades";
-import { useRouter } from "vue-router";
-import { ref, computed, onMounted } from "vue";
 
-const tradeId = defineProps({
-  type: Number,
-  default: null,
+const { tradeId } = defineProps({
+  tradeId: Number,
 });
 
 const router = useRouter();
@@ -256,29 +255,27 @@ const form = ref({
   routine_id: null,
 });
 
-const isEdit = computed(() => !!tradeId);
+const isEdit = computed(() => {
+  console.log(tradeId);
+  return !!tradeId;
+});
 
-const formatOptions = (options) =>
-  Object.entries(options).map(([value, label]) => ({ value, label }));
-
-const getTrade = (id) => {
-  const trade = tradesStore.trades.find((t) => t.id === id);
+if (isEdit.value) {
+  const trade = tradesStore.find(tradeId);
   if (trade) {
-    Object.keys(form.value).forEach((key) => {
-      if (trade[key] !== undefined) {
-        form.value[key] = trade[key];
-      }
-    });
+    Object.assign(form, trade);
   } else {
     router.push("/trades");
   }
-};
+}
 
-onMounted(() => {
-  if (isEdit.value) {
-    getTrade(tradeId);
-  }
-});
+function formatOptions(options) {
+  if (!options) return [];
+  return Object.entries(options).map(([key, value]) => ({
+    value: key,
+    label: value,
+  }));
+}
 
 const handleSubmit = async () => {
   try {

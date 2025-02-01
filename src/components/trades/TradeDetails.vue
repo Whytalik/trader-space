@@ -11,9 +11,9 @@
           <DeleteIcon class="mr-2" />
           Delete
         </BaseButton>
-        <BaseButton @click="$router.push('/trades')" class="ml-2">
-          Back to Trades
-        </BaseButton>
+        <BaseButton @click="router.push('/trades')" class="ml-2"
+          >Back to Trades</BaseButton
+        >
       </div>
     </div>
     <div class="trade-content" v-if="trade">
@@ -25,10 +25,7 @@
             :key="column.field"
           >
             <span class="label">{{ column.header }}</span>
-            <span
-              class="value"
-              :class="getValueClass(column.field, trade[column.field])"
-            >
+            <span class="value">
               {{ formatFieldValue(column, trade[column.field]) }}
             </span>
           </div>
@@ -46,7 +43,7 @@
               <div class="routines-grid">
                 <div
                   class="routine-card"
-                  @click="$router.push(`/routines/${relatedRoutine.id}`)"
+                  @click="router.push(`/routines/${relatedRoutine.id}`)"
                 >
                   <div class="routine-card-content">
                     <span class="routine-id">#{{ relatedRoutine.id }}</span>
@@ -64,15 +61,14 @@
 </template>
 
 <script setup>
+import { computed, ref, onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
 import { useTradesStore } from "@/stores/trades";
-import { useRoutinesStore } from "@/stores/routines";
-import BaseButton from "@/components/common/BaseButton.vue";
 import EditIcon from "@/assets/EditIcon.vue";
 import DeleteIcon from "@/assets/DeleteIcon.vue";
-import { computed, ref, onBeforeMount } from "vue";
 
+const router = useRouter();
 const tradesStore = useTradesStore();
-const routinesStore = useRoutinesStore();
 const trade = ref(null);
 const relatedRoutine = ref(null);
 
@@ -80,22 +76,16 @@ const displayColumns = computed(() => {
   return tradesStore.tradeColumns.filter((col) => !col.isInformational);
 });
 
-const informationalColumns = computed(() => {
-  return tradesStore.tradeColumns.filter((col) => col.isInformational);
-});
-
 const hasRelatedData = computed(() => relatedRoutine.value !== null);
 
 onBeforeMount(() => {
-  const tradeId = parseInt(window.location.pathname.split("/").pop());
+  const tradeId = Number(router.currentRoute.value.params.id);
   trade.value = tradesStore.trades.find((t) => t.id === tradeId);
 
   if (trade.value) {
-    relatedRoutine.value = routinesStore.routines.find(
-      (routine) => routine.id === trade.value.routine_id
-    );
+    relatedRoutine.value = tradesStore.getRoutine;
   } else {
-    window.location.href = "/trades";
+    router.push("/trades");
   }
 });
 
@@ -105,24 +95,18 @@ const formatFieldValue = (column, value) => {
     return column.options[value] || value;
   }
   if (column.field === "risk") return `${value}%`;
-  if (column.field === "profit") return `$${value}`;
+  if (column.field === "profit") return `${value}$`;
   return value;
 };
 
-const getValueClass = (field, value) => {
-  if (field === "direction") return value?.toLowerCase();
-  if (field === "result") return value?.toLowerCase();
-  return "";
-};
-
 const handleEdit = () => {
-  window.location.href = `/trades/form/${trade.value.id}`;
+  router.push(`/trades/form/${trade.value.id}`);
 };
 
 const handleDelete = () => {
   if (confirm("Are you sure you want to delete this trade?")) {
     tradesStore.deleteTrade(trade.value.id);
-    window.location.href = "/trades";
+    router.push("/trades");
   }
 };
 </script>

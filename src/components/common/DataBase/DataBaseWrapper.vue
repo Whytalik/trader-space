@@ -57,6 +57,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useDatabaseStore } from "@/stores/databaseState";
 import { sortArray } from "@/utils/sortUtils";
 import ListView from "./List/ListView.vue";
@@ -93,6 +94,7 @@ const { title, columns, data, routePath, storeId, hideControls } = defineProps({
   },
 });
 
+const router = useRouter();
 const showColumnsMenu = ref(false);
 const showFilterMenu = ref(false);
 const showSortMenu = ref(false);
@@ -174,7 +176,7 @@ const updateVisibleColumns = (columns) => {
 
 const handleAddItem = () => {
   if (routePath) {
-    this.$router.push(`${routePath}/form`);
+    router.push(`${routePath}/form`);
   }
 };
 </script>

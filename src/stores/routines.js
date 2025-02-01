@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { routines, routineColumns } from "@/data/routines";
 import { sortArray } from "@/utils/sortUtils";
 
+import { useTradesStore } from "./trades";
+
 export const useRoutinesStore = defineStore("routines", {
   state: () => ({
     routines: routines,
@@ -20,6 +22,7 @@ export const useRoutinesStore = defineStore("routines", {
       state.sortedRoutinesCache[column] = sortedRoutines;
       return sortedRoutines;
     },
+
     getRoutinesByTradeId: (state) => {
       return (tradeId) => {
         if (state.tradeIdCache[tradeId]) {
@@ -33,6 +36,14 @@ export const useRoutinesStore = defineStore("routines", {
         state.tradeIdCache[tradeId] = routinesForTrade;
         return routinesForTrade;
       };
+    },
+
+    getTrades: (state) => {
+      const tradesStore = useTradesStore();
+      return state.routines
+        .map((routine) => routine.trade_ids)
+        .flat()
+        .map((tradeId) => tradesStore.getTradeById(tradeId));
     },
   },
 

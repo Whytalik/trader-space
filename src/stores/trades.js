@@ -33,9 +33,18 @@ export const useTradesStore = defineStore("trades", {
       }
       return trade;
     },
+
+    getRoutine: (state) => (tradeId) => {
+      return state.trades.find((trade) => trade.id === tradeId)?.routine_id;
+    },
   },
 
   actions: {
+    find(id) {
+      const trade = this.trades.find((trade) => trade.id === id);
+      return trade || null;
+    },
+    
     addTrade(tradeData) {
       const newTrade = {
         id: this.nextId++,

@@ -1,16 +1,18 @@
+const localeLanguage = "en-US";
+
 export function getCurrentTime() {
   const now = new Date();
-  return now.toLocaleTimeString();
+  return now.toLocaleTimeString(localeLanguage);
 }
 
 export function getCurrentDay() {
   const now = new Date();
-  return now.toLocaleDateString();
+  return now.toLocaleDateString("en-US");
 }
 
 export function getWeekday() {
   const now = new Date();
-  return now.toLocaleString("default", { weekday: "long" });
+  return now.toLocaleString(localeLanguage, { weekday: "long" });
 }
 
 export function getWeekNumber() {
@@ -24,7 +26,7 @@ export function getWeekNumber() {
 
 export function getCurrentMonth() {
   const now = new Date();
-  return now.toLocaleString("default", { month: "long" });
+  return now.toLocaleString(localeLanguage, { month: "long" });
 }
 
 export function getMonthNumber() {

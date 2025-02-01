@@ -136,7 +136,7 @@ export const trades = [
     point_B: TC.pointTypes.BREAK_OF_STRUCTURE,
     fta: TC.pointTypes.SUPPLY,
     entry_model: TC.entryModels.BMS,
-    entry_tf: TC.entryTimeframes.M15,
+    entry_tf: TC.entry.M15,
     stop_loss: TC.stopLossTypes.STRUCTURE,
     routine_id: 2,
   },

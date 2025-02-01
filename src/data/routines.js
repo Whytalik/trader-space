@@ -52,18 +52,6 @@ export const routineColumns = [
     visible: false,
     isInformational: true,
   },
-  {
-    field: "main_analysis",
-    header: "Main Analysis",
-    visible: false,
-    isInformational: true,
-  },
-  {
-    field: "sub_analysis",
-    header: "Sub Analysis",
-    visible: false,
-    isInformational: true,
-  },
 ];
 
 export const routines = [
@@ -77,8 +65,6 @@ export const routines = [
     execution: RC.execution.WIN,
     outcome: RC.outcomes.BULLISH,
     trade_ids: [1, 7],
-    main_analysis: null,
-    sub_analysis: [2, 3],
   },
   {
     id: 2,
@@ -90,8 +76,6 @@ export const routines = [
     execution: RC.execution.LOSS,
     outcome: RC.outcomes.INVALID,
     trade_ids: [2, 8],
-    main_analysis: 1,
-    sub_analysis: [],
   },
   {
     id: 3,
@@ -103,7 +87,5 @@ export const routines = [
     execution: RC.execution.NOT_EXECUTED,
     outcome: RC.outcomes.NEUTRAL,
     trade_ids: [3, 9],
-    main_analysis: 1,
-    sub_analysis: [],
   },
 ];

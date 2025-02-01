@@ -7,13 +7,11 @@
         </div>
         <button>Change Photo</button>
       </div>
-      <div>
-        <BaseGrid columns="2">
-          <div v-for="(value, label) in userInfo" :key="label">
-            <span>{{ label }}</span>
-            <span>{{ value }}</span>
-          </div>
-        </BaseGrid>
+      <div class="user-info">
+        <div v-for="(value, label) in userInfo" :key="label" class="user-info-item">
+          <span class="label">{{ label }}</span>
+          <span class="value">{{ value }}</span>
+        </div>
       </div>
     </div>
   </BaseCard>
@@ -40,4 +38,24 @@ const userAvatarComponent = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.user-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.user-info-item {
+  width: 48%;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.value {
+  margin-left: 10px;
+  color: #555;
+}
+</style>

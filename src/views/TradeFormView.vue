@@ -1,18 +1,17 @@
 <template>
-  <DataBaseWrapper
-    title="Trading Routines"
-    :data="routinesData"
-    :columns="columns"
-    routePath="/routines"
-    storeId="routines"
-  />
+  <TradeForm :tradeId="tradeId" />
 </template>
 
 <script setup>
-import { useRoutinesStore } from "../stores/routines";
-import DataBaseWrapper from "@/components/DataBaseWrapper.vue";
+import { useRoute } from "vue-router";
+import { computed } from "vue";
+import TradeForm from "@/components/trades/TradeForm.vue";
 
-const routinesStore = useRoutinesStore();
-const routinesData = routinesStore.routines;
-const columns = routinesStore.routineColumns;
+const route = useRoute();
+
+const tradeId = computed(() => {
+  return route.params.id ? Number(route.params.id) : null;
+});
 </script>
+
+<style scoped></style>

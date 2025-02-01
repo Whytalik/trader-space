@@ -2,8 +2,8 @@
   <div class="form-container">
     <div class="form-wrapper">
       <h2 class="form-title">{{ title }}</h2>
-      <ValidationForm
-        @submit="onSubmit"
+      <Form
+        @submit="handleSubmit"
         :validation-schema="schema"
         class="space-y-6"
       >
@@ -23,14 +23,14 @@
             {{ switchText }}
           </router-link>
         </div>
-      </ValidationForm>
+      </Form>
     </div>
   </div>
 </template>
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
-import { Form as ValidationForm } from "vee-validate";
+import { Form } from "vee-validate";
 import FormField from "./FormField.vue";
 
 defineProps({
@@ -46,7 +46,7 @@ defineProps({
 
 const emit = defineEmits(["submit"]);
 
-const onSubmit = (values) => {
+const handleSubmit = (values) => {
   emit("submit", values);
 };
 </script>

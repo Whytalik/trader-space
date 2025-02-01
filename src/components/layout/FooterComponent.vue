@@ -2,7 +2,7 @@
   <footer class="footer theme-transition">
     <div class="footer-content">
       <div class="footer-logo">
-        <img src="@/public/icon.png" alt="Trader Space Logo" />
+        <img src="../../public/icon.png" alt="Trader Space Logo" />
         <span class="footer-logo-text">Trader Space</span>
       </div>
 

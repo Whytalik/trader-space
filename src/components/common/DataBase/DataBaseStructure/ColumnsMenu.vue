@@ -1,7 +1,7 @@
 <template>
   <div class="columns-menu">
     <div class="menu-header">
-      <BackIcon class="back-icon" @click="$emit('close-menu')" />
+      <BackIcon class="back-icon" @click="emit('close-menu')" />
     </div>
     <div class="scrollable-columns vertical-scroll">
       <div v-for="column in columns" :key="column.field" class="column-item">
@@ -21,7 +21,8 @@ defineProps({
   columns: Array,
 });
 
-defineEmits(["close-menu"]);
+const emit = defineEmits(["close-menu"]);
+
 </script>
 
 <style scoped>

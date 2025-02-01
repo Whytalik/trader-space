@@ -1,9 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { generateBaseRoutes } from "./routes/base";
-import { generateDetailRoutes } from "./routes/details";
+import { routes } from "./routes";
 import { authGuard } from "./middleware";
-
-const routes = [...generateBaseRoutes(), ...generateDetailRoutes()];
 
 const router = createRouter({
   history: createWebHistory(),
