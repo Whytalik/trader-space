@@ -330,12 +330,13 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn-secondary" @click="router.back()">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary" @submit="handleSubmit">
-          {{ isEdit ? "Update" : "Add" }} Trade
-        </button>
+        <BaseButton variant="secondary" @click="router.back()" label="Cancel" />
+        <BaseButton
+          variant="primary"
+          type="submit"
+          :label="isEdit ? 'Update' : 'Add' + ' Trade'"
+          @click="handleSubmit"
+        />
       </div>
     </Form>
   </div>

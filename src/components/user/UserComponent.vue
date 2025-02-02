@@ -7,16 +7,7 @@
         :alt="`${username}'s avatar`"
         class="user-avatar"
       />
-      <svg
-        v-else
-        class="user-avatar-placeholder"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
-        <path
-          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-        />
-      </svg>
+      <UserAvatarPlaceholder v-else />
     </div>
     <p class="user-name">{{ username }}</p>
   </div>
@@ -25,6 +16,7 @@
 <script setup>
 import { computed } from "vue";
 import { useUserStore } from "@/stores/user";
+import UserAvatarPlaceholder from "@/assets/UserAvatarPlaceholder.vue";
 
 const userStore = useUserStore();
 
@@ -43,10 +35,6 @@ const username = computed(() => userStore.currentUser?.username || "User");
 
 .user-avatar {
   @apply w-full h-full object-cover;
-}
-
-.user-avatar-placeholder {
-  @apply w-full h-full text-gray-400 dark:text-gray-500;
 }
 
 .user-name {

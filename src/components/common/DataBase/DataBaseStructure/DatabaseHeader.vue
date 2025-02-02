@@ -4,34 +4,44 @@
     <div class="database-actions">
       <div class="view-controls">
         <template v-if="!hideControls">
-          <button
-            class="control-btn"
-            @click="toggleFilterMenu"
+          <BaseButton
+            :variant="'secondary'"
+            :size="'small'"
             :class="{ active: showFilterMenu }"
+            @click="toggleFilterMenu"
+            :icon="FilterIcon"
+            class="w-8 h-8"
           >
-            <FilterIcon />
-          </button>
-          <button
-            class="control-btn"
-            @click="toggleSortMenu"
+          </BaseButton>
+
+          <BaseButton
+            :variant="'secondary'"
+            :size="'small'"
             :class="{ active: showSortMenu }"
+            @click="toggleSortMenu"
+            :icon="SortIcon"
+            class="w-8 h-8"
           >
-            <SortIcon />
-          </button>
-          <button
-            class="control-btn"
-            @click="toggleColumnsMenu"
+          </BaseButton>
+
+          <BaseButton
+            :variant="'secondary'"
+            :size="'small'"
             :class="{ active: showColumnsMenu }"
+            @click="toggleColumnsMenu"
+            :icon="ColumnsIcon"
           >
-            <ColumnsIcon />
-          </button>
+          </BaseButton>
         </template>
-        <button class="ml-2" @click="emit('add-item')">
-          <template>
-            <PlusIcon class="w-4 h-4" />
-          </template>
-          Add
-        </button>
+
+        <BaseButton
+          :variant="'primary'"
+          :size="'medium'"
+          label="Add"
+          @click="emit('add-item')"
+          :icon="PlusIcon"
+        >
+        </BaseButton>
       </div>
     </div>
   </div>
@@ -76,15 +86,5 @@ const toggleSortMenu = () => emit("toggle-sort-menu");
 
 .view-controls {
   @apply flex items-center gap-2;
-}
-
-.control-btn {
-  @apply p-2 rounded-md hover:bg-input-bg transition-colors duration-fast flex items-center justify-center;
-  width: 36px;
-  height: 36px;
-}
-
-.control-btn.active {
-  @apply bg-input-bg text-button-primary-bg;
 }
 </style>

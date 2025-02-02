@@ -1,5 +1,5 @@
 <template>
-  <BaseCard title="Trader Information">
+  <div title="Trader Information">
     <div class="content">
       <div class="photo">
         <div class="photo-container">
@@ -23,7 +23,7 @@
       </div>
 
       <div class="info">
-        <BaseGrid columns="2">
+        <div columns="2">
           <div class="info-item">
             <span class="label">Username</span>
             <span>{{ username }}</span>
@@ -52,10 +52,10 @@
             <span class="label">Join Date</span>
             <span>{{ joinDate }}</span>
           </div>
-        </BaseGrid>
+        </div>
       </div>
     </div>
-  </BaseCard>
+  </div>
 </template>
 
 <script setup>

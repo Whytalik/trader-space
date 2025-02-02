@@ -1,5 +1,5 @@
 <template>
-  <BaseCard title="Trader Information">
+  <div title="Trader Information">
     <div>
       <div>
         <div>
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-  </BaseCard>
+  </div>
 </template>
 
 <script setup>

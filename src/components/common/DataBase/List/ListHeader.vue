@@ -1,7 +1,7 @@
 <template>
   <thead>
     <tr>
-      <th v-for="column in visibleColumns" :key="column.field">
+      <th v-for="column in visibleColumns" :key="column.field" class="text-left">
         {{ column.header }}
       </th>
     </tr>

@@ -152,16 +152,17 @@
           </div>
         </div>
         <div class="form-actions">
-          <button
-            type="button"
-            class="btn btn-secondary"
+          <BaseButton
+            variant="secondary"
+            label="Cancel"
             @click="router.back()"
-          >
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">
-            {{ isEdit ? "Update" : "Add" }} Routine
-          </button>
+          />
+
+          <BaseButton
+            variant="primary"
+            type="submit"
+            :label="isEdit ? 'Update' : 'Add' + ' Routine'"
+          />
         </div>
       </div>
     </Form>

@@ -16,10 +16,7 @@ export const tradeSchema = yup.object({
     .max(100, "Risk cannot be more than 100")
     .required("Risk is required"),
   result: yup.string().required("Result is required"),
-  profit: yup
-    .number()
-    .min(0, "Profit must be a positive number")
-    .required("Profit is required"),
+  profit: yup.number().required("Profit is required"),
   point_A: yup.string().required("Point A is required"),
   point_B: yup.string().required("Point B is required"),
   fta: yup.string().required("FTA is required"),

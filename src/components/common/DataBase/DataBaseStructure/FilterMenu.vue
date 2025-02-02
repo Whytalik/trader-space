@@ -1,8 +1,7 @@
 <template>
   <div class="filter-menu">
-    <div class="menu-header">
-      <BackIcon class="back-icon" @click="closeMenu" />
-    </div>
+    <BaseButton class="menu-header" :icon="BackIcon" @click="closeMenu">
+    </BaseButton>
     <div class="scrollable-filters vertical-scroll">
       <div class="filter-item">
         <div class="filter-header">Search Text</div>
@@ -37,7 +36,11 @@
       </div>
 
       <div class="filter-actions">
-        <button @click="clearFilters" class="clear-btn">Clear</button>
+        <BaseButton
+          label="Clear"
+          class="clear-btn"
+          @click="clearFilters"
+        ></BaseButton>
       </div>
     </div>
   </div>

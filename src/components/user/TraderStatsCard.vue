@@ -1,5 +1,5 @@
 <template>
-  <BaseCard title="Trading Statistics">
+  <div title="Trading Statistics">
     <div class="stats-grid">
       <div class="stats-section">
         <h3 class="section-title">Overall Performance</h3>
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-  </BaseCard>
+  </div>
 </template>
 
 <script setup>

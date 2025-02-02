@@ -3,17 +3,26 @@
     <div class="trade-header">
       <h2 class="trade-title">Trade Details</h2>
       <div class="header-actions">
-        <button class="btn btn-secondary" @click="handleEdit">
-          <EditIcon class="mr-2" />
-          Edit
-        </button>
-        <button class="btn btn-danger ml-2" @click="handleDelete">
-          <DeleteIcon class="mr-2" />
-          Delete
-        </button>
-        <button class="btn ml-2" @click="router.push('/trades')">
-          Back to Trades
-        </button>
+        <BaseButton
+          variant="secondary"
+          @click="handleEdit"
+          label="Edit"
+          :icon="EditIcon"
+        />
+
+        <BaseButton
+          variant="danger"
+          class="ml-2"
+          @click="handleDelete"
+          label="Delete"
+          :icon="DeleteIcon"
+        />
+
+        <BaseButton
+          class="ml-2"
+          @click="router.push('/trades')"
+          label="Back to Trades"
+        />
       </div>
     </div>
     <div class="trade-content" v-if="trade">

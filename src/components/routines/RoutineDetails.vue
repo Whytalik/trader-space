@@ -3,17 +3,31 @@
     <div class="routine-header">
       <h2 class="routine-title">Routine Details</h2>
       <div class="header-actions">
-        <button class="btn btn-secondary" @click="handleEdit">
-          <EditIcon class="mr-2" />
-          Edit
-        </button>
-        <button class="btn btn-danger ml-2" @click="handleDelete">
-          <DeleteIcon class="mr-2" />
-          Delete
-        </button>
-        <button class="btn ml-2" @click="router.push('/routines')">
-          Back to Routines
-        </button>
+        <div class="header-actions">
+          <BaseButton
+            variant="secondary"
+            @click="handleEdit"
+            :icon="EditIcon"
+            label="Edit"
+          >
+          </BaseButton>
+
+          <BaseButton
+            variant="danger"
+            class="ml-2"
+            @click="handleDelete"
+            :icon="DeleteIcon"
+            label="Delete"
+          >
+          </BaseButton>
+
+          <BaseButton
+            class="ml-2"
+            @click="router.push('/routines')"
+            label="Back to Routines"
+          >
+          </BaseButton>
+        </div>
       </div>
     </div>
     <div class="routine-content" v-if="routine">
