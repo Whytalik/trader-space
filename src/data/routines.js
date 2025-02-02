@@ -5,65 +5,53 @@ export const routineColumns = [
     field: "id",
     header: "ID",
     visible: false,
-    isInformational: true
+    isInformational: true,
   },
   {
     field: "name",
     header: "Name",
-    visible: true
+    visible: true,
   },
   {
     field: "date",
     header: "Date",
-    visible: true
+    visible: true,
   },
   {
     field: "pair",
     header: "Pair",
     visible: true,
-    options: RC.pairs
+    options: RC.pairs,
   },
   {
     field: "narrative",
     header: "Narrative",
     visible: true,
-    options: RC.narratives
+    options: RC.narratives,
   },
   {
     field: "plan",
     header: "Plan",
-    visible: true
+    visible: true,
   },
   {
     field: "execution",
     header: "Execution",
     visible: true,
-    options: RC.execution
+    options: RC.execution,
   },
   {
     field: "outcome",
     header: "Outcome",
     visible: true,
-    options: RC.outcomes
+    options: RC.outcomes,
   },
   {
-    field: "trade_ids",
+    field: "trades_id",
     header: "Related Trades",
     visible: false,
-    isInformational: true
+    isInformational: true,
   },
-  {
-    field: "main_analysis",
-    header: "Main Analysis",
-    visible: false,
-    isInformational: true
-  },
-  {
-    field: "sub_analysis",
-    header: "Sub Analysis",
-    visible: false,
-    isInformational: true
-  }
 ];
 
 export const routines = [
@@ -72,13 +60,11 @@ export const routines = [
     name: "Pre-trade analysis",
     date: "2024-03-01",
     pair: RC.pairs.BTC_USD,
-    narrative: RC.narratives.BULLISH,
+    narrative: RC.narratives.BEARISH,
     plan: true,
     execution: RC.execution.WIN,
     outcome: RC.outcomes.BULLISH,
-    trade_ids: [1, 7],
-    main_analysis: null,
-    sub_analysis: [2, 3],
+    trades_id: [1, 7],
   },
   {
     id: 2,
@@ -89,9 +75,7 @@ export const routines = [
     plan: true,
     execution: RC.execution.LOSS,
     outcome: RC.outcomes.INVALID,
-    trade_ids: [2, 8],
-    main_analysis: 1,
-    sub_analysis: [],
+    trades_id: [2, 8],
   },
   {
     id: 3,
@@ -102,8 +86,6 @@ export const routines = [
     plan: false,
     execution: RC.execution.NOT_EXECUTED,
     outcome: RC.outcomes.NEUTRAL,
-    trade_ids: [3, 9],
-    main_analysis: 1,
-    sub_analysis: [],
+    trades_id: [3, 9],
   },
 ];

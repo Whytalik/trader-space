@@ -1,28 +1,18 @@
 <template>
   <DataBaseWrapper
     title="Trading Routines"
-    :data="routines"
+    :data="routinesData"
     :columns="columns"
     routePath="/routines"
     storeId="routines"
   />
 </template>
 
-<script>
+<script setup>
 import { useRoutinesStore } from "../stores/routines";
+import DataBaseWrapper from "@/components/common/DataBase/DatabaseWrapper.vue";
 
-export default {
-  name: "RoutinesView",
-  data() {
-    return {
-      routines: [],
-      columns: [],
-    };
-  },
-  created() {
-    const routinesStore = useRoutinesStore();
-    this.routines = routinesStore.routines;
-    this.columns = routinesStore.routineColumns;
-  },
-};
+const routinesStore = useRoutinesStore();
+const routinesData = routinesStore.routines;
+const columns = routinesStore.routineColumns;
 </script>

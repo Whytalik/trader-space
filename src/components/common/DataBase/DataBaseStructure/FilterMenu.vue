@@ -1,95 +1,78 @@
 <template>
   <div class="filter-menu">
-    <div class="menu-header">
-      <BackIcon class="back-icon" @click="closeMenu" />
-    </div>
+    <BaseButton class="menu-header" :icon="BackIcon" @click="closeMenu">
+    </BaseButton>
     <div class="scrollable-filters vertical-scroll">
-      <!-- Текстовий пошук -->
       <div class="filter-item">
         <div class="filter-header">Search Text</div>
         <div class="filter-controls">
           <input
             type="text"
             v-model="filters.text"
-            class="filter-input"
             placeholder="Enter text to search..."
             @input="updateFilters"
+            class="filter-input"
           />
         </div>
       </div>
 
-      <!-- Фільтр по даті -->
       <div class="filter-item">
         <div class="filter-header">Date Range</div>
         <div class="filter-controls date-range">
           <input
             type="date"
             v-model="filters.date.start"
-            class="filter-input"
             @change="updateFilters"
+            class="filter-input"
           />
           <span class="date-separator">to</span>
           <input
             type="date"
             v-model="filters.date.end"
-            class="filter-input"
             @change="updateFilters"
+            class="filter-input"
           />
         </div>
       </div>
 
       <div class="filter-actions">
         <BaseButton
-          variant="secondary"
-          size="sm"
-          @click="clearFilters"
+          label="Clear"
           class="clear-btn"
-        >
-          Clear
-        </BaseButton>
+          @click="clearFilters"
+        ></BaseButton>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import { defineProps, ref, watch } from "vue";
 import { useDatabaseStore } from "@/stores/databaseState";
-import BackIcon from "@/assets/DataBase/BackIcon.vue";
+import BackIcon from "@/assets/BackIcon.vue";
 
-export default {
-  name: "FilterMenu",
-  components: {
-    BackIcon,
+const { storeId } = defineProps({
+  storeId: {
+    type: String,
+    required: true,
   },
-  props: {
-    storeId: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
-    const databaseStore = useDatabaseStore();
-    return { databaseStore };
-  },
-  data() {
-    const databaseStore = useDatabaseStore();
-    return {
-      filters: { ...databaseStore.getFilters(this.storeId) },
-    };
-  },
-  methods: {
-    closeMenu() {
-      this.$emit("close-menu");
-    },
-    clearFilters() {
-      this.databaseStore.clearFilters(this.storeId);
-      this.filters = { ...this.databaseStore.getFilters(this.storeId) };
-    },
-    updateFilters() {
-      this.databaseStore.setFilters(this.storeId, this.filters);
-    },
-  },
+});
+
+const databaseStore = useDatabaseStore();
+const filters = ref({ ...databaseStore.getFilters(storeId) });
+
+const clearFilters = () => {
+  databaseStore.clearFilters(storeId);
+  filters.value = { ...databaseStore.getFilters(storeId) };
 };
+
+const updateFilters = () => {
+  databaseStore.setFilters(storeId, filters.value);
+};
+const emit = defineEmits(["close-menu"]);
+const closeMenu = () => emit("close-menu");
+
+watch(filters, updateFilters, { deep: true });
 </script>
 
 <style scoped>

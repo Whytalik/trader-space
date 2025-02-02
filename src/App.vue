@@ -12,57 +12,48 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted } from "vue";
+import { useAuthStore } from "./stores/auth";
+import { useUserStore } from "./stores/user";
+import { useThemeStore } from "./stores/theme";
+import { useRoute } from "vue-router";
 import HeaderComponent from "./components/layout/HeaderComponent.vue";
 import FooterComponent from "./components/layout/FooterComponent.vue";
 import NavigationAsside from "./components/layout/NavigationAsside.vue";
 import PageTitle from "./components/layout/PageTitle.vue";
-import { useAuthStore } from "./stores/auth";
-import { useUserStore } from "./stores/user";
-import { useThemeStore } from "./stores/theme";
 
-export default {
-  components: {
-    HeaderComponent,
-    FooterComponent,
-    NavigationAsside,
-    PageTitle,
-  },
-  created() {
-    this.authStore = useAuthStore();
-    this.userStore = useUserStore();
-    const themeStore = useThemeStore();
-    themeStore.initTheme();
+const authStore = useAuthStore();
+const userStore = useUserStore();
+const themeStore = useThemeStore();
+const route = useRoute();
 
-    const defaultUser = this.getDefaultUser();
-    if (defaultUser) {
-      this.userStore.setCurrentUser(defaultUser);
-      this.authStore.setAuthenticationStatus(true);
-    }
-  },
-  data() {
-    return {
-      authStore: null,
-      userStore: null,
-    };
-  },
-  computed: {
-    isAuthenticated() {
-      return this.authStore.isAuthenticated;
-    },
-    pageTitle() {
-      const title = typeof this.$route.meta.title === 'function'
-        ? this.$route.meta.title(this.$route)
-        : this.$route.meta.title;
-      return title?.split('|')[0].trim();
-    },
-  },
-  methods: {
-    getDefaultUser() {
-      return this.userStore.findUser('ipz224_tvs@student.ztu.edu.ua', 'ipz224_tvs@student.ztu.edu.ua');
-    },
-  }
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+const pageTitle = computed(() => {
+  const title =
+    typeof route.meta.title === "function"
+      ? route.meta.title(route)
+      : route.meta.title;
+  return title?.split("|")[0].trim();
+});
+
+const getDefaultUser = () => {
+  return userStore.findUser(
+    "ipz224_tvs@student.ztu.edu.ua",
+    "ipz224_tvs@student.ztu.edu.ua"
+  );
 };
+
+onMounted(() => {
+  themeStore.initTheme();
+
+  const defaultUser = getDefaultUser();
+  if (defaultUser) {
+    userStore.setCurrentUser(defaultUser);
+    authStore.setAuthenticationStatus(true);
+  }
+});
 </script>
 
 <style scoped>

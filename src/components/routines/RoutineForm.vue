@@ -1,245 +1,236 @@
 <template>
   <div class="card">
     <h2 class="card-title">{{ isEdit ? "Edit" : "Add" }} Routine</h2>
-    <form @submit.prevent="handleSubmit" class="routine-form">
+    <Form
+      @submit="handleSubmit"
+      :initial-values="form"
+      :validation-schema="routineSchema"
+      class="routine-form"
+    >
       <div class="form-grid">
-        <!-- Basic Info -->
         <div class="form-section">
           <h3 class="section-title">Basic Info</h3>
           <div class="form-group">
-            <label class="form-label">Name</label>
-            <input
-              v-model="form.name"
+            <label class="form-label" for="name">Name</label>
+            <Field
+              name="name"
+              as="input"
               type="text"
               class="form-input"
-              required
+              id="name"
             />
+            <ErrorMessage name="name" class="error" />
           </div>
           <div class="form-group">
-            <label class="form-label">Date</label>
-            <input
-              v-model="form.date"
+            <label class="form-label" for="date">Date</label>
+            <Field
+              name="date"
+              as="input"
               type="date"
               class="form-input"
-              required
+              id="date"
             />
+            <ErrorMessage name="date" class="error" />
           </div>
         </div>
 
-        <!-- Details -->
         <div class="form-section">
           <h3 class="section-title">Details</h3>
           <div class="form-group">
-            <label class="form-label">Pair</label>
-            <select v-model="form.pair" class="form-select" required>
+            <label class="form-label" for="pair">Pair</label>
+            <Field name="pair" as="select" class="form-select" id="pair">
               <option value="">Select Pair</option>
               <option
                 v-for="option in formatOptions(RC.pairs)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="pair" class="error" />
           </div>
+
           <div class="form-group">
-            <label class="form-label">Narrative</label>
-            <select v-model="form.narrative" class="form-select" required>
+            <label class="form-label" for="narrative">Narrative</label>
+            <Field
+              name="narrative"
+              as="select"
+              class="form-select"
+              id="narrative"
+            >
               <option value="">Select Narrative</option>
               <option
                 v-for="option in formatOptions(RC.narratives)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="narrative" class="error" />
           </div>
           <div class="form-group">
-            <label class="form-label">Plan</label>
-            <div class="toggle-wrapper">
-              <input type="checkbox" v-model="form.plan" class="toggle-input" />
-              <span class="toggle-label">{{ form.plan ? 'Yes' : 'No' }}</span>
-            </div>
+            <label class="form-label" for="plan">Plan</label>
+            <Field name="plan" v-slot="{ field }">
+              <div class="toggle-wrapper">
+                <input
+                  type="checkbox"
+                  :id="field.id"
+                  :name="field.name"
+                  :checked="field.label"
+                  @change="field.label = !field.label"
+                  class="toggle-input"
+                />
+              </div>
+            </Field>
+            <ErrorMessage name="plan" class="error" />
           </div>
         </div>
 
-        <!-- Results -->
         <div class="form-section">
           <h3 class="section-title">Results</h3>
           <div class="form-group">
-            <label class="form-label">Execution</label>
-            <select v-model="form.execution" class="form-select" required>
+            <label class="form-label" for="execution">Execution</label>
+            <Field
+              name="execution"
+              as="select"
+              class="form-select"
+              id="execution"
+            >
               <option value="">Select Execution</option>
               <option
                 v-for="option in formatOptions(RC.execution)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="execution" class="error" />
           </div>
           <div class="form-group">
-            <label class="form-label">Outcome</label>
-            <select v-model="form.outcome" class="form-select" required>
+            <label class="form-label" for="outcome">Outcome</label>
+            <Field name="outcome" as="select" class="form-select" id="outcome">
               <option value="">Select Outcome</option>
               <option
                 v-for="option in formatOptions(RC.outcomes)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="outcome" class="error" />
           </div>
         </div>
 
-        <!-- Related Data -->
         <div class="form-section">
           <h3 class="section-title">Related Data</h3>
           <div class="form-group">
-            <label class="form-label">Related Trades</label>
-            <select v-model="form.trade_ids" class="form-select" multiple>
+            <label class="form-label" for="trades_id">Related Trades</label>
+            <Field
+              name="trades_id"
+              as="select"
+              class="form-select"
+              id="trades_id"
+              multiple
+            >
               <option
                 v-for="trade in tradesStore.trades"
                 :key="trade.id"
                 :value="trade.id"
               >
-                #{{ trade.id }} - {{ trade.name }}
+                #{{ trade.id }} - {{ trade.name }} - {{ trade.pair }} -
+                {{ trade.result }} - {{ trade.date }}
               </option>
-            </select>
-            <span class="form-help">Hold Ctrl/Cmd to select multiple trades</span>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Main Analysis</label>
-            <input 
-              type="number" 
-              v-model.number="form.main_analysis" 
-              class="form-input"
-              min="0"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Sub Analysis</label>
-            <input 
-              type="text" 
-              v-model="form.sub_analysis" 
-              class="form-input"
-              placeholder="Enter comma-separated IDs"
-              @input="handleSubAnalysisInput"
-            />
+            </Field>
+            <ErrorMessage name="trades_id" class="error" />
+            <span class="form-help">
+              Hold Ctrl/Cmd to select multiple trades
+            </span>
           </div>
         </div>
-      </div>
+        <div class="form-actions">
+          <BaseButton
+            variant="secondary"
+            label="Cancel"
+            @click="router.back()"
+          />
 
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" @click="$router.back()">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary">
-          {{ isEdit ? "Update" : "Add" }} Routine
-        </button>
+          <BaseButton
+            variant="primary"
+            type="submit"
+            :label="isEdit ? 'Update' : 'Add' + ' Routine'"
+          />
+        </div>
       </div>
-    </form>
+    </Form>
   </div>
 </template>
 
-<script>
-import { ROUTINE_CONSTANTS as RC } from "@/data/data";
+<script setup>
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import { routineSchema } from "@/schemas/routine";
 import { useRoutinesStore } from "@/stores/routines";
 import { useTradesStore } from "@/stores/trades";
+import { ROUTINE_CONSTANTS as RC } from "@/data/data";
 
-export default {
-  name: "RoutineForm",
-  props: {
-    routineId: {
-      type: Number,
-      default: null,
-    },
+const { routineId } = defineProps({
+  routineId: {
+    type: Number,
+    default: null,
   },
-  data() {
-    return {
-      RC,
-      form: this.getInitialForm(),
-      routinesStore: useRoutinesStore(),
-      tradesStore: useTradesStore(),
-    };
-  },
-  computed: {
-    isEdit() {
-      return !!this.routineId;
-    },
-  },
-  created() {
-    if (this.isEdit) {
-      const routine = this.routinesStore.routines.find(
-        (r) => r.id === this.routineId
-      );
-      if (routine) {
-        Object.keys(this.form).forEach((key) => {
-          if (routine[key] !== undefined) {
-            this.form[key] = routine[key];
-          }
-        });
-      } else {
-        this.$router.push("/routines");
-      }
-    }
-  },
-  methods: {
-    getInitialForm() {
-      return {
-        name: "",
-        date: new Date().toISOString().split("T")[0],
-        pair: "",
-        type: "",
-        narrative: "",
-        plan: true,
-        execution: "",
-        outcome: "",
-        trade_ids: [],
-        main_analysis: null,
-        sub_analysis: []
-      };
-    },
-    formatOptions(options) {
-      if (!options) {
-        return [];
-      }
+});
 
-      return Object.keys(options).map((key) => ({
-        value: options[key],
-        label: key
-          .split("_")
-          .map(
-            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-          )
-          .join(" "),
-      }));
-    },
-    async handleSubmit() {
-      try {
-        if (this.isEdit) {
-          await this.routinesStore.updateRoutine(this.routineId, this.form);
-        } else {
-          await this.routinesStore.addRoutine(this.form);
-        }
-        this.$router.push("/routines");
-      } catch (error) {
-        console.error("Error saving routine:", error);
-      }
-    },
-    handleSubAnalysisInput(event) {
-      // Convert comma-separated string to array of numbers
-      const value = event.target.value;
-      this.form.sub_analysis = value
-        .split(',')
-        .map(id => parseInt(id.trim()))
-        .filter(id => !isNaN(id));
-    }
-  },
+const router = useRouter();
+const routinesStore = useRoutinesStore();
+const tradesStore = useTradesStore();
+
+const form = {
+  name: "",
+  date: new Date().toISOString().split("T")[0],
+  pair: "",
+  narrative: "",
+  plan: false,
+  execution: "",
+  outcome: "",
+  trades_id: [],
 };
+
+const isEdit = computed(() => !!routineId);
+
+if (isEdit.value) {
+  const routine = routinesStore.getRoutineById(routineId);
+  if (routine) {
+    Object.assign(form, routine);
+  } else {
+    router.push("/routines");
+  }
+}
+
+function formatOptions(options) {
+  if (!options) return [];
+  return Object.entries(options).map(([key, value]) => ({
+    value: key,
+    label: value,
+  }));
+}
+
+async function handleSubmit(values) {
+  try {
+    if (isEdit.value) {
+      await routinesStore.updateRoutine(routineId, values);
+    } else {
+      await routinesStore.addRoutine(values);
+    }
+    router.push("/routines");
+  } catch (error) {
+    console.error("Error saving routine:", error);
+  }
+}
 </script>
 
 <style scoped>
@@ -305,8 +296,19 @@ export default {
   @apply text-xs text-gray-500 dark:text-gray-400 mt-1;
 }
 
-/* Стилі для множинного select */
+.error {
+  @apply text-xs text-red-600 mt-1;
+}
+
 select[multiple] {
   @apply h-32;
+}
+
+.toggle-wrapper {
+  @apply flex items-center space-x-2;
+}
+
+.toggle-label {
+  @apply text-sm;
 }
 </style>

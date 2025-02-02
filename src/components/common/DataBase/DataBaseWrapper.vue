@@ -14,27 +14,23 @@
       @toggle-sort-menu="toggleSortMenu"
       @add-item="handleAddItem"
     />
-
     <ColumnsMenu
       v-if="showColumnsMenu"
       :columns="mainColumns"
       @close-menu="closeColumnsMenu"
       @update:columns="updateVisibleColumns"
     />
-
     <FilterMenu
       v-if="showFilterMenu"
       :storeId="storeId"
       @close-menu="closeFilterMenu"
     />
-
     <SortMenu
       v-if="showSortMenu"
       :storeId="storeId"
       :sortOptions="mainColumns"
       @close-menu="closeSortMenu"
     />
-
     <div class="database-content">
       <template v-if="filteredAndSortedData.length">
         <ListView
@@ -43,9 +39,6 @@
           :visible-columns="visibleMainColumns"
           :route-path="routePath"
         >
-          <template #item-actions="slotProps">
-            <slot name="item-actions" v-bind="slotProps"></slot>
-          </template>
         </ListView>
       </template>
       <template v-else>
@@ -59,7 +52,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useDatabaseStore } from "@/stores/databaseState";
 import { sortArray } from "@/utils/sortUtils";
 import ListView from "./List/ListView.vue";
@@ -68,127 +63,118 @@ import ColumnsMenu from "./DataBaseStructure/ColumnsMenu.vue";
 import FilterMenu from "./DataBaseStructure/FilterMenu.vue";
 import SortMenu from "./DataBaseStructure/SortMenu.vue";
 
-export default {
-  name: "DataBaseWrapper",
-  components: {
-    ListView,
-    DatabaseHeader,
-    ColumnsMenu,
-    FilterMenu,
-    SortMenu,
+const { title, columns, data, routePath, storeId, hideControls } = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    columns: {
-      type: Array,
-      required: false,
-    },
-    data: {
-      type: Array,
-      required: true,
-    },
-    routePath: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    storeId: {
-      type: String,
-      required: true,
-    },
-    hideControls: {
-      type: Boolean,
-      default: false,
-    },
+  columns: {
+    type: Array,
+    required: false,
   },
-  data() {
-    return {
-      showColumnsMenu: false,
-      showFilterMenu: false,
-      showSortMenu: false,
-    };
+  data: {
+    type: Array,
+    required: true,
   },
-  computed: {
-    mainColumns() {
-      return this.columns.filter((column) => !column.isInformational);
-    },
-    visibleMainColumns() {
-      return this.mainColumns.filter((column) => column.visible);
-    },
-    filteredAndSortedData() {
-      let result = [...this.data];
+  routePath: {
+    type: String,
+    required: false,
+    default: null,
+  },
+  storeId: {
+    type: String,
+    required: true,
+  },
+  hideControls: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-      const filters = this.databaseStore.getFilters(this.storeId);
-      if (filters.text) {
-        result = result.filter((item) =>
-          Object.values(item).some((value) =>
-            String(value).toLowerCase().includes(filters.text.toLowerCase())
-          )
-        );
-      }
+const router = useRouter();
+const showColumnsMenu = ref(false);
+const showFilterMenu = ref(false);
+const showSortMenu = ref(false);
+const databaseStore = useDatabaseStore();
 
-      if (filters.date.start || filters.date.end) {
-        result = result.filter((item) => {
-          const itemDate = new Date(item.date);
-          const start = filters.date.start
-            ? new Date(filters.date.start)
-            : null;
-          const end = filters.date.end ? new Date(filters.date.end) : null;
+const mainColumns = computed(() =>
+  columns.filter((column) => !column.isInformational)
+);
+const visibleMainColumns = computed(() =>
+  mainColumns.value.filter((column) => column.visible)
+);
 
-          return (!start || itemDate >= start) && (!end || itemDate <= end);
-        });
-      }
+const filteredAndSortedData = computed(() => {
+  let result = [...data];
 
-      const sort = this.databaseStore.getSort(this.storeId);
-      if (sort.field) {
-        const column = this.columns.find((col) => col.field === sort.field);
-        if (column) {
-          result = sortArray(result, column);
-        }
-      }
+  const filters = databaseStore.getFilters(storeId);
+  if (filters.text) {
+    result = result.filter((item) =>
+      Object.values(item).some((value) =>
+        String(value).toLowerCase().includes(filters.text.toLowerCase())
+      )
+    );
+  }
 
-      return result;
-    },
-  },
-  created() {
-    const databaseStore = useDatabaseStore();
-    this.databaseStore = databaseStore;
-  },
-  methods: {
-    toggleColumnsMenu() {
-      this.showColumnsMenu = !this.showColumnsMenu;
-      this.showFilterMenu = false;
-      this.showSortMenu = false;
-    },
-    toggleFilterMenu() {
-      this.showFilterMenu = !this.showFilterMenu;
-      this.showColumnsMenu = false;
-      this.showSortMenu = false;
-    },
-    toggleSortMenu() {
-      this.showSortMenu = !this.showSortMenu;
-      this.showColumnsMenu = false;
-      this.showFilterMenu = false;
-    },
-    closeColumnsMenu() {
-      this.showColumnsMenu = false;
-    },
-    closeFilterMenu() {
-      this.showFilterMenu = false;
-    },
-    closeSortMenu() {
-      this.showSortMenu = false;
-    },
-    updateVisibleColumns(columns) {
-      this.databaseStore.setVisibleColumns(this.storeId, columns);
-    },
-    handleAddItem() {
-      this.$router.push(`${this.routePath}/form`);
-    },
-  },
+  if (filters.date.start || filters.date.end) {
+    result = result.filter((item) => {
+      const itemDate = new Date(item.date);
+      const start = filters.date.start ? new Date(filters.date.start) : null;
+      const end = filters.date.end ? new Date(filters.date.end) : null;
+
+      return (!start || itemDate >= start) && (!end || itemDate <= end);
+    });
+  }
+
+  const sort = databaseStore.getSort(storeId);
+  if (sort.field) {
+    const column = columns.find((col) => col.field === sort.field);
+    if (column) {
+      result = sortArray(result, column);
+    }
+  }
+
+  return result;
+});
+
+const toggleColumnsMenu = () => {
+  showColumnsMenu.value = !showColumnsMenu.value;
+  showFilterMenu.value = false;
+  showSortMenu.value = false;
+};
+
+const toggleFilterMenu = () => {
+  showFilterMenu.value = !showFilterMenu.value;
+  showColumnsMenu.value = false;
+  showSortMenu.value = false;
+};
+
+const toggleSortMenu = () => {
+  showSortMenu.value = !showSortMenu.value;
+  showColumnsMenu.value = false;
+  showFilterMenu.value = false;
+};
+
+const closeColumnsMenu = () => {
+  showColumnsMenu.value = false;
+};
+
+const closeFilterMenu = () => {
+  showFilterMenu.value = false;
+};
+
+const closeSortMenu = () => {
+  showSortMenu.value = false;
+};
+
+const updateVisibleColumns = (columns) => {
+  databaseStore.setVisibleColumns(storeId, columns);
+};
+
+const handleAddItem = () => {
+  if (routePath) {
+    router.push(`${routePath}/form`);
+  }
 };
 </script>
 

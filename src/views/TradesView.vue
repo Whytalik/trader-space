@@ -1,28 +1,18 @@
 <template>
   <DataBaseWrapper
     title="Trades"
-    :data="trades"
+    :data="tradesData"
     :columns="columns"
     routePath="/trades"
     storeId="trades"
   />
 </template>
 
-<script>
+<script setup>
 import { useTradesStore } from "../stores/trades";
+import DataBaseWrapper from "@/components/common/DataBase/DatabaseWrapper.vue";
 
-export default {
-  name: "TradesView",
-  data() {
-    return {
-      trades: [],
-      columns: [],
-    };
-  },
-  created() {
-    const tradesStore = useTradesStore();
-    this.trades = tradesStore.getSortedTrades();
-    this.columns = tradesStore.tradeColumns;
-  },
-};
+const tradesStore = useTradesStore();
+const tradesData = tradesStore.trades;
+const columns = tradesStore.tradeColumns;
 </script>

@@ -10,55 +10,25 @@
           :columns="visibleColumns"
           :route-path="routePath"
         >
-          <template #item-actions="{ item }">
-            <slot name="item-actions" :item="item"></slot>
-          </template>
         </ListItem>
       </tbody>
     </table>
   </div>
 </template>
 
-<script>
+<script setup>
 import ListItem from "./ListItem.vue";
 import ListHeader from "./ListHeader.vue";
-import { useTradesStore } from "@/stores/trades";
 
-export default {
-  name: "ListView",
-  components: {
-    ListItem,
-    ListHeader,
+const { data, columns, visibleColumns, routePath } = defineProps({
+  data: Array,
+  columns: Array,
+  visibleColumns: Array,
+  routePath: {
+    type: String,
+    default: null,
   },
-  props: {
-    data: {
-      type: Array,
-      required: true,
-    },
-    columns: {
-      type: Array,
-      required: true,
-    },
-    visibleColumns: {
-      type: Array,
-      required: true,
-    },
-    routePath: {
-      type: String,
-      required: false,
-      default: null,
-    },
-  },
-  data() {
-    return {
-      tradesStore: null,
-      sortColumn: null,
-    };
-  },
-  created() {
-    this.tradesStore = useTradesStore();
-  },
-};
+});
 </script>
 
 <style scoped>

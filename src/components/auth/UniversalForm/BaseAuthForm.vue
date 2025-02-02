@@ -2,54 +2,61 @@
   <div class="form-container">
     <div class="form-wrapper">
       <h2 class="form-title">{{ title }}</h2>
-      <ValidationForm @submit="onSubmit" :validation-schema="schema" class="space-y-6">
+      <Form
+        class="space-y-6"
+        :validation-schema="schema"
+        @submit="handleSubmit"
+      >
         <FormField v-for="field in fields" :key="field.name" :field="field" />
-
         <div v-if="errorMessage" class="form-error">
           {{ errorMessage }}
         </div>
-
         <button type="submit" class="button-primary">
           {{ submitText }}
         </button>
-
         <div class="text-center space-y-2">
           <p class="text-sm">{{ switchMessage }}</p>
-          <router-link :to="{ name: 'auth', query: { type: switchRoute } }" class="link-base">
+          <router-link
+            :to="{ name: 'auth', query: { type: switchRoute } }"
+            class="link-base"
+          >
             {{ switchText }}
           </router-link>
         </div>
-      </ValidationForm>
+      </Form>
     </div>
   </div>
 </template>
 
-<script>
-import { Form as ValidationForm } from "vee-validate";
+<script setup>
+import { defineProps, defineEmits } from "vue";
+import { Form } from "vee-validate";
 import FormField from "./FormField.vue";
 
-export default {
-  name: "BaseAuthForm",
-  components: {
-    ValidationForm,
-    FormField,
-  },
-  props: {
-    title: String,
-    schema: Object,
-    fields: Array,
-    errorMessage: String,
-    submitText: String,
-    switchMessage: String,
-    switchText: String,
-    switchRoute: String,
-  },
-  emits: ["submit"],
-  methods: {
-    onSubmit(values) {
-      this.$emit("submit", values);
-    },
-  },
+const {
+  title,
+  schema,
+  fields,
+  errorMessage,
+  submitText,
+  switchMessage,
+  switchText,
+  switchRoute,
+} = defineProps({
+  title: String,
+  schema: Object,
+  fields: Array,
+  errorMessage: String,
+  submitText: String,
+  switchMessage: String,
+  switchText: String,
+  switchRoute: String,
+});
+
+const emit = defineEmits(["submit"]);
+
+const handleSubmit = (values) => {
+  emit("submit", values);
 };
 </script>
 

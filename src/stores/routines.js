@@ -1,21 +1,41 @@
 import { defineStore } from "pinia";
-import { routines } from "@/data/routines";
-import { routineColumns } from "@/data/routines";
+import { routines, routineColumns } from "@/data/routines";
+import { useTradesStore } from "./trades";
 
 export const useRoutinesStore = defineStore("routines", {
   state: () => ({
-    routines: routines,
-    nextId: 1,
-    routineColumns: routineColumns,
+    routines,
+    routineColumns,
+    nextId: Math.max(...routines.map((r) => r.id), 0) + 1,
+    sortedRoutinesCache: {},
+    routinesByIdCache: {},
+    tradeIdCache: {},
   }),
 
   getters: {
-    getRoutinesByTradeId: (state) => {
-      return (tradeId) => {
-        return state.routines.filter(
-          (routine) => routine.trade_ids && routine.trade_ids.includes(tradeId)
+    getRoutineById: (state) => (id) => {
+      if (state.routinesByIdCache[id]) {
+        return state.routinesByIdCache[id];
+      }
+      const routine = state.routines.find((r) => r.id === id);
+      if (routine) {
+        state.routinesByIdCache[id] = routine;
+      }
+      return routine;
+    },
+
+    getRelatedTrades: () => {
+      const tradesStore = useTradesStore();
+      return (routine) => {
+        return routine.trades_id.map((tradeId) =>
+          tradesStore.getTradeById(tradeId)
         );
       };
+    },
+
+    getTodayRoutines: (state) => {
+      const today = new Date().toISOString().split("T")[0];
+      return state.routines.filter((routine) => routine.date === today);
     },
   },
 
@@ -26,7 +46,6 @@ export const useRoutinesStore = defineStore("routines", {
         ...routineData,
         created_at: new Date().toISOString(),
       };
-
       this.routines.push(newRoutine);
       return newRoutine;
     },

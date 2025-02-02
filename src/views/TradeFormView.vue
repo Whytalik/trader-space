@@ -2,18 +2,16 @@
   <TradeForm :tradeId="tradeId" />
 </template>
 
-<script>
-import TradeForm from '@/components/trades/TradeForm.vue';
+<script setup>
+import { useRoute } from "vue-router";
+import { computed } from "vue";
+import TradeForm from "@/components/trades/TradeForm.vue";
 
-export default {
-  name: 'TradeFormView',
-  components: {
-    TradeForm
-  },
-  computed: {
-    tradeId() {
-      return this.$route.params.id ? Number(this.$route.params.id) : null;
-    }
-  }
-}
-</script> 
+const route = useRoute();
+
+const tradeId = computed(() => {
+  return route.params.id ? Number(route.params.id) : null;
+});
+</script>
+
+<style scoped></style>

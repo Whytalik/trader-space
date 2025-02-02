@@ -2,7 +2,7 @@
   <header>
     <div class="container">
       <div class="meta-wrapper">
-        <img src="../../../public/icon.png" alt="Trader Space Logo" class="icon" />
+        <img src="@/../public/icon.png" alt="Trader Space Logo" class="icon" />
         <router-link to="/">Trader Space</router-link>
       </div>
       <div class="user-container">
@@ -13,35 +13,20 @@
   </header>
 </template>
 
-<script>
-import { useAuthStore } from "../../stores/auth";
+<script setup>
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 import ThemeToggle from "../theme/ThemeToggle.vue";
 import UserComponent from "../user/UserComponent.vue";
 
-export default {
-  name: "HeaderComponent",
-  components: {
-    ThemeToggle,
-    UserComponent,
-  },
-  data() {
-    return {
-      authStore: null,
-    };
-  },
-  created() {
-    this.authStore = useAuthStore();
-  },
-  computed: {
-    isAuthenticated() {
-      return this.authStore.isAuthenticated;
-    },
-  },
-  methods: {
-    navigateToUserProfile() {
-      this.$router.push("/user-profile");
-    },
-  },
+const router = useRouter();
+const authStore = useAuthStore();
+
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+const navigateToUserProfile = () => {
+  router.push("/user-profile");
 };
 </script>
 

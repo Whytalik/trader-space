@@ -1,12 +1,15 @@
 <template>
-  <div class="today-routines-wrapper" :class="{ 'no-data': !todayRoutines.length }">
+  <div
+    class="today-routines-wrapper"
+    :class="{ 'no-data': !todayRoutines.length }"
+  >
     <DataBaseWrapper
       title="Today's Routines"
       :data="todayRoutines"
       :columns="columns"
+      :hideControls="true"
       routePath="/routines"
       storeId="today-routines"
-      :hideControls="true"
     >
       <template #empty-state>
         <div class="empty-state">
@@ -17,33 +20,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
 import { useRoutinesStore } from "@/stores/routines";
 import DataBaseWrapper from "@/components/common/DataBase/DataBaseWrapper.vue";
 
-export default {
-  name: "TodayRoutinesWrapper",
-  components: {
-    DataBaseWrapper
-  },
-  data() {
-    return {
-      routines: [],
-      columns: []
-    };
-  },
-  computed: {
-    todayRoutines() {
-      const today = new Date().toISOString().split('T')[0];
-      return this.routines.filter(routine => routine.date === today);
-    }
-  },
-  created() {
-    const routinesStore = useRoutinesStore();
-    this.routines = routinesStore.routines;
-    this.columns = routinesStore.routineColumns;
-  }
-};
+const routinesStore = useRoutinesStore();
+
+const columns = routinesStore.routineColumns;
+
+const todayRoutines = computed(() => {
+  return routinesStore.getTodayRoutines;
+});
 </script>
 
 <style scoped>
@@ -58,4 +46,4 @@ export default {
 .empty-state p {
   @apply text-gray-500 mb-2;
 }
-</style> 
+</style>

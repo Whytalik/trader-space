@@ -14,15 +14,3 @@
     />
   </svg>
 </template>
-
-<script>
-export default {
-  name: "BackIcon",
-};
-</script>
-
-<style scoped>
-.icon {
-  @apply w-6 h-6;
-}
-</style>

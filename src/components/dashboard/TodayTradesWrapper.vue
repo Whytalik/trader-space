@@ -4,9 +4,9 @@
       title="Today's Trades"
       :data="todayTrades"
       :columns="columns"
+      :hideControls="true"
       routePath="/trades"
       storeId="today-trades"
-      :hideControls="true"
     >
       <template #empty-state>
         <div class="empty-state">
@@ -17,33 +17,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
 import { useTradesStore } from "@/stores/trades";
 import DataBaseWrapper from "@/components/common/DataBase/DataBaseWrapper.vue";
 
-export default {
-  name: "TodayTradesWrapper",
-  components: {
-    DataBaseWrapper,
-  },
-  data() {
-    return {
-      trades: [],
-      columns: [],
-    };
-  },
-  computed: {
-    todayTrades() {
-      const today = new Date().toISOString().split("T")[0];
-      return this.trades.filter((trade) => trade.date === today);
-    },
-  },
-  created() {
-    const tradesStore = useTradesStore();
-    this.trades = tradesStore.getSortedTrades();
-    this.columns = tradesStore.tradeColumns;
-  },
-};
+const tradesStore = useTradesStore();
+
+const columns = tradesStore.tradeColumns;
+
+const todayTrades = computed(() => {
+  return tradesStore.getTodayTrades;
+});
 </script>
 
 <style scoped>

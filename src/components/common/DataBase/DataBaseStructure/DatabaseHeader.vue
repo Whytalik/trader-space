@@ -4,98 +4,75 @@
     <div class="database-actions">
       <div class="view-controls">
         <template v-if="!hideControls">
-          <button
-            class="control-btn"
-            @click="toggleFilterMenu"
+          <BaseButton
+            :variant="'secondary'"
+            :size="'small'"
             :class="{ active: showFilterMenu }"
+            @click="toggleFilterMenu"
+            :icon="FilterIcon"
+            class="w-8 h-8"
           >
-            <FilterIcon />
-          </button>
-          <button
-            class="control-btn"
-            @click="toggleSortMenu"
+          </BaseButton>
+
+          <BaseButton
+            :variant="'secondary'"
+            :size="'small'"
             :class="{ active: showSortMenu }"
+            @click="toggleSortMenu"
+            :icon="SortIcon"
+            class="w-8 h-8"
           >
-            <SortIcon />
-          </button>
-          <button
-            class="control-btn"
-            @click="toggleColumnsMenu"
+          </BaseButton>
+
+          <BaseButton
+            :variant="'secondary'"
+            :size="'small'"
             :class="{ active: showColumnsMenu }"
+            @click="toggleColumnsMenu"
+            :icon="ColumnsIcon"
           >
-            <ColumnsIcon />
-          </button>
+          </BaseButton>
         </template>
+
         <BaseButton
-          variant="primary"
-          size="sm"
-          @click="$emit('add-item')"
-          class="ml-2"
+          :variant="'primary'"
+          :size="'medium'"
+          label="Add"
+          @click="emit('add-item')"
+          :icon="PlusIcon"
         >
-          <template #icon-left>
-            <PlusIcon class="w-4 h-4" />
-          </template>
-          Add
         </BaseButton>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import SortIcon from "@/assets/DataBase/SortIcon.vue";
-import ColumnsIcon from "@/assets/DataBase/ColumnsIcon.vue";
-import FilterIcon from "@/assets/DataBase/FilterIcon.vue";
-import PlusIcon from "@/assets/DataBase/PlusIcon.vue";
+<script setup>
+import { defineProps, defineEmits } from "vue";
+import SortIcon from "@/assets/SortIcon.vue";
+import ColumnsIcon from "@/assets/ColumnsIcon.vue";
+import FilterIcon from "@/assets/FilterIcon.vue";
+import PlusIcon from "@/assets/PlusIcon.vue";
 
-export default {
-  name: "DatabaseHeader",
-  components: {
-    SortIcon,
-    ColumnsIcon,
-    FilterIcon,
-    PlusIcon,
-  },
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    showColumnsMenu: {
-      type: Boolean,
-      default: false,
-    },
-    showFilterMenu: {
-      type: Boolean,
-      default: false,
-    },
-    showSortMenu: {
-      type: Boolean,
-      default: false,
-    },
-    hideControls: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: [
-    "toggle-columns-menu",
-    "toggle-filter-menu",
-    "toggle-sort-menu",
-    "add-item",
-  ],
-  methods: {
-    toggleColumnsMenu() {
-      this.$emit("toggle-columns-menu");
-    },
-    toggleFilterMenu() {
-      this.$emit("toggle-filter-menu");
-    },
-    toggleSortMenu() {
-      this.$emit("toggle-sort-menu");
-    },
-  },
-};
+const { title, showColumnsMenu, showFilterMenu, showSortMenu, hideControls } =
+  defineProps({
+    title: String,
+    showColumnsMenu: Boolean,
+    showFilterMenu: Boolean,
+    showSortMenu: Boolean,
+    hideControls: Boolean,
+  });
+
+const emit = defineEmits([
+  "toggle-columns-menu",
+  "toggle-filter-menu",
+  "toggle-sort-menu",
+  "add-item",
+]);
+
+const toggleColumnsMenu = () => emit("toggle-columns-menu");
+const toggleFilterMenu = () => emit("toggle-filter-menu");
+const toggleSortMenu = () => emit("toggle-sort-menu");
 </script>
 
 <style scoped>
@@ -109,15 +86,5 @@ export default {
 
 .view-controls {
   @apply flex items-center gap-2;
-}
-
-.control-btn {
-  @apply p-2 rounded-md hover:bg-input-bg transition-colors duration-fast flex items-center justify-center;
-  width: 36px;
-  height: 36px;
-}
-
-.control-btn.active {
-  @apply bg-input-bg text-button-primary-bg;
 }
 </style>

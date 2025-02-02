@@ -1,357 +1,416 @@
 <template>
   <div class="card">
-    <h2 class="card-title">{{ isEdit ? 'Edit Trade' : 'Add Trade' }}</h2>
-    <form @submit.prevent="handleSubmit" class="trade-form">
+    <h2 class="card-title">{{ isEdit ? "Edit Trade" : "Add Trade" }}</h2>
+    <Form
+      :initial-values="form"
+      :validation-schema="tradeSchema"
+      class="trade-form"
+      @submit="handleSubmit"
+    >
       <div class="form-grid">
-        <!-- Basic Info -->
         <div class="form-section">
           <h3 class="section-title">Basic Information</h3>
           <div class="form-group">
             <label class="form-label">Trade Name</label>
-            <input
+            <Field
               v-model="form.name"
+              name="name"
               type="text"
               class="form-input"
               required
             />
+            <ErrorMessage name="name" class="error-message" />
           </div>
           <div class="form-group">
             <label class="form-label">Date</label>
-            <input
+            <Field
               v-model="form.date"
+              name="date"
               type="date"
               class="form-input"
               required
             />
+            <ErrorMessage name="date" class="error-message" />
           </div>
         </div>
-
-        <!-- Trade Setup -->
         <div class="form-section">
           <h3 class="section-title">Trade Setup</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Pair</label>
-              <select
+              <Field
+                as="select"
+                name="pair"
                 v-model="form.pair"
                 class="form-select"
                 required
               >
                 <option value="">Select Pair</option>
-                <option v-for="option in formatOptions(TC.pairs)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.pairs)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="pair" class="error-message" />
             </div>
             <div class="form-group">
               <label class="form-label">Session</label>
-              <select
+              <Field
+                as="select"
+                name="session"
                 v-model="form.session"
                 class="form-select"
                 required
               >
                 <option value="">Select Session</option>
-                <option v-for="option in formatOptions(TC.sessions)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.sessions)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="session" class="error-message" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Direction</label>
-              <select
+              <Field
+                as="select"
+                name="direction"
                 v-model="form.direction"
                 class="form-select"
                 required
               >
                 <option value="">Select Direction</option>
-                <option v-for="option in formatOptions(TC.directions)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.directions)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="direction" class="error-message" />
             </div>
             <div class="form-group">
               <label class="form-label">Position Type</label>
-              <select
+              <Field
+                as="select"
+                name="position_type"
                 v-model="form.position_type"
                 class="form-select"
                 required
               >
                 <option value="">Select Position Type</option>
-                <option v-for="option in formatOptions(TC.positionTypes)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.positionTypes)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="position_type" class="error-message" />
             </div>
           </div>
         </div>
-
-        <!-- Trade Points -->
         <div class="form-section">
           <h3 class="section-title">Trade Points</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Point A</label>
-              <select
+              <Field
+                as="select"
+                name="point_A"
                 v-model="form.point_A"
                 class="form-select"
                 required
               >
                 <option value="">Select Point A</option>
-                <option v-for="option in formatOptions(TC.pointTypes)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.pointTypes)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="point_A" class="error-message" />
             </div>
             <div class="form-group">
               <label class="form-label">Point B</label>
-              <select
+              <Field
+                as="select"
+                name="point_B"
                 v-model="form.point_B"
                 class="form-select"
                 required
               >
                 <option value="">Select Point B</option>
-                <option v-for="option in formatOptions(TC.pointTypes)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.pointTypes)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="point_B" class="error-message" />
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">FTA</label>
-            <select
+            <Field
+              as="select"
+              name="fta"
               v-model="form.fta"
               class="form-select"
               required
             >
               <option value="">Select FTA</option>
-              <option v-for="option in formatOptions(TC.pointTypes)" 
-                :key="option.value" 
-                :value="option.value"
+              <option
+                v-for="option in formatOptions(TC.pointTypes)"
+                :key="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
-            </select>
+            </Field>
+            <ErrorMessage name="fta" class="error-message" />
           </div>
         </div>
-
-        <!-- Entry & Risk -->
         <div class="form-section">
           <h3 class="section-title">Entry & Risk</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Entry Model</label>
-              <select
+              <Field
+                as="select"
+                name="entry_model"
                 v-model="form.entry_model"
                 class="form-select"
                 required
               >
                 <option value="">Select Entry Model</option>
-                <option v-for="option in formatOptions(TC.entryModels)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.entryModels)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="entry_model" class="error-message" />
             </div>
             <div class="form-group">
               <label class="form-label">Entry Timeframe</label>
-              <select
+              <Field
+                as="select"
+                name="entry_tf"
                 v-model="form.entry_tf"
                 class="form-select"
                 required
               >
                 <option value="">Select Timeframe</option>
-                <option v-for="option in formatOptions(TC.entryTimeframes)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.entryTimeframes)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="entry_tf" class="error-message" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Risk (%)</label>
-              <input
+              <Field
                 v-model="form.risk"
+                name="risk"
                 type="number"
                 step="0.1"
                 class="form-input"
                 required
               />
+              <ErrorMessage name="risk" class="error-message" />
             </div>
             <div class="form-group">
               <label class="form-label">Stop Loss</label>
-              <select
+              <Field
+                as="select"
+                name="stop_loss"
                 v-model="form.stop_loss"
                 class="form-select"
                 required
               >
                 <option value="">Select Stop Loss</option>
-                <option v-for="option in formatOptions(TC.stopLossTypes)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.stopLossTypes)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="stop_loss" class="error-message" />
             </div>
           </div>
         </div>
-
-        <!-- Results -->
         <div class="form-section">
           <h3 class="section-title">Results</h3>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Result</label>
-              <select
+              <Field
+                as="select"
+                name="result"
                 v-model="form.result"
                 class="form-select"
                 required
               >
                 <option value="">Select Result</option>
-                <option v-for="option in formatOptions(TC.results)" 
-                  :key="option.value" 
-                  :value="option.value"
+                <option
+                  v-for="option in formatOptions(TC.results)"
+                  :key="option.value"
+                  :value="option.label"
                 >
                   {{ option.label }}
                 </option>
-              </select>
+              </Field>
+              <ErrorMessage name="result" class="error-message" />
             </div>
             <div class="form-group">
               <label class="form-label">Profit ($)</label>
-              <input
+              <Field
                 v-model="form.profit"
+                name="profit"
                 type="number"
                 class="form-input"
                 required
               />
+              <ErrorMessage name="profit" class="error-message" />
             </div>
           </div>
         </div>
       </div>
 
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" @click="$router.back()">
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary">
-          {{ isEdit ? 'Update' : 'Add' }} Trade
-        </button>
+      <div class="form-section">
+        <h3 class="section-title">Related Data</h3>
+        <div class="form-group">
+          <label class="form-label" for="routines_id">Related Routines</label>
+          <Field
+            name="routines_id"
+            as="select"
+            class="form-select"
+            id="routines_id"
+            multiple
+          >
+            <option
+              v-for="routine in routinesStore.routines"
+              :key="routine.id"
+              :value="routine.id"
+            >
+              #{{ routine.id }} - {{ routine.name }} - {{ routine.pair }} -
+              {{ routine.date }}
+            </option>
+          </Field>
+          <ErrorMessage name="routines_id" class="error" />
+          <span class="form-help">
+            Hold Ctrl/Cmd to select multiple routines
+          </span>
+        </div>
       </div>
-    </form>
+
+      <div class="form-actions">
+        <BaseButton variant="secondary" @click="router.back()" label="Cancel" />
+        <BaseButton
+          variant="primary"
+          type="submit"
+          :label="isEdit ? 'Update' : 'Add' + ' Trade'"
+          @click="handleSubmit"
+        />
+      </div>
+    </Form>
   </div>
 </template>
 
-<script>
-import { TRADE_CONSTANTS as TC } from "@/data/data";
+<script setup>
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import { tradeSchema } from "@/schemas/trade";
 import { useTradesStore } from "@/stores/trades";
 import { useRoutinesStore } from "@/stores/routines";
+import { TRADE_CONSTANTS as TC } from "@/data/data";
 
-export default {
-  name: "TradeForm",
-  props: {
-    tradeId: {
-      type: Number,
-      default: null
-    }
+const { tradeId } = defineProps({
+  tradeId: {
+    type: Number,
+    default: null,
   },
-  data() {
-    return {
-      TC,
-      form: this.getInitialForm(),
-      tradesStore: useTradesStore(),
-      routinesStore: useRoutinesStore()
-    };
-  },
-  computed: {
-    isEdit() {
-      return !!this.tradeId;
+});
+
+const router = useRouter();
+const tradesStore = useTradesStore();
+const routinesStore = useRoutinesStore();
+
+const form = ref({
+  name: "",
+  date: new Date().toISOString().split("T")[0],
+  pair: "",
+  session: "",
+  direction: "",
+  position_type: "",
+  risk: "",
+  result: "",
+  profit: "",
+  point_A: "",
+  point_B: "",
+  fta: "",
+  entry_model: "",
+  entry_tf: "",
+  stop_loss: "",
+  routine_id: null,
+});
+
+const isEdit = computed(() => !!tradeId);
+
+if (isEdit.value) {
+  const trade = tradesStore.getTradeById(tradeId);
+  if (trade) {
+    Object.assign(form.value, trade);
+  } else {
+    router.push("/trades");
+  }
+}
+
+function formatOptions(options) {
+  if (!options) return [];
+  return Object.entries(options).map(([key, value]) => ({
+    value: key,
+    label: value,
+  }));
+}
+
+const handleSubmit = async () => {
+  try {
+    if (isEdit.value) {
+      console.log(isEdit.value);
+      await tradesStore.updateTrade(tradeId, form.value);
+    } else {
+      await tradesStore.addTrade(form.value);
     }
-  },
-  created() {
-    if (this.isEdit) {
-      console.log('Trade ID:', this.tradeId);
-      const trade = this.tradesStore.trades.find(t => t.id === this.tradeId);
-      console.log('Found trade:', trade);
-      
-      if (trade) {
-        console.log('Current form:', this.form);
-        Object.keys(this.form).forEach(key => {
-          console.log(`Setting ${key}:`, trade[key]);
-          if (trade[key] !== undefined) {
-            this.form[key] = trade[key];
-          }
-        });
-        console.log('Updated form:', this.form);
-      } else {
-        console.log('Trade not found');
-        this.$router.push('/trades');
-      }
-    }
-  },
-  methods: {
-    getInitialForm() {
-      return {
-        name: "",
-        date: new Date().toISOString().split('T')[0],
-        pair: "",
-        session: "",
-        direction: "",
-        position_type: "",
-        risk: "",
-        result: "",
-        profit: "",
-        point_A: "",
-        point_B: "",
-        fta: "",
-        entry_model: "",
-        entry_tf: "",
-        stop_loss: "",
-        routine_id: null
-      };
-    },
-    formatOptions(options) {
-      return Object.entries(options).map(([value, label]) => ({
-        value,
-        label
-      }));
-    },
-    async handleSubmit() {
-      try {
-        if (this.isEdit) {
-          await this.tradesStore.updateTrade(this.tradeId, this.form);
-        } else {
-          await this.tradesStore.addTrade(this.form);
-        }
-        this.$router.push('/trades');
-      } catch (error) {
-        console.error('Error saving trade:', error);
-      }
-    }
+    router.push("/trades");
+  } catch (error) {
+    console.error("Error saving trade:", error);
   }
 };
 </script>
@@ -389,7 +448,8 @@ export default {
   @apply text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
 }
 
-.form-input, .form-select {
+.form-input,
+.form-select {
   @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
     bg-white dark:bg-gray-800 
     text-gray-900 dark:text-gray-100
@@ -417,4 +477,4 @@ export default {
   @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 
     text-gray-700 dark:text-gray-200 focus:ring-gray-500;
 }
-</style> 
+</style>

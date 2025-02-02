@@ -3,19 +3,29 @@
     <div class="trade-header">
       <h2 class="trade-title">Trade Details</h2>
       <div class="header-actions">
-        <BaseButton variant="secondary" @click="handleEdit">
-          <EditIcon class="mr-2" />
-          Edit
-        </BaseButton>
-        <BaseButton variant="danger" @click="handleDelete" class="ml-2">
-          <DeleteIcon class="mr-2" />
-          Delete
-        </BaseButton>
-        <BaseButton @click="$router.push('/trades')" class="ml-2">Back to Trades</BaseButton>
+        <BaseButton
+          variant="secondary"
+          @click="handleEdit"
+          label="Edit"
+          :icon="EditIcon"
+        />
+
+        <BaseButton
+          variant="danger"
+          class="ml-2"
+          @click="handleDelete"
+          label="Delete"
+          :icon="DeleteIcon"
+        />
+
+        <BaseButton
+          class="ml-2"
+          @click="router.push('/trades')"
+          label="Back to Trades"
+        />
       </div>
     </div>
     <div class="trade-content" v-if="trade">
-      <!-- Основні властивості -->
       <div class="trade-info">
         <div class="info-grid">
           <div
@@ -24,34 +34,31 @@
             :key="column.field"
           >
             <span class="label">{{ column.header }}</span>
-            <span
-              class="value"
-              :class="getValueClass(column.field, trade[column.field])"
-            >
+            <span class="value">
               {{ formatFieldValue(column, trade[column.field]) }}
             </span>
           </div>
         </div>
       </div>
 
-      <!-- Пов'язані дані -->
       <div class="related-data" v-if="hasRelatedData">
         <h3 class="section-title">Related Data</h3>
         <div class="related-cards">
-          <!-- Пов'язана рутина -->
-          <div class="related-card" v-if="relatedRoutine">
+          <div class="related-card" v-if="relatedRoutines">
             <div class="card-header">
-              <h4 class="card-title">Routine</h4>
+              <h4 class="card-title">Routines</h4>
             </div>
             <div class="card-content">
               <div class="routines-grid">
                 <div
+                  v-for="routine in relatedRoutines"
+                  :key="routine.id"
                   class="routine-card"
-                  @click="$router.push(`/routines/${relatedRoutine.id}`)"
+                  @click="router.push(`/routines/${routine.id}`)"
                 >
                   <div class="routine-card-content">
-                    <span class="routine-id">#{{ relatedRoutine.id }}</span>
-                    <span class="routine-name">{{ relatedRoutine.name }}</span>
+                    <span class="routine-id">#{{ routine.id }}</span>
+                    <span class="routine-name">{{ routine.name }}</span>
                   </div>
                 </div>
               </div>
@@ -64,107 +71,53 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useTradesStore } from "@/stores/trades";
-import { useRoutinesStore } from "@/stores/routines";
-import BaseButton from "@/components/common/BaseButton.vue";
-import CalendarIcon from "@/assets/icons/CalendarIcon.vue";
-import TagIcon from "@/assets/icons/TagIcon.vue";
-import ChartIcon from "@/assets/icons/ChartIcon.vue";
-import StatusIcon from "@/assets/icons/StatusIcon.vue";
-import EditIcon from "@/assets/icons/EditIcon.vue";
-import DeleteIcon from "@/assets/icons/DeleteIcon.vue";
+import EditIcon from "@/assets/EditIcon.vue";
+import DeleteIcon from "@/assets/DeleteIcon.vue";
 
-export default {
-  name: "TradeDetails",
-  components: {
-    BaseButton,
-    CalendarIcon,
-    TagIcon,
-    ChartIcon,
-    StatusIcon,
-    EditIcon,
-    DeleteIcon,
-  },
-  data() {
-    return {
-      trade: null,
-      relatedRoutine: null,
-      tradesStore: useTradesStore(),
-      routinesStore: useRoutinesStore(),
-    };
-  },
-  computed: {
-    displayColumns() {
-      return this.tradesStore.tradeColumns.filter(
-        (col) => !col.isInformational
-      );
-    },
-    informationalColumns() {
-      return this.tradesStore.tradeColumns.filter((col) => col.isInformational);
-    },
-    hasRelatedData() {
-      return this.relatedRoutine !== null;
-    },
-  },
-  created() {
-    const tradeId = parseInt(this.$route.params.id);
-    this.trade = this.tradesStore.trades.find((t) => t.id === tradeId);
+const router = useRouter();
+const route = useRoute();
+const tradesStore = useTradesStore();
 
-    if (this.trade) {
-      this.relatedRoutine = this.routinesStore.routines.find(
-        (routine) => routine.id === this.trade.routine_id
-      );
-    }
+const tradeId = parseInt(route.params.id);
+const trade = ref(tradesStore.getTradeById(tradeId));
 
-    if (!this.trade) {
-      this.$router.push("/trades");
-    }
-  },
-  methods: {
-    formatFieldValue(column, value) {
-      if (!value) return "N/A";
-      if (column.options) {
-        return column.options[value] || value;
-      }
-      if (column.field === "risk") return `${value}%`;
-      if (column.field === "profit") return `$${value}`;
-      return value;
-    },
-    getValueClass(field, value) {
-      if (field === "direction") return value?.toLowerCase();
-      if (field === "result") return value?.toLowerCase();
-      return "";
-    },
-    getInformationalLink(field, value) {
-      switch (field) {
-        case "routine_id":
-          return `/routines/${value}`;
-        default:
-          return "#";
-      }
-    },
-    getInformationalText(field, value) {
-      switch (field) {
-        case "routine_id":
-          const routine = this.routinesStore.routines.find(
-            (r) => r.id === value
-          );
-          return routine ? `#${value} - ${routine.name}` : `#${value}`;
-        default:
-          return value;
-      }
-    },
-    handleEdit() {
-      this.$router.push(`/trades/form/${this.trade.id}`);
-    },
-    handleDelete() {
-      if (confirm('Are you sure you want to delete this trade?')) {
-        this.tradesStore.deleteTrade(this.trade.id);
-        this.$router.push('/trades');
-      }
-    }
-  },
+const relatedRoutines = computed(() => {
+  return tradesStore.getRelatedRoutine(trade.value);
+});
+
+const displayColumns = computed(() => {
+  return tradesStore.tradeColumns.filter((col) => !col.isInformational);
+});
+
+const hasRelatedData = computed(() => relatedRoutines.value.length > 0);
+
+const formatFieldValue = (column, value) => {
+  if (!value) return "N/A";
+  const formatters = {
+    risk: (val) => `${val}%`,
+    profit: (val) => `${val}$`,
+  };
+
+  return column.options
+    ? column.options[value] || value
+    : formatters[column.field]
+      ? formatters[column.field](value)
+      : value;
+};
+
+const handleEdit = () => {
+  router.push(`/trades/form/${trade.value.id}`);
+};
+
+const handleDelete = () => {
+  if (confirm("Are you sure you want to delete this trade?")) {
+    tradesStore.deleteTrade(trade.value.id);
+    router.push("/trades");
+  }
 };
 </script>
 
@@ -227,23 +180,6 @@ export default {
 
 .trade-not-found {
   @apply text-center py-12 text-gray-500;
-}
-
-/* Стилі для статусів */
-.long {
-  @apply text-green-600 dark:text-green-400;
-}
-
-.short {
-  @apply text-red-600 dark:text-red-400;
-}
-
-.win {
-  @apply text-green-600 dark:text-green-400;
-}
-
-.lose {
-  @apply text-red-600 dark:text-red-400;
 }
 
 .related-data {
