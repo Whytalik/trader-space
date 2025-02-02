@@ -1,49 +1,41 @@
 import { defineStore } from "pinia";
 import { routines, routineColumns } from "@/data/routines";
-import { sortArray } from "@/utils/sortUtils";
-
 import { useTradesStore } from "./trades";
 
 export const useRoutinesStore = defineStore("routines", {
   state: () => ({
-    routines: routines,
-    routineColumns: routineColumns,
+    routines,
+    routineColumns,
     nextId: Math.max(...routines.map((r) => r.id), 0) + 1,
+    sortedRoutinesCache: {},
+    routinesByIdCache: {},
     tradeIdCache: {},
   }),
 
   getters: {
-    getSortedRoutines: (state) => (column) => {
-      if (state.sortedRoutinesCache[column]) {
-        return state.sortedRoutinesCache[column];
+    getRoutineById: (state) => (id) => {
+      if (state.routinesByIdCache[id]) {
+        return state.routinesByIdCache[id];
       }
-
-      const sortedRoutines = sortArray([...state.routines], column);
-      state.sortedRoutinesCache[column] = sortedRoutines;
-      return sortedRoutines;
+      const routine = state.routines.find((r) => r.id === id);
+      if (routine) {
+        state.routinesByIdCache[id] = routine;
+      }
+      return routine;
     },
 
-    getRoutinesByTradeId: (state) => {
-      return (tradeId) => {
-        if (state.tradeIdCache[tradeId]) {
-          return state.tradeIdCache[tradeId];
-        }
-
-        const routinesForTrade = state.routines.filter(
-          (routine) => routine.trade_ids && routine.trade_ids.includes(tradeId)
+    getRelatedTrades: () => {
+      const tradesStore = useTradesStore();
+      return (routine) => {
+        return routine.trades_id.map((tradeId) =>
+          tradesStore.getTradeById(tradeId)
         );
-
-        state.tradeIdCache[tradeId] = routinesForTrade;
-        return routinesForTrade;
       };
     },
 
-    getTrades: (state) => {
-      const tradesStore = useTradesStore();
-      return state.routines
-        .map((routine) => routine.trade_ids)
-        .flat()
-        .map((tradeId) => tradesStore.getTradeById(tradeId));
+    getTodayRoutines: (state) => {
+      const today = new Date().toISOString().split("T")[0];
+      return state.routines.filter((routine) => routine.date === today);
     },
   },
 
@@ -54,7 +46,6 @@ export const useRoutinesStore = defineStore("routines", {
         ...routineData,
         created_at: new Date().toISOString(),
       };
-
       this.routines.push(newRoutine);
       return newRoutine;
     },
@@ -76,11 +67,6 @@ export const useRoutinesStore = defineStore("routines", {
       const index = this.routines.findIndex((r) => r.id === id);
       if (index !== -1) {
         this.routines.splice(index, 1);
-        Object.keys(this.tradeIdCache).forEach((key) => {
-          this.tradeIdCache[key] = this.tradeIdCache[key].filter(
-            (r) => r.id !== id
-          );
-        });
       }
     },
   },

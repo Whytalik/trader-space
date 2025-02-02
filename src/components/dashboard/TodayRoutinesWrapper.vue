@@ -7,9 +7,9 @@
       title="Today's Routines"
       :data="todayRoutines"
       :columns="columns"
+      :hideControls="true"
       routePath="/routines"
       storeId="today-routines"
-      :hideControls="true"
     >
       <template #empty-state>
         <div class="empty-state">
@@ -21,18 +21,16 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useRoutinesStore } from "@/stores/routines";
 import DataBaseWrapper from "@/components/common/DataBase/DataBaseWrapper.vue";
-import { computed } from "vue";
 
 const routinesStore = useRoutinesStore();
 
-const routines = routinesStore.routines;
 const columns = routinesStore.routineColumns;
 
 const todayRoutines = computed(() => {
-  const today = new Date().toISOString().split("T")[0];
-  return routines.filter((routine) => routine.date === today);
+  return routinesStore.getTodayRoutines;
 });
 </script>
 

@@ -3,17 +3,17 @@
     <div class="routine-header">
       <h2 class="routine-title">Routine Details</h2>
       <div class="header-actions">
-        <BaseButton variant="secondary" @click="handleEdit">
+        <button class="btn btn-secondary" @click="handleEdit">
           <EditIcon class="mr-2" />
           Edit
-        </BaseButton>
-        <BaseButton variant="danger" @click="handleDelete" class="ml-2">
+        </button>
+        <button class="btn btn-danger ml-2" @click="handleDelete">
           <DeleteIcon class="mr-2" />
           Delete
-        </BaseButton>
-        <BaseButton @click="router.push('/routines')" class="ml-2"
-          >Back to Routines</BaseButton
-        >
+        </button>
+        <button class="btn ml-2" @click="router.push('/routines')">
+          Back to Routines
+        </button>
       </div>
     </div>
     <div class="routine-content" v-if="routine">
@@ -62,6 +62,7 @@
 </template>
 
 <script setup>
+import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useRoutinesStore } from "@/stores/routines";
 import EditIcon from "@/assets/EditIcon.vue";
@@ -72,39 +73,39 @@ const route = useRoute();
 const routinesStore = useRoutinesStore();
 
 const routineId = parseInt(route.params.id);
-const routine = routinesStore.routines.find((r) => r.id === routineId);
-const relatedTrades = routinesStore.getTrades;
+const routine = ref(routinesStore.getRoutineById(routineId));
 
-const displayColumns = routinesStore.routineColumns.filter(
-  (col) => !col.isInformational
-);
-const hasRelatedData = relatedTrades.length > 0;
+const relatedTrades = computed(() => {
+  return routinesStore.getRelatedTrades(routine.value);
+});
+
+const displayColumns = computed(() => {
+  return routinesStore.routineColumns.filter((col) => !col.isInformational);
+});
+
+const hasRelatedData = computed(() => relatedTrades.value.length > 0);
 
 const formatFieldValue = (column, value) => {
   if (value === undefined || value === null) return "N/A";
 
-  if (column.field === "plan") {
-    return value ? "✅" : "❌";
-  }
+  const formatters = {
+    plan: (val) => (val ? "✅" : "❌"),
+  };
 
-  if (column.options) {
-    return column.options[value] || value;
-  }
-
-  if (Array.isArray(value)) {
-    return value.join(", ");
-  }
-
-  return value;
+  return column.options
+    ? column.options[value] || value
+    : formatters[column.field]
+      ? formatters[column.field](value)
+      : value;
 };
 
 const handleEdit = () => {
-  router.push(`/routines/form/${routine.id}`);
+  router.push(`/routines/form/${routine.value.id}`);
 };
 
 const handleDelete = () => {
   if (confirm("Are you sure you want to delete this routine?")) {
-    routinesStore.deleteRoutine(routine.id);
+    routinesStore.deleteRoutine(routine.value.id);
     router.push("/routines");
   }
 };

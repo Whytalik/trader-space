@@ -71,8 +71,9 @@
 
 <script setup>
 import { computed } from "vue";
+import { getCurrentYear } from "@/utils/dateUtils";
 
-const currentYear = computed(() => new Date().getFullYear());
+const currentYear = computed(() => getCurrentYear());
 </script>
 
 <style scoped>

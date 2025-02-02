@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const validationSchema = yup.object({
+export const tradeSchema = yup.object({
   name: yup.string().required("Name is required"),
   date: yup
     .date()
@@ -28,5 +28,3 @@ const validationSchema = yup.object({
   stop_loss: yup.string().required("Stop loss type is required"),
   routine_id: yup.number().required("Routine ID is required"),
 });
-
-export default validationSchema;

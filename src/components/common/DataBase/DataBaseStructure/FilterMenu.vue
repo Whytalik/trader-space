@@ -10,9 +10,9 @@
           <input
             type="text"
             v-model="filters.text"
-            class="filter-input"
             placeholder="Enter text to search..."
             @input="updateFilters"
+            class="filter-input"
           />
         </div>
       </div>
@@ -23,37 +23,30 @@
           <input
             type="date"
             v-model="filters.date.start"
-            class="filter-input"
             @change="updateFilters"
+            class="filter-input"
           />
           <span class="date-separator">to</span>
           <input
             type="date"
             v-model="filters.date.end"
-            class="filter-input"
             @change="updateFilters"
+            class="filter-input"
           />
         </div>
       </div>
 
       <div class="filter-actions">
-        <BaseButton
-          variant="secondary"
-          size="sm"
-          @click="clearFilters"
-          class="clear-btn"
-        >
-          Clear
-        </BaseButton>
+        <button @click="clearFilters" class="clear-btn">Clear</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { defineProps, ref, watch } from "vue";
 import { useDatabaseStore } from "@/stores/databaseState";
 import BackIcon from "@/assets/BackIcon.vue";
-import { defineProps, ref, watch } from "vue";
 
 const { storeId } = defineProps({
   storeId: {
@@ -65,9 +58,6 @@ const { storeId } = defineProps({
 const databaseStore = useDatabaseStore();
 const filters = ref({ ...databaseStore.getFilters(storeId) });
 
-const emit = defineEmits(["close-menu"]);
-const closeMenu = () => emit("close-menu");
-
 const clearFilters = () => {
   databaseStore.clearFilters(storeId);
   filters.value = { ...databaseStore.getFilters(storeId) };
@@ -76,6 +66,8 @@ const clearFilters = () => {
 const updateFilters = () => {
   databaseStore.setFilters(storeId, filters.value);
 };
+const emit = defineEmits(["close-menu"]);
+const closeMenu = () => emit("close-menu");
 
 watch(filters, updateFilters, { deep: true });
 </script>

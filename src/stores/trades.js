@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { trades, tradeColumns } from "@/data/trades";
-import { sortArray } from "@/utils/sortUtils";
+import { useRoutinesStore } from "./routines";
 
 export const useTradesStore = defineStore("trades", {
   state: () => ({
@@ -12,16 +12,6 @@ export const useTradesStore = defineStore("trades", {
   }),
 
   getters: {
-    getSortedTrades: (state) => (column) => {
-      if (state.sortedTradesCache[column]) {
-        return state.sortedTradesCache[column];
-      }
-
-      const sortedTrades = sortArray([...state.trades], column);
-      state.sortedTradesCache[column] = sortedTrades;
-      return sortedTrades;
-    },
-
     getTradeById: (state) => (id) => {
       if (state.tradesByIdCache[id]) {
         return state.tradesByIdCache[id];
@@ -34,17 +24,22 @@ export const useTradesStore = defineStore("trades", {
       return trade;
     },
 
-    getRoutine: (state) => (tradeId) => {
-      return state.trades.find((trade) => trade.id === tradeId)?.routine_id;
+    getRelatedRoutine: () => {
+      const routinesStore = useRoutinesStore();
+      return (trade) => {
+        return routinesStore.routines.filter((routine) =>
+          routine.trades_id.includes(trade.id)
+        );
+      };
+    },
+
+    getTodayTrades: (state) => {
+      const today = new Date().toISOString().split("T")[0];
+      return state.trades.filter((trade) => trade.date === today);
     },
   },
 
   actions: {
-    find(id) {
-      const trade = this.trades.find((trade) => trade.id === id);
-      return trade || null;
-    },
-    
     addTrade(tradeData) {
       const newTrade = {
         id: this.nextId++,

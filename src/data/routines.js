@@ -47,7 +47,7 @@ export const routineColumns = [
     options: RC.outcomes,
   },
   {
-    field: "trade_ids",
+    field: "trades_id",
     header: "Related Trades",
     visible: false,
     isInformational: true,
@@ -60,11 +60,11 @@ export const routines = [
     name: "Pre-trade analysis",
     date: "2024-03-01",
     pair: RC.pairs.BTC_USD,
-    narrative: RC.narratives.BULLISH,
+    narrative: RC.narratives.BEARISH,
     plan: true,
     execution: RC.execution.WIN,
     outcome: RC.outcomes.BULLISH,
-    trade_ids: [1, 7],
+    trades_id: [1, 7],
   },
   {
     id: 2,
@@ -75,7 +75,7 @@ export const routines = [
     plan: true,
     execution: RC.execution.LOSS,
     outcome: RC.outcomes.INVALID,
-    trade_ids: [2, 8],
+    trades_id: [2, 8],
   },
   {
     id: 3,
@@ -86,6 +86,6 @@ export const routines = [
     plan: false,
     execution: RC.execution.NOT_EXECUTED,
     outcome: RC.outcomes.NEUTRAL,
-    trade_ids: [3, 9],
+    trades_id: [3, 9],
   },
 ];

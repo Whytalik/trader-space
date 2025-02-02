@@ -10,9 +10,6 @@
           :columns="visibleColumns"
           :route-path="routePath"
         >
-          <template #item-actions="{ item }">
-            <slot name="item-actions" :item="item"></slot>
-          </template>
         </ListItem>
       </tbody>
     </table>
@@ -20,10 +17,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
 import ListItem from "./ListItem.vue";
 import ListHeader from "./ListHeader.vue";
-import { useTradesStore } from "@/stores/trades";
 
 const { data, columns, visibleColumns, routePath } = defineProps({
   data: Array,
@@ -33,12 +28,6 @@ const { data, columns, visibleColumns, routePath } = defineProps({
     type: String,
     default: null,
   },
-});
-
-const tradesStore = ref(null);
-
-onMounted(() => {
-  tradesStore.value = useTradesStore();
 });
 </script>
 

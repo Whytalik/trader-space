@@ -13,10 +13,10 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import SunIcon from "@/assets/theme/SunIcon.vue";
 import MoonIcon from "@/assets/theme/MoonIcon.vue";
-import { computed } from "vue";
 
 const themeStore = useThemeStore();
 const theme = computed(() => themeStore.theme);

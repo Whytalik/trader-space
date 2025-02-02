@@ -14,16 +14,17 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import BaseAuthForm from "./UniversalForm/BaseAuthForm.vue";
 import { useUserStore } from "@/stores/user";
 import { loginSchema } from "@/schemas/auth";
 import { signInFields } from "@/constants/signInFields";
-import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
 
 const schema = loginSchema;
 const fields = signInFields;
 const errorMessage = ref("");
-const userStore = useUserStore();
 const router = useRouter();
 
 const signInHandler = async (values) => {

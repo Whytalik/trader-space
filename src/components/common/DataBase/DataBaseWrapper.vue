@@ -39,9 +39,6 @@
           :visible-columns="visibleMainColumns"
           :route-path="routePath"
         >
-          <template #item-actions="slotProps">
-            <slot name="item-actions" v-bind="slotProps"></slot>
-          </template>
         </ListView>
       </template>
       <template v-else>

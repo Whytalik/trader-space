@@ -22,6 +22,7 @@ import UserComponent from "../user/UserComponent.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();
+
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 
 const navigateToUserProfile = () => {

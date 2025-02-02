@@ -19,5 +19,6 @@ const setComponent = () => {
 };
 
 onMounted(setComponent);
+
 watch(() => route.query.type, setComponent);
 </script>

@@ -26,17 +26,12 @@
             <ColumnsIcon />
           </button>
         </template>
-        <BaseButton
-          variant="primary"
-          size="sm"
-          @click="emit('add-item')"
-          class="ml-2"
-        >
-          <template #icon-left>
+        <button class="ml-2" @click="emit('add-item')">
+          <template>
             <PlusIcon class="w-4 h-4" />
           </template>
           Add
-        </BaseButton>
+        </button>
       </div>
     </div>
   </div>
@@ -49,13 +44,14 @@ import ColumnsIcon from "@/assets/ColumnsIcon.vue";
 import FilterIcon from "@/assets/FilterIcon.vue";
 import PlusIcon from "@/assets/PlusIcon.vue";
 
-defineProps({
-  title: String,
-  showColumnsMenu: Boolean,
-  showFilterMenu: Boolean,
-  showSortMenu: Boolean,
-  hideControls: Boolean,
-});
+const { title, showColumnsMenu, showFilterMenu, showSortMenu, hideControls } =
+  defineProps({
+    title: String,
+    showColumnsMenu: Boolean,
+    showFilterMenu: Boolean,
+    showSortMenu: Boolean,
+    hideControls: Boolean,
+  });
 
 const emit = defineEmits([
   "toggle-columns-menu",

@@ -3,9 +3,9 @@
     <div class="form-wrapper">
       <h2 class="form-title">{{ title }}</h2>
       <Form
-        @submit="handleSubmit"
-        :validation-schema="schema"
         class="space-y-6"
+        :validation-schema="schema"
+        @submit="handleSubmit"
       >
         <FormField v-for="field in fields" :key="field.name" :field="field" />
         <div v-if="errorMessage" class="form-error">
@@ -33,7 +33,16 @@ import { defineProps, defineEmits } from "vue";
 import { Form } from "vee-validate";
 import FormField from "./FormField.vue";
 
-defineProps({
+const {
+  title,
+  schema,
+  fields,
+  errorMessage,
+  submitText,
+  switchMessage,
+  switchText,
+  switchRoute,
+} = defineProps({
   title: String,
   schema: Object,
   fields: Array,

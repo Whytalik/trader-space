@@ -20,10 +20,11 @@ import { useUserStore } from "@/stores/user";
 import { registerSchema } from "@/schemas/auth";
 import { signUpFields } from "@/constants/signUpFields";
 
+const userStore = useUserStore();
+
 const schema = registerSchema;
 const fields = signUpFields;
 const errorMessage = ref("");
-const userStore = useUserStore();
 const router = useRouter();
 
 const signUpHandler = async (values) => {

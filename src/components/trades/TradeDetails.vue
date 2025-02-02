@@ -3,17 +3,17 @@
     <div class="trade-header">
       <h2 class="trade-title">Trade Details</h2>
       <div class="header-actions">
-        <BaseButton variant="secondary" @click="handleEdit">
+        <button class="btn btn-secondary" @click="handleEdit">
           <EditIcon class="mr-2" />
           Edit
-        </BaseButton>
-        <BaseButton variant="danger" @click="handleDelete" class="ml-2">
+        </button>
+        <button class="btn btn-danger ml-2" @click="handleDelete">
           <DeleteIcon class="mr-2" />
           Delete
-        </BaseButton>
-        <BaseButton @click="router.push('/trades')" class="ml-2"
-          >Back to Trades</BaseButton
-        >
+        </button>
+        <button class="btn ml-2" @click="router.push('/trades')">
+          Back to Trades
+        </button>
       </div>
     </div>
     <div class="trade-content" v-if="trade">
@@ -35,19 +35,21 @@
       <div class="related-data" v-if="hasRelatedData">
         <h3 class="section-title">Related Data</h3>
         <div class="related-cards">
-          <div class="related-card" v-if="relatedRoutine">
+          <div class="related-card" v-if="relatedRoutines">
             <div class="card-header">
-              <h4 class="card-title">Routine</h4>
+              <h4 class="card-title">Routines</h4>
             </div>
             <div class="card-content">
               <div class="routines-grid">
                 <div
+                  v-for="routine in relatedRoutines"
+                  :key="routine.id"
                   class="routine-card"
-                  @click="router.push(`/routines/${relatedRoutine.id}`)"
+                  @click="router.push(`/routines/${routine.id}`)"
                 >
                   <div class="routine-card-content">
-                    <span class="routine-id">#{{ relatedRoutine.id }}</span>
-                    <span class="routine-name">{{ relatedRoutine.name }}</span>
+                    <span class="routine-id">#{{ routine.id }}</span>
+                    <span class="routine-name">{{ routine.name }}</span>
                   </div>
                 </div>
               </div>
@@ -61,42 +63,41 @@
 </template>
 
 <script setup>
-import { computed, ref, onBeforeMount } from "vue";
-import { useRouter } from "vue-router";
+import { computed, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useTradesStore } from "@/stores/trades";
 import EditIcon from "@/assets/EditIcon.vue";
 import DeleteIcon from "@/assets/DeleteIcon.vue";
 
 const router = useRouter();
+const route = useRoute();
 const tradesStore = useTradesStore();
-const trade = ref(null);
-const relatedRoutine = ref(null);
+
+const tradeId = parseInt(route.params.id);
+const trade = ref(tradesStore.getTradeById(tradeId));
+
+const relatedRoutines = computed(() => {
+  return tradesStore.getRelatedRoutine(trade.value);
+});
 
 const displayColumns = computed(() => {
   return tradesStore.tradeColumns.filter((col) => !col.isInformational);
 });
 
-const hasRelatedData = computed(() => relatedRoutine.value !== null);
-
-onBeforeMount(() => {
-  const tradeId = Number(router.currentRoute.value.params.id);
-  trade.value = tradesStore.trades.find((t) => t.id === tradeId);
-
-  if (trade.value) {
-    relatedRoutine.value = tradesStore.getRoutine;
-  } else {
-    router.push("/trades");
-  }
-});
+const hasRelatedData = computed(() => relatedRoutines.value.length > 0);
 
 const formatFieldValue = (column, value) => {
   if (!value) return "N/A";
-  if (column.options) {
-    return column.options[value] || value;
-  }
-  if (column.field === "risk") return `${value}%`;
-  if (column.field === "profit") return `${value}$`;
-  return value;
+  const formatters = {
+    risk: (val) => `${val}%`,
+    profit: (val) => `${val}$`,
+  };
+
+  return column.options
+    ? column.options[value] || value
+    : formatters[column.field]
+      ? formatters[column.field](value)
+      : value;
 };
 
 const handleEdit = () => {

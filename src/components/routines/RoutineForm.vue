@@ -3,12 +3,11 @@
     <h2 class="card-title">{{ isEdit ? "Edit" : "Add" }} Routine</h2>
     <Form
       @submit="handleSubmit"
-      :initial-values="initialValues"
+      :initial-values="form"
       :validation-schema="routineSchema"
       class="routine-form"
     >
       <div class="form-grid">
-        <!-- Basic Info -->
         <div class="form-section">
           <h3 class="section-title">Basic Info</h3>
           <div class="form-group">
@@ -35,7 +34,6 @@
           </div>
         </div>
 
-        <!-- Details -->
         <div class="form-section">
           <h3 class="section-title">Details</h3>
           <div class="form-group">
@@ -45,13 +43,14 @@
               <option
                 v-for="option in formatOptions(RC.pairs)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
             </Field>
             <ErrorMessage name="pair" class="error" />
           </div>
+
           <div class="form-group">
             <label class="form-label" for="narrative">Narrative</label>
             <Field
@@ -64,7 +63,7 @@
               <option
                 v-for="option in formatOptions(RC.narratives)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
@@ -77,9 +76,11 @@
               <div class="toggle-wrapper">
                 <input
                   type="checkbox"
-                  v-bind="field"
+                  :id="field.id"
+                  :name="field.name"
+                  :checked="field.label"
+                  @change="field.label = !field.label"
                   class="toggle-input"
-                  id="plan"
                 />
               </div>
             </Field>
@@ -87,7 +88,6 @@
           </div>
         </div>
 
-        <!-- Results -->
         <div class="form-section">
           <h3 class="section-title">Results</h3>
           <div class="form-group">
@@ -102,7 +102,7 @@
               <option
                 v-for="option in formatOptions(RC.execution)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
@@ -116,7 +116,7 @@
               <option
                 v-for="option in formatOptions(RC.outcomes)"
                 :key="option.value"
-                :value="option.value"
+                :value="option.label"
               >
                 {{ option.label }}
               </option>
@@ -125,16 +125,15 @@
           </div>
         </div>
 
-        <!-- Related Data -->
         <div class="form-section">
           <h3 class="section-title">Related Data</h3>
           <div class="form-group">
-            <label class="form-label" for="trade_ids">Related Trades</label>
+            <label class="form-label" for="trades_id">Related Trades</label>
             <Field
-              name="trade_ids"
+              name="trades_id"
               as="select"
               class="form-select"
-              id="trade_ids"
+              id="trades_id"
               multiple
             >
               <option
@@ -146,7 +145,7 @@
                 {{ trade.result }} - {{ trade.date }}
               </option>
             </Field>
-            <ErrorMessage name="trade_ids" class="error" />
+            <ErrorMessage name="trades_id" class="error" />
             <span class="form-help">
               Hold Ctrl/Cmd to select multiple trades
             </span>
@@ -174,9 +173,9 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { routineSchema } from "@/schemas/routine";
-import { ROUTINE_CONSTANTS as RC } from "@/data/data";
 import { useRoutinesStore } from "@/stores/routines";
 import { useTradesStore } from "@/stores/trades";
+import { ROUTINE_CONSTANTS as RC } from "@/data/data";
 
 const { routineId } = defineProps({
   routineId: {
@@ -189,7 +188,7 @@ const router = useRouter();
 const routinesStore = useRoutinesStore();
 const tradesStore = useTradesStore();
 
-const initialValues = {
+const form = {
   name: "",
   date: new Date().toISOString().split("T")[0],
   pair: "",
@@ -197,27 +196,18 @@ const initialValues = {
   plan: false,
   execution: "",
   outcome: "",
-  trade_ids: [],
+  trades_id: [],
 };
 
 const isEdit = computed(() => !!routineId);
 
 if (isEdit.value) {
-  const routine = routinesStore.routines.find((r) => r.id === routineId);
+  const routine = routinesStore.getRoutineById(routineId);
   if (routine) {
-    Object.assign(initialValues, routine);
+    Object.assign(form, routine);
   } else {
     router.push("/routines");
   }
-}
-
-async function handleSubmit(values) {
-  if (isEdit.value) {
-    await routinesStore.updateRoutine(routineId, values);
-  } else {
-    await routinesStore.addRoutine(values);
-  }
-  router.push("/routines");
 }
 
 function formatOptions(options) {
@@ -226,6 +216,19 @@ function formatOptions(options) {
     value: key,
     label: value,
   }));
+}
+
+async function handleSubmit(values) {
+  try {
+    if (isEdit.value) {
+      await routinesStore.updateRoutine(routineId, values);
+    } else {
+      await routinesStore.addRoutine(values);
+    }
+    router.push("/routines");
+  } catch (error) {
+    console.error("Error saving routine:", error);
+  }
 }
 </script>
 

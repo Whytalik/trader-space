@@ -8,6 +8,6 @@ export const routineSchema = yup.object({
   plan: yup.boolean().required("Plan is required"),
   execution: yup.string().required("Execution is required"),
   outcome: yup.string().required("Outcome is required"),
-  trade_ids: yup.array().of(yup.number()).required("Trade IDs are required"),
+  trades_id: yup.array().of(yup.number()).required("Trade IDs are required"),
 });
 

@@ -17,12 +17,11 @@
 <script setup>
 import BackIcon from "@/assets/BackIcon.vue";
 
-defineProps({
+const { columns } = defineProps({
   columns: Array,
 });
 
 const emit = defineEmits(["close-menu"]);
-
 </script>
 
 <style scoped>

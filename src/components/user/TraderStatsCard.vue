@@ -53,6 +53,7 @@ import { useTradesStore } from "@/stores/trades";
 import { useTradeStats } from "@/composables/useTradeStats";
 
 const tradesStore = useTradesStore();
+
 const trades = computed(() => tradesStore.trades);
 const stats = useTradeStats(trades);
 

@@ -9,8 +9,8 @@
         :type="field.type"
         :id="field.name"
         :placeholder="field.placeholder"
-        class="input-base"
         :class="[errors.length > 0 ? 'input-error' : '']"
+        class="input-base"
       />
     </Field>
     <ErrorMessage :name="field.name" class="form-error" />
@@ -21,7 +21,7 @@
 import { defineProps } from "vue";
 import { Field, ErrorMessage } from "vee-validate";
 
-defineProps({
+const { field } = defineProps({
   field: Object,
 });
 </script>
