@@ -1,6 +1,7 @@
 <template>
-  <div title="Trader Information">
+  <div class="profile-container">
     <div class="content">
+      <!-- Avatar Section -->
       <div class="photo">
         <div class="photo-container">
           <img v-if="userAvatar" :src="userAvatar" :alt="username" />
@@ -22,8 +23,9 @@
         />
       </div>
 
+      <!-- User Information Section -->
       <div class="info">
-        <div columns="2">
+        <div class="info-grid">
           <div class="info-item">
             <span class="label">Username</span>
             <span>{{ username }}</span>
@@ -68,9 +70,7 @@ const username = computed(() => userStore.currentUser?.username || "N/A");
 const email = computed(() => userStore.currentUser?.email || "N/A");
 const fullName = computed(() => userStore.currentUser?.full_name || "N/A");
 const location = computed(() => userStore.currentUser?.location || "N/A");
-const experience = computed(
-  () => userStore.currentUser?.trading_experience || "N/A"
-);
+const experience = computed(() => userStore.currentUser?.trading_experience || "N/A");
 const bio = computed(() => userStore.currentUser?.bio || "N/A");
 const joinDate = computed(() => userStore.currentUser?.join_date || "N/A");
 const userAvatar = computed(() => userStore.currentUser?.avatar || null);
@@ -105,6 +105,10 @@ const uploadAvatar = (fileData) => {
 </script>
 
 <style scoped>
+.profile-container {
+  @apply py-6 px-4 w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200;
+}
+
 .content {
   @apply flex flex-col md:flex-row gap-6;
 }
@@ -114,7 +118,7 @@ const uploadAvatar = (fileData) => {
 }
 
 .photo-container {
-  @apply w-48 h-48 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center;
+  @apply w-48 h-48 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center border-4 border-gray-400;
 }
 
 .photo-container img,
@@ -130,16 +134,24 @@ const uploadAvatar = (fileData) => {
   @apply flex-1;
 }
 
+.info-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
 .info-item {
   @apply flex flex-col gap-1;
 }
 
 .label {
-  @apply text-sm text-gray-500 dark:text-gray-400;
+  @apply text-sm text-gray-700 dark:text-gray-300 font-medium;
+}
+
+span {
+  @apply text-lg text-black dark:text-white;
 }
 
 .btn-primary {
-  @apply px-4 py-2 bg-button-primary-bg text-button-primary-text rounded-lg hover:bg-button-primary-hover transition-colors duration-fast;
+  @apply px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 focus:outline-none transition-colors;
 }
 
 .hidden {

@@ -11,9 +11,8 @@
         <div v-if="errorMessage" class="form-error">
           {{ errorMessage }}
         </div>
-        <button type="submit" class="button-primary">
-          {{ submitText }}
-        </button>
+        <BaseeButton type="submit" class="button-primary" :label="submitText">
+        </BaseeButton>
         <div class="text-center space-y-2">
           <p class="text-sm">{{ switchMessage }}</p>
           <router-link
@@ -74,10 +73,10 @@ const handleSubmit = (values) => {
 }
 
 .button-primary {
-  @apply w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  @apply w-full bg-blue-500 text-white py-2 px-4 rounded-md bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 
 .link-base {
-  @apply text-blue-500 hover:text-blue-600;
+  @apply text-blue-500 text-blue-600;
 }
 </style>

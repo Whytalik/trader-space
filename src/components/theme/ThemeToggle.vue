@@ -28,11 +28,11 @@ const toggleTheme = () => {
 
 <style scoped>
 .theme-toggle {
-  @apply relative w-16 h-8 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors duration-normal cursor-pointer border-none;
+  @apply relative w-16 h-8 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors  cursor-pointer border-none;
 }
 
 .theme-toggle__slider {
-  @apply absolute top-1 left-1 w-6 h-6 bg-white rounded-full transform transition-all duration-normal shadow-md;
+  @apply absolute top-1 left-1 w-6 h-6 bg-white rounded-full transform transition-all  shadow-md;
 }
 
 .theme-toggle--active .theme-toggle__slider {

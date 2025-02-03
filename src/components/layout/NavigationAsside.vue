@@ -22,33 +22,27 @@
           />
         </svg>
       </div>
-      <transition
-        name="slide"
-        @enter="startTransition"
-        @after-enter="afterTransition"
-        @before-leave="beforeTransition"
-        @leave="endTransition"
-      >
-        <ul v-show="group.isOpen" class="nav-items">
-          <li v-for="item in group.items" :key="item.path">
-            <router-link
-              :to="item.path"
-              class="nav-link"
-              :class="{ 'nav-link--active': isActiveRoute(item) }"
-            >
-              {{ item.name }}
-            </router-link>
-          </li>
-        </ul>
-      </transition>
+      <ul :class="['nav-items', { 'nav-items--open': group.isOpen }]">
+        <li v-for="item in group.items" :key="item.path">
+          <router-link
+            :to="item.path"
+            class="nav-link"
+            :class="{ 'nav-link--active': checkActiveRoute(item) }"
+          >
+            {{ item.name }}
+          </router-link>
+        </li>
+      </ul>
     </div>
   </nav>
 </template>
+
 
 <script setup>
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { navigationConfig } from "@/router/navigation";
+import { isActiveRoute } from "@/utils/routeUtils";
 
 const route = useRoute();
 const menuGroups = ref(
@@ -62,38 +56,15 @@ const toggleGroup = (index) => {
   menuGroups.value[index].isOpen = !menuGroups.value[index].isOpen;
 };
 
-const startTransition = (el) => {
-  el.style.height = "0";
-  el.style.opacity = "0";
-  void el.offsetHeight;
-  el.style.height = el.scrollHeight + "px";
-  el.style.opacity = "1";
-};
-
-const afterTransition = (el) => {
-  el.style.height = "auto";
-};
-
-const beforeTransition = (el) => {
-  el.style.height = el.scrollHeight + "px";
-};
-
-const endTransition = (el) => {
-  el.style.height = "0";
-  el.style.opacity = "0";
-};
-
-const isActiveRoute = (item) => {
-  if (item.children) {
-    return route.path.startsWith(item.path);
-  }
-  return route.path === item.path;
+const checkActiveRoute = (item) => {
+  return isActiveRoute(route, item);
 };
 </script>
 
+
 <style scoped>
 .nav-aside {
-  @apply w-64 h-screen bg-background border-r border-input-border p-4;
+  @apply w-64 bg-background border-r p-4 h-auto;
 }
 
 .nav-group {
@@ -101,11 +72,7 @@ const isActiveRoute = (item) => {
 }
 
 .nav-group-header {
-  @apply flex items-center justify-between p-2 cursor-pointer hover:bg-input-bg rounded-md border border-transparent;
-}
-
-.nav-group-header--active {
-  @apply border-input-focus bg-input-bg;
+  @apply flex items-center justify-between p-2 cursor-pointer rounded-md border border-transparent;
 }
 
 .nav-group-title {
@@ -113,23 +80,30 @@ const isActiveRoute = (item) => {
 }
 
 .nav-group-icon {
-  @apply w-4 h-4 transition-transform duration-fast ease-in-out;
+  @apply w-4 h-4 transition-transform ease-in-out;
 }
 
 .nav-items {
-  @apply overflow-hidden;
+  @apply overflow-hidden max-h-0 transition-all ease-in-out duration-300;
+}
+
+.nav-items--open {
+  max-height: 500px;
 }
 
 .nav-link {
-  @apply block px-4 py-2 text-sm rounded-md hover:bg-input-bg hover:text-button-primary-bg border-b-2 border-transparent transition-all duration-fast;
+  @apply block px-4 py-2 text-sm rounded-md border-b-2 border-transparent transition-all;
 }
 
 .nav-link--active {
-  @apply bg-input-bg border-b-2 border-b-input-focus text-button-primary-bg font-medium;
+  @apply border-b-2 font-medium border-blue-500;
 }
 
-.slide-enter-active,
-.slide-leave-active {
-  @apply transition-all duration-fast ease-in-out;
+.nav-group-header--active .nav-group-icon {
+  @apply rotate-180;
+}
+
+.nav-link {
+  transition: none;
 }
 </style>

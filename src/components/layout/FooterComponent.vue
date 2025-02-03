@@ -74,7 +74,7 @@ const socialIcons = [
 
 <style scoped>
 .footer {
-  @apply py-12 px-6 bg-background border-t border-input-border;
+  @apply py-12 px-6 bg-background border-t ;
 }
 
 .footer-content {
@@ -106,7 +106,7 @@ const socialIcons = [
 }
 
 .footer-link {
-  @apply text-sm text-text hover:text-button-primary-bg transition-colors duration-300 cursor-not-allowed;
+  @apply text-sm text-text  transition-colors duration-300 cursor-not-allowed;
 }
 
 .footer-social h3 {
@@ -118,11 +118,11 @@ const socialIcons = [
 }
 
 .social-icon {
-  @apply text-text hover:text-button-primary-bg 
-         transition-colors duration-fast cursor-not-allowed;
+  @apply text-text  
+         transition-colors  cursor-not-allowed;
 }
 
 .footer-bottom {
-  @apply mt-12 pt-8 border-t border-input-border text-sm text-center;
+  @apply mt-12 pt-8 border-t  text-sm text-center;
 }
 </style>

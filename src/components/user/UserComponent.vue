@@ -30,7 +30,7 @@ const username = computed(() => userStore.currentUser?.username || "User");
 }
 
 .user-avatar-wrapper {
-  @apply w-8 h-8 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700;
+  @apply w-8 h-8 overflow-hidden rounded-full;
 }
 
 .user-avatar {
@@ -39,5 +39,15 @@ const username = computed(() => userStore.currentUser?.username || "User");
 
 .user-name {
   @apply text-sm font-medium;
+}
+
+@media (max-width: 768px) {
+  .user-name {
+    @apply text-base;
+  }
+
+  .user-avatar-wrapper {
+    @apply w-10 h-10;
+  }
 }
 </style>

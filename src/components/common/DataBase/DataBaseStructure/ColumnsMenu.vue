@@ -26,7 +26,7 @@ const emit = defineEmits(["close-menu"]);
 
 <style scoped>
 .columns-menu {
-  @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-input-border z-50;
+  @apply absolute right-0 mt-2 p-4 bg-background dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-50;
   width: 320px;
   max-height: 400px;
   display: flex;
@@ -61,5 +61,13 @@ const emit = defineEmits(["close-menu"]);
 
 .checkbox-wrapper input {
   @apply w-4 h-4;
+}
+
+.text {
+  color: var(--text);
+}
+
+.dark .text {
+  color: var(--text-dark);
 }
 </style>

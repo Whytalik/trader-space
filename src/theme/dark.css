@@ -2,29 +2,4 @@
   /* Base */
   --background: #000000;
   --text: #f8fafc;
-
-  /* Animation */
-  --transition-fast: 150ms;
-  --transition-normal: 200ms;
-  --transition-slow: 300ms;
-
-  /* Inputs */
-  --input-bg: #1e293b;
-  --input-text: #f8fafc;
-  --input-border: #334155;
-  --input-focus: #3b82f6;
-  --input-error: #ef4444;
-
-  /* Buttons */
-  --button-primary-background: #2563eb;
-  --button-primary-text: #ffffff;
-  --button-primary-hover: #1d4ed8;
-
-  --button-secondary-background: #334155;
-  --button-secondary-text: #f8fafc;
-  --button-secondary-hover: #475569;
-
-  --button-danger-background: #dc2626;
-  --button-danger-text: #ffffff;
-  --button-danger-hover: #b91c1c;
 }
