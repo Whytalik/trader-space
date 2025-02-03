@@ -77,7 +77,7 @@ watch(filters, updateFilters, { deep: true });
 
 <style scoped>
 .filter-menu {
-  @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-input-border z-50;
+  @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border  z-50;
   width: 320px;
   max-height: 400px;
   display: flex;
@@ -122,10 +122,10 @@ watch(filters, updateFilters, { deep: true });
 }
 
 .filter-input {
-  @apply px-3 py-1.5 bg-white dark:bg-gray-700 border border-input-border rounded-md;
+  @apply px-3 py-1.5 bg-white dark:bg-gray-700 border  rounded-md;
 }
 
 .filter-actions {
-  @apply flex justify-end gap-2 mt-4 pt-4 border-t border-input-border;
+  @apply flex justify-end gap-2 mt-4 pt-4 border-t ;
 }
 </style>

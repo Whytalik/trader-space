@@ -24,7 +24,7 @@ defineProps({
 
 <style scoped>
 .card {
-  @apply border border-gray-300 rounded-lg shadow-md bg-white p-4;
+  @apply border bg-background rounded-lg shadow-md p-4 border-text;
 }
 
 .card-header {
@@ -32,7 +32,7 @@ defineProps({
 }
 
 .title {
-  @apply text-xl font-semibold text-gray-800;
+  @apply text-xl font-semibold text-text;
 }
 
 .card-body {
@@ -40,6 +40,6 @@ defineProps({
 }
 
 .value {
-  @apply text-lg text-gray-600;
+  @apply text-lg text-text;
 }
 </style>

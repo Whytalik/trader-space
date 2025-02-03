@@ -1,6 +1,6 @@
 <template>
   <tr
-    class="hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+    class="bg-gray-100 dark:bg-gray-700 cursor-pointer"
     @click="handleItemClick"
   >
     <td v-for="column in visibleColumns" :key="column.field">

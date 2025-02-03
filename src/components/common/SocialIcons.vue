@@ -29,6 +29,6 @@ defineProps({
 }
 
 .social-icon {
-  @apply text-text hover:text-button-primary-bg transition-colors duration-fast cursor-not-allowed;
+  @apply text-text  transition-colors  cursor-not-allowed;
 }
 </style>

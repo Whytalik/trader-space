@@ -45,7 +45,7 @@ const updateSort = (field) => {
 
 <style scoped>
 .sort-menu {
-  @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-input-border z-50;
+  @apply absolute right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-md shadow-lg border  z-50;
   width: 320px;
   max-height: 400px;
   display: flex;

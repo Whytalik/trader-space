@@ -180,7 +180,7 @@ const handleAddItem = () => {
 
 <style scoped>
 .database-wrapper {
-  @apply bg-gray-50 dark:bg-gray-900 border border-input-border rounded-lg p-4 relative flex flex-col;
+  @apply bg-gray-50 dark:bg-gray-900 border  rounded-lg p-4 relative flex flex-col;
   height: calc(100vh - 8.5rem);
 }
 

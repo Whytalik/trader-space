@@ -123,7 +123,7 @@ const handleDelete = () => {
 
 <style scoped>
 .trade-view {
-  @apply bg-gray-50 dark:bg-gray-900 border border-input-border rounded-lg p-6;
+  @apply bg-gray-50 dark:bg-gray-900 border  rounded-lg p-6;
 }
 
 .trade-header {
@@ -135,7 +135,7 @@ const handleDelete = () => {
 }
 
 .trade-content {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-6 border border-input-border;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-6 border ;
 }
 
 .info-grid {
@@ -163,7 +163,7 @@ const handleDelete = () => {
 }
 
 .routine-card {
-  @apply bg-white dark:bg-gray-800 p-4 rounded-lg border border-input-border cursor-pointer hover:border-input-focus transition-all duration-200;
+  @apply bg-white dark:bg-gray-800 p-4 rounded-lg border  cursor-pointer  transition-all duration-200;
 }
 
 .routine-card-content {
@@ -191,11 +191,11 @@ const handleDelete = () => {
 }
 
 .related-card {
-  @apply bg-white dark:bg-gray-800 rounded-lg border border-input-border overflow-hidden;
+  @apply bg-white dark:bg-gray-800 rounded-lg border  overflow-hidden;
 }
 
 .card-header {
-  @apply bg-gray-50 dark:bg-gray-900 px-6 py-4 border-b border-input-border;
+  @apply bg-gray-50 dark:bg-gray-900 px-6 py-4 border-b ;
 }
 
 .card-title {
@@ -211,6 +211,6 @@ const handleDelete = () => {
 }
 
 .btn-danger {
-  @apply bg-red-600 hover:bg-red-700 text-white;
+  @apply bg-red-600 bg-red-700 text-white;
 }
 </style>

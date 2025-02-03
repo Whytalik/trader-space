@@ -1,6 +1,8 @@
 <template>
-  <TraderInfoComponent />
-  <TraderStatsCard />
+  <div>
+    <TraderInfoComponent class="p-6" />
+    <TraderStatsCard class="p-6" />
+  </div>
 </template>
 
 <script setup>

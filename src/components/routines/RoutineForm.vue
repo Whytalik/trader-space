@@ -284,11 +284,11 @@ async function handleSubmit(values) {
 }
 
 .btn-primary {
-  @apply bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500;
+  @apply bg-blue-600 bg-blue-700 text-white focus:ring-blue-500;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 
+  @apply bg-gray-200 dark:bg-gray-700 bg-gray-300 dark:bg-gray-600 
     text-gray-700 dark:text-gray-200 focus:ring-gray-500;
 }
 

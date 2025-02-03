@@ -5,10 +5,14 @@
         <div>
           <component :is="userAvatarComponent" />
         </div>
-        <button>Change Photo</button>
+        <BaseButton label="Change Photo"></BaseButton>
       </div>
       <div class="user-info">
-        <div v-for="(value, label) in userInfo" :key="label" class="user-info-item">
+        <div
+          v-for="(value, label) in userInfo"
+          :key="label"
+          class="user-info-item"
+        >
           <span class="label">{{ label }}</span>
           <span class="value">{{ value }}</span>
         </div>

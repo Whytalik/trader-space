@@ -48,6 +48,6 @@ onMounted(() => {
 
 <style scoped>
 .info-bar {
-  @apply grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 font-medium text-lg;
+  @apply grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 font-medium text-lg;
 }
 </style>

@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <h1>Welcome to Trader Space</h1>
-
-    <GreetingComponent :userName="username" />
+  <div class="dashboard-container">
+    <GreetingComponent class="text-center" :userName="username" />
 
     <InfoBar />
 
-    <div>
+    <div class="dashboard-row">
       <TodayTradesWrapper />
       <TodayRoutinesWrapper />
     </div>
@@ -24,10 +22,27 @@ import TodayRoutinesWrapper from "@/components/dashboard/TodayRoutinesWrapper.vu
 import InfoBar from "@/components/dashboard/InfoBar.vue";
 import GreetingComponent from "../components/dashboard/GreetingComponent.vue";
 import ProfitLineChart from "@/components/charts/ProfitLineChart.vue";
+
 const userStore = useUserStore();
 const username = computed(() => userStore.currentUser.username);
 const tradesStore = useTradesStore();
 const trades = computed(() => tradesStore.trades);
 </script>
 
-<style scoped></style>
+<style scoped>
+.dashboard-container {
+  @apply p-4;
+}
+
+.dashboard-row {
+  @apply flex space-x-4 pt-4;
+}
+
+.dashboard-row > div {
+  @apply flex-1;
+}
+
+h1 {
+  @apply text-2xl font-semibold mb-4;
+}
+</style>
